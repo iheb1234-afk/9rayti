@@ -70,6 +70,11 @@ export class TutorSpaceController {
     return this.catalog.removeSlot(user.sub, id);
   }
 
+  @Get('rates')
+  rates(@CurrentUser() user: AuthUser) {
+    return this.catalog.myRates(user.sub);
+  }
+
   @Put('rates')
   setRate(@CurrentUser() user: AuthUser, @Body() dto: RateDto) {
     return this.catalog.setRate(user.sub, dto.subjectCode, dto.pricePerHourDt);
