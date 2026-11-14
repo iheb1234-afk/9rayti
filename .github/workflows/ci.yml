@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  api:
+    name: API (NestJS + PostgreSQL)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: rayti
+          POSTGRES_PASSWORD: rayti
+          POSTGRES_DB: rayti
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U rayti" --health-interval 5s --health-timeout 5s --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Tests unitaires
+        run: npm test
+      - name: Tests de bout en bout (vraie base PostgreSQL)
+        run: npm run test:e2e -- --forceExit
+
+  web:
+    name: Front (Angular)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Build de production
+        run: npx ng build
+      - name: Tests unitaires (Chrome headless)
+        run: npx ng test --watch=false --browsers=ChromeHeadless
