@@ -1,0 +1,14 @@
+# Alternative à « npm run db:local » pour qui a Docker : même port, mêmes identifiants.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: rayti
+      POSTGRES_PASSWORD: rayti
+      POSTGRES_DB: rayti
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
