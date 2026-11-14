@@ -70,10 +70,10 @@ import { ToastService, UI } from '../shared/ui';
             </form>
           }
           <div class="rules small muted">
-            <p><app-icon name="message-square" /> {{ 'room.chatRule' | transloco }}</p>
-            <p><app-icon name="shield-check" /> {{ 'room.stayRule' | transloco }}</p>
-            @if (r.attachmentName) { <p><app-icon name="paperclip" /> {{ 'room.attached' | transloco }} <b>{{ r.attachmentName }}</b></p> }
-            @if (r.message) { <p><app-icon name="info" /> « {{ r.message }} »</p> }
+            <p><app-icon name="message-square" /><span>{{ 'room.chatRule' | transloco }}</span></p>
+            <p><app-icon name="shield-check" /><span>{{ 'room.stayRule' | transloco }}</span></p>
+            @if (r.attachmentName) { <p><app-icon name="paperclip" /><span>{{ 'room.attached' | transloco }} <b>{{ r.attachmentName }}</b></span></p> }
+            @if (r.message) { <p><app-icon name="info" /><span>« {{ r.message }} »</span></p> }
           </div>
         </aside>
       </div>
@@ -89,6 +89,7 @@ import { ToastService, UI } from '../shared/ui';
     .vid { background-color: var(--bleu-nuit); border-radius: 18px; height: 520px; position: relative; overflow: hidden; }
     .vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .pre { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #dce6f3; text-align: center; padding: 20px; }
+    .pre p, .pre > span { background: rgba(11, 60, 120, .88); padding: 4px 12px; border-radius: 999px; }
     .join { background: #fff; color: var(--bleu); border-color: #fff; }
     .join:hover { background: var(--bleu-clair) !important; color: var(--bleu-nuit); }
     .endbar { justify-content: flex-end; margin-top: 12px; }
