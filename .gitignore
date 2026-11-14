@@ -1,0 +1,16 @@
+# Dépendances et builds
+node_modules/
+dist/
+coverage/
+.angular/
+out-tsc/
+
+# Base PostgreSQL locale (npm run db:local)
+backend/.pgdata/
+
+# Secrets et fichiers locaux
+.env
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
