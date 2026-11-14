@@ -133,6 +133,13 @@ export class CatalogService {
 
   // ----- Espace tuteur : heures libres et tarifs -----
 
+  /** Tarifs du tuteur connecté, visibles même avant la validation du profil. */
+  async myRates(tutorUserId: string) {
+    const t = await this.profileOf(tutorUserId);
+    const rates = await this.rates.find({ where: { tutor: { id: t.id } }, order: { pricePerHourMillimes: 'ASC' } });
+    return rates.map((r) => ({ ...r.subject, pricePerHourMillimes: r.pricePerHourMillimes }));
+  }
+
   async mySlots(tutorUserId: string) {
     const t = await this.profileOf(tutorUserId);
     return this.slots.find({

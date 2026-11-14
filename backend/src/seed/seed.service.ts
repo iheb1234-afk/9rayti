@@ -179,7 +179,10 @@ export class SeedService implements OnApplicationBootstrap {
           await m.getRepository(CreditMovement).save({ user: student, amountMillimes: total, reason: 'remboursement', label: `Remboursement : ${subjects.get(code)!.nameFr} (expirée)`, requestId: id });
         }
       }
-      if (o.review) await m.getRepository(Review).save({ request: r, rating: o.review[0], comment: o.review[1] });
+      if (o.review) {
+        const rv = await m.getRepository(Review).save({ request: r, rating: o.review[0], comment: o.review[1] });
+        await m.getRepository(Review).update(rv.id, { createdAt: new Date(Date.now() - (o.doneAgoH ?? 0) * H + 2 * H) });
+      }
       return r;
     };
 
