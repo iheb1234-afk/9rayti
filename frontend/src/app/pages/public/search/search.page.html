@@ -1,0 +1,153 @@
+<div class="wrap">
+  <h1 class="page-h">{{ 'search.title' | transloco }}</h1>
+
+  <div class="res">
+    <details class="card filters" [open]="!narrow">
+      <summary><app-icon name="sliders-horizontal" /> {{ 'search.filters' | transloco }}</summary>
+      <div class="fld">
+        <label for="f-subject">{{ 'search.subject' | transloco }}</label>
+        <select
+          id="f-subject"
+          [value]="f().subject ?? ''"
+          (change)="set({ subject: $any($event.target).value || undefined })"
+        >
+          <option value="">{{ 'search.allSubjects' | transloco }}</option>
+          @for (s of subjects(); track s.code) {
+            <option [value]="s.code" [selected]="s.code === f().subject">{{ s | subject }}</option>
+          }
+        </select>
+      </div>
+      <div class="fld">
+        <label for="f-price"
+          >{{ 'search.maxPrice' | transloco }} :
+          <b>{{ (f().maxPrice ?? 40) * 1000 | dt }}</b></label
+        >
+        <input
+          id="f-price"
+          type="range"
+          min="10"
+          max="40"
+          step="1"
+          [value]="f().maxPrice ?? 40"
+          (input)="
+            set({
+              maxPrice: +$any($event.target).value === 40 ? undefined : +$any($event.target).value,
+            })
+          "
+        />
+      </div>
+      <fieldset>
+        <legend class="lbl">{{ 'search.minRating' | transloco }}</legend>
+        <div class="chips">
+          @for (r of [0, 4, 4.5]; track r) {
+            <button
+              type="button"
+              class="chip"
+              [attr.aria-pressed]="(f().minRating ?? 0) === r"
+              (click)="set({ minRating: r || undefined })"
+            >
+              {{ r ? '★ ' + r + '+' : ('search.any' | transloco) }}
+            </button>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="lbl">{{ 'search.when' | transloco }}</legend>
+        <div class="chips">
+          @for (w of whens; track w) {
+            <button
+              type="button"
+              class="chip"
+              [attr.aria-pressed]="f().when === w"
+              (click)="set({ when: f().when === w ? undefined : w })"
+            >
+              {{ 'search.w.' + w | transloco }}
+            </button>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="lbl">{{ 'search.lang' | transloco }}</legend>
+        <div class="chips">
+          @for (l of langs; track l) {
+            <button
+              type="button"
+              class="chip"
+              [attr.aria-pressed]="f().lang === l"
+              (click)="set({ lang: f().lang === l ? undefined : l })"
+            >
+              {{ 'langs.' + l | transloco }}
+            </button>
+          }
+        </div>
+      </fieldset>
+      <button type="button" class="linkbtn small" (click)="reset()">
+        {{ 'search.reset' | transloco }}
+      </button>
+    </details>
+
+    <section aria-labelledby="res-h">
+      <div class="between top">
+        <h2 id="res-h" class="small muted count" aria-live="polite">
+          @if (state().loading) {
+            {{ 'common.loading' | transloco }}
+          } @else {
+            {{ 'search.count' | transloco: { n: state().list.length } }}
+          }
+        </h2>
+        <label class="sort small"
+          >{{ 'search.sort' | transloco }}
+          <select
+            [value]="f().sort ?? 'pertinence'"
+            (change)="set({ sort: $any($event.target).value })"
+          >
+            @for (s of sorts; track s) {
+              <option [value]="s" [selected]="(f().sort ?? 'pertinence') === s">
+                {{ 'search.s.' + s | transloco }}
+              </option>
+            }
+          </select>
+        </label>
+      </div>
+
+      @if (session(); as s) {
+        <a class="sessrow" routerLink="/sessions">
+          <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
+          <div class="grow">
+            <b>{{ 'search.sessionHint' | transloco: { subject: (s.subject | subject) } }}</b>
+            <div class="small muted">
+              {{ s.startsAt | when }} ·
+              {{ 'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax } }}
+            </div>
+          </div>
+          <b>{{ s.pricePerPlaceMillimes | dt }}</b>
+        </a>
+      }
+
+      @if (state().error; as e) {
+        <div class="alert err" role="alert"><app-icon name="triangle-alert" />{{ e }}</div>
+      }
+
+      @if (state().loading) {
+        @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton" style="height: 118px; margin-bottom: 14px"></div>
+        }
+      } @else {
+        @for (t of state().list; track t.id) {
+          <app-tutor-card [tutor]="t" [subject]="f().subject ?? ''" />
+        } @empty {
+          @if (!state().error) {
+            <div class="empty">
+              <div class="arcbig"><app-icon name="search-x" /></div>
+              <h2>{{ 'search.emptyT' | transloco }}</h2>
+              <p class="muted" style="margin: 8px 0 18px">{{ 'search.emptyD' | transloco }}</p>
+              <button type="button" class="btn alt" (click)="reset()">
+                {{ 'search.reset' | transloco }}
+              </button>
+            </div>
+          }
+        }
+      }
+    </section>
+  </div>
+</div>

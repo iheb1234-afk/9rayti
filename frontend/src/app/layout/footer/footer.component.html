@@ -1,0 +1,25 @@
+<footer class="ft">
+  <div class="wrap">
+    <div class="col">
+      <app-logo [light]="true" />
+      <p class="tag">{{ 'footer.tag' | transloco }}</p>
+    </div>
+    <div class="col">
+      <b>{{ 'footer.students' | transloco }}</b>
+      <a routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
+      <a routerLink="/sessions">{{ 'nav.sessions' | transloco }}</a>
+    </div>
+    <div class="col">
+      <b>{{ 'footer.tutors' | transloco }}</b>
+      <a routerLink="/inscription" [queryParams]="{ role: 'tuteur' }">{{
+        'nav.teach' | transloco
+      }}</a>
+      <a routerLink="/espace-tuteur">{{ 'footer.space' | transloco }}</a>
+    </div>
+    <div class="col">
+      <b>9rayti</b>
+      <span>{{ 'footer.rules' | transloco }}</span>
+      <span>© {{ year }} · Groupe 9rayti · SUP'COM</span>
+    </div>
+  </div>
+</footer>

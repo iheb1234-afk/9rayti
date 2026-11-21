@@ -1,0 +1,38 @@
+.ft {
+  margin-top: 72px;
+  background: var(--bleu-nuit);
+  color: #dce6f3;
+}
+.ft .wrap {
+  display: flex;
+  gap: 48px;
+  padding: 40px 32px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+.ft a {
+  color: #dce6f3;
+}
+.ft b {
+  color: #fff;
+}
+.ft .col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ft .tag {
+  max-width: 260px;
+  margin-top: 8px;
+  color: #b9c9de;
+}
+
+@media (max-width: 900px) {
+  .ft {
+    margin-top: 40px;
+  }
+  .ft .wrap {
+    gap: 26px;
+    padding: 32px 18px;
+  }
+}

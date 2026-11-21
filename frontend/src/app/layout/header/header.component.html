@@ -1,0 +1,77 @@
+<header class="hd">
+  <div class="wrap">
+    <a routerLink="/" class="home" [attr.aria-label]="'nav.home' | transloco"><app-logo /></a>
+
+    <nav class="nav" [class.open]="menuOpen()" id="menu" [attr.aria-label]="'nav.main' | transloco">
+      <a routerLink="/recherche" routerLinkActive="on" ariaCurrentWhenActive="page">{{
+        'nav.find' | transloco
+      }}</a>
+      <a routerLink="/sessions" routerLinkActive="on" ariaCurrentWhenActive="page">{{
+        'nav.sessions' | transloco
+      }}</a>
+      @if (!auth.loggedIn()) {
+        <a routerLink="/inscription" [queryParams]="{ role: 'tuteur' }">{{
+          'nav.teach' | transloco
+        }}</a>
+      }
+      <div class="lang" role="group" [attr.aria-label]="'nav.language' | transloco">
+        @for (l of langs; track l.code) {
+          <button
+            type="button"
+            [class.on]="lang.lang() === l.code"
+            [attr.aria-pressed]="lang.lang() === l.code"
+            [attr.lang]="l.code"
+            [attr.title]="l.name"
+            [attr.aria-label]="l.name"
+            (click)="lang.use(l.code)"
+          >
+            {{ l.label }}
+          </button>
+        }
+      </div>
+      @if (auth.user(); as u) {
+        <div class="me">
+          @if (u.role === 'etudiant' && u.balanceMillimes !== undefined) {
+            <a
+              routerLink="/mon-espace"
+              [queryParams]="{ onglet: 'credits' }"
+              class="badge blue credit"
+            >
+              <app-icon name="wallet" /> {{ u.balanceMillimes | dt }}
+            </a>
+          }
+          <a class="btn sm" [routerLink]="auth.homeFor(u.role)">
+            <app-icon name="layout-dashboard" /> {{ u.firstName }}
+          </a>
+          <button
+            type="button"
+            class="btn sm ghost"
+            (click)="auth.logout()"
+            [attr.aria-label]="'nav.logout' | transloco"
+          >
+            <app-icon name="log-out" [flip]="true" /><span class="lo">{{
+              'nav.logout' | transloco
+            }}</span>
+          </button>
+        </div>
+      } @else {
+        <div class="me">
+          <a class="btn sm alt" routerLink="/connexion">{{ 'nav.login' | transloco }}</a>
+          <a class="btn sm" routerLink="/inscription">{{ 'nav.register' | transloco }}</a>
+        </div>
+      }
+    </nav>
+
+    <button
+      type="button"
+      class="burger"
+      (click)="menuOpen.set(!menuOpen())"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="menu"
+    >
+      <app-icon [name]="menuOpen() ? 'x' : 'menu'" /><span class="sr-only">{{
+        'nav.menu' | transloco
+      }}</span>
+    </button>
+  </div>
+</header>

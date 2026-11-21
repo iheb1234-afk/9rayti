@@ -1,0 +1,71 @@
+<div class="wrap">
+  <h1 class="page-h">{{ 'sessions.title' | transloco }}</h1>
+  <p class="muted lead">{{ 'sessions.lead' | transloco }}</p>
+
+  <div class="grid">
+    @for (s of list(); track s.id) {
+      <article class="card sc">
+        <div class="between">
+          <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
+          <span class="badge" [class.sun]="!s.confirmed">{{
+            (s.confirmed ? 'sessions.confirmed' : 'sessions.waiting') | transloco
+          }}</span>
+        </div>
+        <h2 class="h3">{{ s.subject | subject }}</h2>
+        <div class="small muted">
+          <app-icon name="calendar" /> {{ s.startsAt | when }} · {{ s.durationMin / 60 }}
+          {{ 'common.h' | transloco }}
+        </div>
+        <div class="small muted">
+          <app-icon name="user" /> <bdi>{{ s.tutor.firstName }} {{ s.tutor.lastInitial }}</bdi>
+        </div>
+        <div
+          class="bar"
+          role="progressbar"
+          [attr.aria-valuenow]="s.placesTaken"
+          aria-valuemin="0"
+          [attr.aria-valuemax]="s.placesMax"
+          [attr.aria-label]="'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax }"
+        >
+          <i [style.width.%]="(s.placesTaken / s.placesMax) * 100"></i>
+        </div>
+        <div class="small between">
+          <span>{{ 'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax } }}</span>
+          <span class="muted">{{ 'sessions.min' | transloco: { n: s.placesMin } }}</span>
+        </div>
+        <div class="between foot">
+          <div class="price">
+            {{ s.pricePerPlaceMillimes | dt }} <small>{{ 'sessions.perPlace' | transloco }}</small>
+          </div>
+          @if (s.booked) {
+            <span class="badge"
+              ><app-icon name="circle-check" />{{ 'sessions.booked' | transloco }}</span
+            >
+          } @else if (s.placesTaken >= s.placesMax) {
+            <span class="badge grey">{{ 'sessions.full' | transloco }}</span>
+          } @else if (!auth.loggedIn()) {
+            <a class="btn sm" routerLink="/connexion" [queryParams]="{ next: '/sessions' }">{{
+              'sessions.book' | transloco
+            }}</a>
+          } @else if (auth.role() === 'etudiant') {
+            <button type="button" class="btn sm" [disabled]="busy() === s.id" (click)="book(s)">
+              {{ 'sessions.book' | transloco }}
+            </button>
+          }
+        </div>
+      </article>
+    } @empty {
+      @if (data.isLoading()) {
+        @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton" style="height: 240px"></div>
+        }
+      } @else {
+        <p class="muted">{{ 'sessions.none' | transloco }}</p>
+      }
+    }
+  </div>
+  <div class="banner">
+    <app-icon name="info" />
+    <div class="small">{{ 'sessions.rule' | transloco }}</div>
+  </div>
+</div>

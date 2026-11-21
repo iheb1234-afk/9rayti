@@ -1,0 +1,49 @@
+<div class="wrap">
+  <h1 class="page-h">{{ 'admin.title' | transloco }}</h1>
+  @if (overview.value(); as o) {
+    <div class="tiles" style="margin-top: 18px">
+      <div class="card tile main">
+        <h3>{{ 'admin.tutors' | transloco }}</h3>
+        <div class="big w">{{ o.tutors.validated }}</div>
+        <div class="muted">{{ 'admin.pendingN' | transloco: { n: o.tutors.pending } }}</div>
+      </div>
+      <div class="card tile">
+        <h3 class="muted small">{{ 'admin.requests' | transloco }}</h3>
+        <div class="big">{{ total(o) }}</div>
+      </div>
+      <div class="card tile">
+        <h3 class="muted small">{{ 'admin.volume' | transloco }}</h3>
+        <div class="big">{{ volume(o) | dt }}</div>
+      </div>
+    </div>
+    <div class="card box">
+      <h2 class="h3">{{ 'admin.byState' | transloco }}</h2>
+      @for (r of o.requests; track r.state) {
+        <div class="tline">
+          <app-state-badge [state]="r.state" /><span
+            >{{ r.count }} · {{ r.volumeMillimes | dt }}</span
+          >
+        </div>
+      }
+    </div>
+  }
+  <div class="card box">
+    <h2 class="h3">{{ 'admin.toValidate' | transloco }}</h2>
+    @for (t of pending.value() ?? []; track t.id) {
+      <div class="tline">
+        <div>
+          <b>{{ t.name }}</b> · <span class="muted">{{ t.school }}, {{ t.year }}</span>
+          <div class="small muted">
+            {{ t.email }} · {{ 'admin.average' | transloco }} {{ t.declaredAverage ?? '—' }} ·
+            {{ t.subjects.join(', ') }}
+          </div>
+        </div>
+        <button type="button" class="btn sm ok" [disabled]="busy()" (click)="validate(t.id)">
+          <app-icon name="badge-check" /> {{ 'admin.validate' | transloco }}
+        </button>
+      </div>
+    } @empty {
+      <p class="small muted">{{ 'admin.none' | transloco }}</p>
+    }
+  </div>
+</div>

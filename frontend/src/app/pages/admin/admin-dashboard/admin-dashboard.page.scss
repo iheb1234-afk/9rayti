@@ -1,0 +1,23 @@
+.w {
+  color: #fff !important;
+}
+.box {
+  padding: 22px;
+  margin-top: 16px;
+}
+.h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.tline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--trait);
+  flex-wrap: wrap;
+}
+.tline:last-child {
+  border-bottom: 0;
+}

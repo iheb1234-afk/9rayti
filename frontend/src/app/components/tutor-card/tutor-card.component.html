@@ -1,0 +1,52 @@
+@let t = tutor();
+<article class="card tut">
+  <app-avatar [name]="t.firstName + ' ' + t.lastInitial" [size]="64" />
+  <div class="mid">
+    <div class="row1">
+      <h3>
+        <a
+          [routerLink]="['/tuteurs', t.id]"
+          [queryParams]="subject() ? { matiere: subject() } : {}"
+          class="stretch"
+          ><bdi>{{ t.firstName }} {{ t.lastInitial }}</bdi></a
+        >
+      </h3>
+      <span class="badge"><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span>
+      @if (t.isNew) {
+        <span class="badge sun">{{ 'common.new' | transloco }}</span>
+      }
+    </div>
+    <div class="meta">
+      <span
+        ><bdi>{{ t.school }} · {{ t.year }}</bdi></span
+      >
+      @if (t.rating !== null) {
+        <span
+          ><span class="star" aria-hidden="true">★</span> {{ t.rating | num }}
+          <span class="muted"
+            >({{ 'common.reviews' | transloco: { n: t.ratingCount } }})</span
+          ></span
+        >
+      }
+      <span>{{ 'common.hours' | transloco: { n: t.hoursTaught } }}</span>
+      @if (t.responseRate !== null) {
+        <span>{{ 'common.responds' | transloco: { n: t.responseRate } }}</span>
+      }
+    </div>
+    <div class="subj">
+      @for (s of t.subjects; track s.code) {
+        <span [class.hl]="s.code === subject()">{{ s | subject }}</span>
+      }
+    </div>
+  </div>
+  <div class="end">
+    <div class="price">
+      {{ t.pricePerHourMillimes | dt }} <small>{{ 'common.perHour' | transloco }}</small>
+    </div>
+    @if (t.nextSlot) {
+      <span class="small muted"><app-icon name="calendar" /> {{ t.nextSlot | when }}</span>
+    } @else {
+      <span class="small muted">{{ 'search.noSlot' | transloco }}</span>
+    }
+  </div>
+</article>
