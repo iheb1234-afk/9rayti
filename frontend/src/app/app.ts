@@ -1,41 +1,41 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filter } from 'rxjs';
 import { environment } from '../environments/environment';
-import { AuthService } from './core/auth.service';
-import { LangService } from './core/lang.service';
-import { Lang } from './core/models';
-import { DtPipe, IconComponent, LogoComponent, ToastService } from './shared/ui';
+import { IconComponent } from './components/icon/icon.component';
+import { AuthService } from './core/auth/auth.service';
+import { FooterComponent } from './layout/footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { ToastHostComponent } from './layout/toast-host/toast-host.component';
 
+/** Coquille de l'application : en-tête, page courante, pied de page, notifications. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslocoPipe, IconComponent, LogoComponent, DtPipe],
+  imports: [
+    RouterOutlet,
+    TranslocoPipe,
+    IconComponent,
+    HeaderComponent,
+    FooterComponent,
+    ToastHostComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly auth = inject(AuthService);
-  protected readonly lang = inject(LangService);
-  protected readonly toasts = inject(ToastService);
-  protected readonly menuOpen = signal(false);
+  private readonly auth = inject(AuthService);
   protected readonly demo = environment.demo;
-  protected readonly langs: { code: Lang; label: string; name: string }[] = [
-    { code: 'fr', label: 'FR', name: 'Français' },
-    { code: 'ar', label: 'ع', name: 'العربية' },
-    { code: 'en', label: 'EN', name: 'English' },
-  ];
-  protected readonly year = new Date().getFullYear();
 
   constructor() {
-    inject(Router).events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
-      this.menuOpen.set(false);
-      // Rafraîchit le solde et le statut à chaque navigation d'un utilisateur connecté.
-      this.auth.refresh();
-    });
+    // Rafraîchit le solde de crédits et le statut du compte à chaque changement de page.
+    inject(Router)
+      .events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.auth.refresh());
   }
 
+  /** Lien d'évitement : place le focus clavier directement sur le contenu. */
   protected focusMain(event: Event): void {
     event.preventDefault();
     document.getElementById('contenu')?.focus();

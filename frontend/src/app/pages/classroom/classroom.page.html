@@ -1,0 +1,138 @@
+<div class="wrap">
+  <a class="back small" [routerLink]="auth.homeFor(auth.role())"
+    ><app-icon name="chevron-left" [flip]="true" /> {{ 'room.back' | transloco }}</a
+  >
+  @if (room.error(); as e) {
+    <div class="empty">
+      <div class="arcbig"><app-icon name="lock" /></div>
+      <h1>{{ 'room.closedT' | transloco }}</h1>
+      <p class="muted" style="margin: 8px 0 18px">{{ msg(e) }}</p>
+      <a class="btn" [routerLink]="auth.homeFor(auth.role())">{{ 'room.back' | transloco }}</a>
+    </div>
+  } @else if (room.value(); as r) {
+    <div class="between head">
+      <div>
+        <h1>{{ r.subject | subject }}</h1>
+        <div class="muted row">
+          {{ r.startsAt | when }} · {{ r.durationMin }} min ·
+          <bdi>{{ r.tutor.firstName }} {{ r.tutor.lastInitial }}</bdi> &
+          <bdi>{{ r.student.firstName }}</bdi> <app-state-badge [state]="r.state" />
+        </div>
+      </div>
+      <a class="btn sm ghost" [href]="r.jitsiUrl" target="_blank" rel="noopener"
+        ><app-icon name="external-link" /> {{ 'room.newTab' | transloco }}</a
+      >
+    </div>
+
+    <div class="room">
+      <div>
+        <div class="vid studs">
+          @if (joined()) {
+            <iframe
+              [src]="src()"
+              [title]="'room.video' | transloco"
+              allow="camera; microphone; fullscreen; display-capture; autoplay"
+              allowfullscreen
+            ></iframe>
+          } @else {
+            <div class="pre">
+              <app-avatar
+                [name]="
+                  r.role === 'tuteur'
+                    ? r.student.firstName
+                    : r.tutor.firstName + ' ' + r.tutor.lastInitial
+                "
+                [size]="120"
+              />
+              <p>{{ 'room.ready' | transloco }}</p>
+              <button type="button" class="btn big join" (click)="joined.set(true)">
+                <app-icon name="video" /> {{ 'room.join' | transloco }}
+              </button>
+              <span class="small">{{ 'room.jitsi' | transloco }}</span>
+            </div>
+          }
+        </div>
+        @if (r.role === 'tuteur' && r.state === 'acceptee') {
+          <div class="row endbar">
+            <span class="small muted">{{ 'room.endHint' | transloco }}</span>
+            <button type="button" class="btn danger" [disabled]="busy()" (click)="complete(r.id)">
+              <app-icon name="phone-off" /> {{ 'room.end' | transloco }}
+            </button>
+          </div>
+        }
+      </div>
+
+      <aside class="card side">
+        <h2 class="h3"><app-icon name="file-text" /> {{ 'room.docs' | transloco }}</h2>
+        @for (d of r.documents; track d.id) {
+          <a class="fl" [href]="d.url" target="_blank" rel="noopener"
+            ><span
+              ><app-icon [name]="d.kind === 'replay' ? 'play' : 'file-text'" /> {{ d.name }}</span
+            ><app-icon name="download"
+          /></a>
+        } @empty {
+          <p class="small muted">{{ 'room.noDocs' | transloco }}</p>
+        }
+
+        @if (r.role === 'tuteur') {
+          <form class="adddoc" (ngSubmit)="addDoc(r.id)">
+            <div class="fld">
+              <label for="d-name">{{ 'room.docName' | transloco }}</label
+              ><input id="d-name" [(ngModel)]="docName" name="docName" required minlength="2" />
+            </div>
+            <div class="fld">
+              <label for="d-url">{{ 'room.docUrl' | transloco }}</label
+              ><input
+                id="d-url"
+                type="url"
+                dir="ltr"
+                [(ngModel)]="docUrl"
+                name="docUrl"
+                required
+                placeholder="https://"
+              />
+            </div>
+            <div class="row">
+              <label class="small"
+                ><input type="radio" name="kind" value="pdf" [(ngModel)]="docKind" /> PDF</label
+              >
+              <label class="small"
+                ><input type="radio" name="kind" value="replay" [(ngModel)]="docKind" />
+                Replay</label
+              >
+              <button
+                class="btn sm"
+                type="submit"
+                [disabled]="busy() || docName.length < 2 || !docUrl"
+              >
+                <app-icon name="upload" /> {{ 'common.add' | transloco }}
+              </button>
+            </div>
+          </form>
+        }
+        <div class="rules small muted">
+          <p>
+            <app-icon name="message-square" /><span>{{ 'room.chatRule' | transloco }}</span>
+          </p>
+          <p>
+            <app-icon name="shield-check" /><span>{{ 'room.stayRule' | transloco }}</span>
+          </p>
+          @if (r.attachmentName) {
+            <p>
+              <app-icon name="paperclip" /><span
+                >{{ 'room.attached' | transloco }} <b>{{ r.attachmentName }}</b></span
+              >
+            </p>
+          }
+          @if (r.message) {
+            <p>
+              <app-icon name="info" /><span>« {{ r.message }} »</span>
+            </p>
+          }
+        </div>
+      </aside>
+    </div>
+  } @else {
+    <div class="skeleton" style="height: 470px; margin-top: 22px"></div>
+  }
+</div>

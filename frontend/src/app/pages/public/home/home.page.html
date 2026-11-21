@@ -1,0 +1,132 @@
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <span class="badge blue">{{ 'home.kick' | transloco }}</span>
+      <h1>{{ 'home.h1' | transloco }}</h1>
+      <p class="lead">{{ 'home.lead' | transloco }}</p>
+
+      <form class="q" role="search" (ngSubmit)="go()">
+        <label class="sr-only" for="q-subject">{{ 'search.subject' | transloco }}</label>
+        <div class="field">
+          <app-icon name="search" />
+          <select id="q-subject" name="subject" [(ngModel)]="subject">
+            <option value="">{{ 'home.pick' | transloco }}</option>
+            @for (s of subjects(); track s.code) {
+              <option [value]="s.code">{{ s | subject }}</option>
+            }
+          </select>
+        </div>
+        <button class="btn" type="submit">{{ 'home.go' | transloco }}</button>
+      </form>
+
+      <div class="duo">
+        <a class="btn big" routerLink="/recherche"
+          ><span>{{ 'home.cta1' | transloco }}</span
+          ><small>{{ 'home.cta1s' | transloco }}</small></a
+        >
+        <a class="btn big alt" routerLink="/inscription" [queryParams]="{ role: 'tuteur' }"
+          ><span>{{ 'home.cta2' | transloco }}</span
+          ><small>{{ 'home.cta2s' | transloco }}</small></a
+        >
+      </div>
+    </div>
+
+    <div class="door studs" aria-hidden="true">
+      <div class="in"></div>
+      <div class="sunbadge">{{ 'home.sun' | transloco }}</div>
+      <div class="mini c1">
+        <div class="card">
+          <span class="arc" style="width: 44px; height: 52px">SB</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="font-weight: 600">
+              <bdi>Sarra B.</bdi>
+              <span class="badge"
+                ><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span
+              >
+            </div>
+            <div class="small muted">
+              <bdi>SUP'COM · <span class="star">★</span> 4,9 · 42 h</bdi>
+            </div>
+          </div>
+          <div class="price" style="font-size: 17px">{{ 20000 | dt }}</div>
+        </div>
+      </div>
+      <div class="mini c2">
+        <div class="card" style="gap: 10px">
+          <span style="color: var(--olivier)"><app-icon name="circle-check" /></span>
+          <div class="small">
+            <b>{{ 'home.accepted' | transloco }}</b>
+            <div class="muted">{{ 'home.acceptedSub' | transloco }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="how">
+    <h2 id="how">{{ 'home.how' | transloco }}</h2>
+    <ol class="steps">
+      @for (n of [1, 2, 3]; track n) {
+        <li class="card step">
+          <div class="n" aria-hidden="true">{{ n }}</div>
+          <h3>{{ 'home.s' + n | transloco }}</h3>
+          <p class="muted small">{{ 'home.s' + n + 'd' | transloco }}</p>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section class="sec" aria-labelledby="sess">
+    <div class="sec-h">
+      <h2 id="sess">{{ 'home.sessions' | transloco }}</h2>
+      <a routerLink="/sessions" class="small">{{ 'common.seeAll' | transloco }}</a>
+    </div>
+    <div class="sess">
+      @for (s of sessions(); track s.id) {
+        <a class="card sc" routerLink="/sessions">
+          <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
+          <h3>{{ s.subject | subject }}</h3>
+          <div class="small muted">
+            <bdi
+              >{{ s.startsAt | when }} · {{ s.durationMin / 60 }} {{ 'common.h' | transloco }} ·
+              {{ s.tutor.firstName }} {{ s.tutor.lastInitial }}</bdi
+            >
+          </div>
+          <div class="bar"><i [style.width.%]="(s.placesTaken / s.placesMax) * 100"></i></div>
+          <div class="small between">
+            <span>{{ 'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax } }}</span
+            ><b>{{ s.pricePerPlaceMillimes | dt }}</b>
+          </div>
+        </a>
+      } @empty {
+        @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton" style="height: 150px"></div>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="sec trust">
+    <div>
+      <app-icon name="shield-check" />
+      <div>
+        <b>{{ 'home.t1' | transloco }}</b>
+        <div class="small muted">{{ 'home.t1d' | transloco }}</div>
+      </div>
+    </div>
+    <div>
+      <app-icon name="wallet" />
+      <div>
+        <b>{{ 'home.t2' | transloco }}</b>
+        <div class="small muted">{{ 'home.t2d' | transloco }}</div>
+      </div>
+    </div>
+    <div>
+      <app-icon name="play" />
+      <div>
+        <b>{{ 'home.t3' | transloco }}</b>
+        <div class="small muted">{{ 'home.t3d' | transloco }}</div>
+      </div>
+    </div>
+  </section>
+</div>

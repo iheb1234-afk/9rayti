@@ -1,0 +1,37 @@
+.w {
+  color: #fff !important;
+  font-size: 24px !important;
+  margin-top: 4px;
+}
+.box {
+  padding: 22px;
+  margin-top: 16px;
+}
+.h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+.tline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--trait);
+}
+.tline:last-child {
+  border-bottom: 0;
+}
+.plus {
+  color: var(--olivier);
+}
+.refund {
+  color: var(--olivier);
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+.end {
+  justify-content: flex-end;
+  margin-top: 8px;
+}

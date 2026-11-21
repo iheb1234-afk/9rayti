@@ -1,33 +1,8 @@
-.demo-bar { background: var(--soleil-clair); color: #5c4005; font-size: 13.5px; text-align: center; padding: 6px 16px; border-bottom: 1px solid #f1d99a; }
-.hd { background: var(--blanc); border-bottom: 1px solid var(--trait); position: sticky; top: 0; z-index: 20; }
-.hd .wrap { display: flex; align-items: center; gap: 22px; height: 68px; }
-.home { text-decoration: none !important; flex: none; }
-.nav { display: flex; align-items: center; gap: 18px; font-size: 14.5px; flex: 1; white-space: nowrap; }
-.nav > a { color: var(--texte); }
-.nav > a.on { color: var(--bleu); font-weight: 600; }
-.lang { margin-inline-start: auto; display: flex; border: 1px solid var(--trait); border-radius: 999px; overflow: hidden; font-size: 13px; }
-.lang button { border: 0; background: transparent; padding: 5px 11px; color: var(--gris); min-width: 38px; }
-.lang button.on { background: var(--bleu-clair); color: var(--bleu-nuit); font-weight: 600; }
-.me { display: flex; align-items: center; gap: 8px; }
-.credit { text-decoration: none !important; font-size: 13.5px; padding: 5px 11px; }
-.burger { display: none; margin-inline-start: auto; border: 1px solid var(--trait); background: var(--blanc); border-radius: 10px; padding: 8px; color: var(--bleu-nuit); }
-
-.ft { margin-top: 72px; background: var(--bleu-nuit); color: #dce6f3; }
-.ft .wrap { display: flex; gap: 48px; padding: 40px 32px; flex-wrap: wrap; font-size: 14px; }
-.ft a { color: #dce6f3; }
-.ft b { color: #fff; }
-.ft .col { display: flex; flex-direction: column; gap: 6px; }
-.ft .tag { max-width: 260px; margin-top: 8px; color: #b9c9de; }
-
-@media (max-width: 900px) {
-  .burger { display: inline-flex; }
-  .hd .wrap { height: 60px; position: relative; }
-  .nav { display: none; position: absolute; top: 60px; inset-inline: 0; background: var(--blanc); border-bottom: 1px solid var(--trait);
-    flex-direction: column; align-items: stretch; gap: 4px; padding: 12px 18px 18px; box-shadow: 0 16px 30px rgba(11, 60, 120, .12); }
-  .nav.open { display: flex; }
-  .nav > a { padding: 10px 4px; border-bottom: 1px solid var(--fond); }
-  .lang { margin: 8px 0; align-self: flex-start; }
-  .me { flex-wrap: wrap; }
-  .ft { margin-top: 40px; }
-  .ft .wrap { gap: 26px; padding: 32px 18px; }
+.demo-bar {
+  background: var(--soleil-clair);
+  color: #5c4005;
+  font-size: 13.5px;
+  text-align: center;
+  padding: 6px 16px;
+  border-bottom: 1px solid #f1d99a;
 }
