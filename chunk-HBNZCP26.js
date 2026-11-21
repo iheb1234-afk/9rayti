@@ -1,0 +1,1 @@
+import{Bb as a,R as t,u as n}from"./chunk-MEMO2BRV.js";var m=class i{lang=n(a);transform(e,r=1){return e==null?"\u2014":new Intl.NumberFormat(this.lang.locale(),{maximumFractionDigits:r}).format(e)}static \u0275fac=function(r){return new(r||i)};static \u0275pipe=t({name:"num",type:i,pure:!1})};export{m as a};

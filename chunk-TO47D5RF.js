@@ -1,0 +1,1 @@
+import{cb as s}from"./chunk-MEMO2BRV.js";function i(r,n="Une erreur est survenue. R\xE9essaie."){if(r instanceof s){if(r.status===0)return"Impossible de joindre le serveur 9rayti. V\xE9rifie que l\u2019API est lanc\xE9e.";let e=r.error?.message;if(Array.isArray(e))return e.join(" \xB7 ");if(typeof e=="string")return e}return n}export{i as a};
