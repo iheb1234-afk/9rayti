@@ -1,9 +1,9 @@
-import { Body, Controller, Get, HttpCode, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsIn } from 'class-validator';
 import type { AuthUser } from '../common/roles';
 import { AuthGuard, CurrentUser } from '../common/roles';
-import { LoginDto, RegisterDto } from './auth.dto';
+import { AvatarDto, ChangePasswordDto, LoginDto, RegisterDto, UpdateProfileDto } from './auth.dto';
 import { AuthService } from './auth.service';
 
 class LangDto {
@@ -39,5 +39,34 @@ export class AuthController {
   @Patch('me/lang')
   lang(@CurrentUser() user: AuthUser, @Body() dto: LangDto) {
     return this.auth.setLang(user.sub, dto.lang);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Patch('me')
+  update(@CurrentUser() user: AuthUser, @Body() dto: UpdateProfileDto) {
+    return this.auth.updateProfile(user.sub, dto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Post('me/password')
+  @HttpCode(200)
+  password(@CurrentUser() user: AuthUser, @Body() dto: ChangePasswordDto) {
+    return this.auth.changePassword(user.sub, dto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Put('me/avatar')
+  avatar(@CurrentUser() user: AuthUser, @Body() dto: AvatarDto) {
+    return this.auth.setAvatar(user.sub, dto.dataUrl);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Delete('me/avatar')
+  removeAvatar(@CurrentUser() user: AuthUser) {
+    return this.auth.removeAvatar(user.sub);
   }
 }

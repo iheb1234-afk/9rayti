@@ -1,10 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // Photos de profil envoyées en JSON (data URL, 300 ko au plus).
+  app.useBodyParser('json', { limit: '600kb' });
   app.setGlobalPrefix('api');
   app.enableCors({ origin: (process.env.CORS_ORIGIN ?? 'http://localhost:4200').split(',') });
   // Refuse tout champ inconnu et convertit les types : les DTO sont la seule porte d'entrée.

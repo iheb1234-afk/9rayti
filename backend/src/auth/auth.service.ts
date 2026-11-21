@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -7,8 +7,10 @@ import { Rate } from '../catalog/rate.entity';
 import { Subject } from '../catalog/subject.entity';
 import { TutorProfile } from '../catalog/tutor-profile.entity';
 import { CreditsService } from '../credits/credits.service';
+import { avatarUrl } from '../users/avatar-url';
+import { ProfilePhoto } from '../users/profile-photo.entity';
 import { User } from '../users/user.entity';
-import { LoginDto, RegisterDto } from './auth.dto';
+import { ChangePasswordDto, LoginDto, RegisterDto, UpdateProfileDto } from './auth.dto';
 
 export function publicUser(user: User) {
   return {
@@ -22,6 +24,8 @@ export function publicUser(user: User) {
     lang: user.lang,
     tutorStatus: user.tutorProfile?.status ?? null,
     tutorProfileId: user.tutorProfile?.id ?? null,
+    avatarUrl: avatarUrl(user),
+    createdAt: user.createdAt,
   };
 }
 
@@ -100,6 +104,47 @@ export class AuthService {
 
   async setLang(userId: string, lang: 'fr' | 'ar' | 'en') {
     await this.users.update(userId, { lang });
+    return this.me(userId);
+  }
+
+  /** Mettre à jour son nom, son école ou son année. */
+  async updateProfile(userId: string, dto: UpdateProfileDto) {
+    const patch: Partial<User> = {};
+    for (const k of ['firstName', 'lastName', 'school', 'year'] as const) {
+      if (dto[k] !== undefined) patch[k] = dto[k].trim();
+    }
+    if (Object.keys(patch).length) await this.users.update(userId, patch);
+    return this.me(userId);
+  }
+
+  /** Changer de mot de passe : l'ancien est exigé, pour qu'un ordinateur resté ouvert ne suffise pas. */
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.users.findOneOrFail({ where: { id: userId }, select: { id: true, passwordHash: true } });
+    if (!(await bcrypt.compare(dto.currentPassword, user.passwordHash))) {
+      throw new BadRequestException('Le mot de passe actuel est incorrect');
+    }
+    await this.users.update(userId, { passwordHash: await bcrypt.hash(dto.newPassword, 10) });
+    return { ok: true };
+  }
+
+  /** Nouvelle photo de profil (déjà redimensionnée par le navigateur). */
+  async setAvatar(userId: string, dataUrl: string) {
+    const [, mime, b64] = /^data:(image\/[a-z]+);base64,(.+)$/.exec(dataUrl) ?? [];
+    const data = Buffer.from(b64 ?? '', 'base64');
+    if (!mime || data.length < 100 || data.length > 300_000)
+      throw new BadRequestException('Image invalide ou trop lourde');
+    await this.users.manager.transaction(async (m) => {
+      await m.getRepository(ProfilePhoto).save({ userId, mime, data });
+      await m.getRepository(User).increment({ id: userId }, 'avatarVersion', 1);
+    });
+    return this.me(userId);
+  }
+
+  async removeAvatar(userId: string) {
+    await this.users.manager.transaction(async (m) => {
+      await m.getRepository(ProfilePhoto).delete({ userId });
+      await m.getRepository(User).update(userId, { avatarVersion: 0 });
+    });
     return this.me(userId);
   }
 
