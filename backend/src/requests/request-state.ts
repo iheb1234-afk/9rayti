@@ -2,7 +2,8 @@
  * Les états d'une demande de cours, tels que fixés à l'objectif 2.
  *
  *   en_attente ──accepter──▶ acceptee ──cours fait──▶ faite ──24 h sans signalement──▶ versee
- *       │                       │                       └──signaler──▶ signalee
+ *       │                       │                       └──signaler──▶ signalee ──admin──▶ versee
+ *       │                       │                                         └──admin──▶ remboursee
  *       ├─ refuser ─▶ refusee   └─ le tuteur annule ─▶ annulee_tuteur
  *       ├─ 12 h sans réponse ─▶ expiree
  *       └─ l'étudiant annule ─▶ annulee
@@ -15,20 +16,14 @@ export type RequestState =
   | 'faite'
   | 'versee'
   | 'signalee'
+  | 'remboursee'
   | 'refusee'
   | 'expiree'
   | 'annulee'
   | 'annulee_tuteur';
 
 export type RequestAction =
-  | 'accepter'
-  | 'refuser'
-  | 'expirer'
-  | 'annuler'
-  | 'annuler_tuteur'
-  | 'terminer'
-  | 'signaler'
-  | 'verser';
+  'accepter' | 'refuser' | 'expirer' | 'annuler' | 'annuler_tuteur' | 'terminer' | 'signaler' | 'verser' | 'rembourser';
 
 const TRANSITIONS: Record<RequestAction, { from: RequestState[]; to: RequestState }> = {
   accepter: { from: ['en_attente'], to: 'acceptee' },
@@ -38,7 +33,10 @@ const TRANSITIONS: Record<RequestAction, { from: RequestState[]; to: RequestStat
   annuler_tuteur: { from: ['acceptee'], to: 'annulee_tuteur' },
   terminer: { from: ['acceptee'], to: 'faite' },
   signaler: { from: ['faite'], to: 'signalee' },
-  verser: { from: ['faite'], to: 'versee' },
+  // Versement automatique 24 h après le cours, ou décision de l'admin sur un signalement.
+  verser: { from: ['faite', 'signalee'], to: 'versee' },
+  // L'admin donne raison à l'étudiant qui a signalé un problème.
+  rembourser: { from: ['signalee'], to: 'remboursee' },
 };
 
 /** États qui rendent l'argent à l'étudiant, en crédits 9rayti. */
@@ -47,6 +45,7 @@ export const REFUND_STATES: ReadonlySet<RequestState> = new Set([
   'expiree',
   'annulee',
   'annulee_tuteur',
+  'remboursee',
 ]);
 
 /** États où le cours a lieu ou a eu lieu : la salle de cours est ouverte aux deux participants. */
@@ -55,6 +54,7 @@ export const CLASSROOM_STATES: ReadonlySet<RequestState> = new Set([
   'faite',
   'versee',
   'signalee',
+  'remboursee',
 ]);
 
 export class TransitionError extends Error {

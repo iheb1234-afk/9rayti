@@ -77,6 +77,14 @@ export class CourseRequest {
   @Column({ type: 'text', nullable: true })
   reportReason!: string | null;
 
+  /** Décision de l'admin sur un signalement (motif visible par les deux participants). */
+  @Column({ type: 'text', nullable: true })
+  resolutionNote!: string | null;
+
+  /** Compte rendu du tuteur à la fin du cours : ce qui a été vu, ce qu'il reste à travailler. */
+  @Column({ type: 'text', nullable: true })
+  recap!: string | null;
+
   @Column()
   jitsiRoom!: string;
 
