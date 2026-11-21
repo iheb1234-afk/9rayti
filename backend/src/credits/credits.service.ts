@@ -5,9 +5,7 @@ import { CreditMovement, CreditReason } from './credit-movement.entity';
 
 @Injectable()
 export class CreditsService {
-  constructor(
-    @InjectRepository(CreditMovement) private readonly movements: Repository<CreditMovement>,
-  ) {}
+  constructor(@InjectRepository(CreditMovement) private readonly movements: Repository<CreditMovement>) {}
 
   async balance(userId: string, manager?: EntityManager): Promise<number> {
     const repo = manager?.getRepository(CreditMovement) ?? this.movements;

@@ -23,7 +23,7 @@ export const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
 
 /** Injecte l'utilisateur connecté (contenu du jeton JWT) dans un paramètre de contrôleur. */
 export const CurrentUser = createParamDecorator(
-  (_: unknown, ctx: ExecutionContext): AuthUser => ctx.switchToHttp().getRequest().user,
+  (_: unknown, ctx: ExecutionContext): AuthUser => ctx.switchToHttp().getRequest<{ user: AuthUser }>().user,
 );
 
 /**
@@ -38,18 +38,15 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(ctx: ExecutionContext): boolean {
-    const req = ctx.switchToHttp().getRequest();
-    const header: string | undefined = req.headers.authorization;
+    const req = ctx.switchToHttp().getRequest<{ headers: { authorization?: string }; user?: AuthUser }>();
+    const header = req.headers.authorization;
     if (!header?.startsWith('Bearer ')) throw new UnauthorizedException('Connexion requise');
     try {
       req.user = this.jwt.verify<AuthUser>(header.slice(7));
     } catch {
       throw new UnauthorizedException('Session expirée, reconnecte-toi');
     }
-    const roles = this.reflector.getAllAndOverride<Role[] | undefined>(ROLES_KEY, [
-      ctx.getHandler(),
-      ctx.getClass(),
-    ]);
+    const roles = this.reflector.getAllAndOverride<Role[] | undefined>(ROLES_KEY, [ctx.getHandler(), ctx.getClass()]);
     if (roles && !roles.includes(req.user.role)) {
       throw new ForbiddenException('Cette action est réservée à un autre type de compte');
     }

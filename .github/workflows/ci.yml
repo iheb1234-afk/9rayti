@@ -30,6 +30,8 @@ jobs:
           cache: npm
           cache-dependency-path: backend/package-lock.json
       - run: npm ci
+      - name: Qualité du code (ESLint + Prettier)
+        run: npm run lint
       - run: npm run build
       - name: Tests unitaires
         run: npm test
