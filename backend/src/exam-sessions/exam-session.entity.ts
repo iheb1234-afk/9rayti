@@ -30,6 +30,14 @@ export class ExamSession {
   @Column({ type: 'int' })
   pricePerPlaceMillimes!: number;
 
+  /** Ce que le tuteur prévoit de couvrir (chapitres, type d'exercices). */
+  @Column({ type: 'text', default: '' })
+  description!: string;
+
+  /** annulee : minimum d'inscrits non atteint à l'heure du début, chacun est remboursé. */
+  @Column({ type: 'varchar', length: 10, default: 'ouverte' })
+  status!: 'ouverte' | 'annulee';
+
   @OneToMany(() => ExamPlace, (p) => p.session)
   places!: ExamPlace[];
 }
