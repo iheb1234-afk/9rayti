@@ -24,6 +24,11 @@ class ReviewDto {
   @IsOptional() @IsString() @Length(0, 500) comment?: string;
 }
 
+class CompleteDto {
+  /** Compte rendu facultatif : ce qui a été vu, ce qu'il reste à travailler. */
+  @IsOptional() @IsString() @Length(0, 1000) recap?: string;
+}
+
 class DocumentDto {
   @IsIn(['pdf', 'replay']) kind!: 'pdf' | 'replay';
   @IsString() @Length(2, 120) name!: string;
@@ -86,6 +91,12 @@ export class RequestsController {
   }
 
   @Roles('tuteur')
+  @Get('tutor/revenue')
+  revenue(@CurrentUser() user: AuthUser) {
+    return this.requests.revenue(user.sub);
+  }
+
+  @Roles('tuteur')
   @HttpCode(200)
   @Post('requests/:id/accept')
   accept(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
@@ -109,8 +120,8 @@ export class RequestsController {
   @Roles('tuteur')
   @HttpCode(200)
   @Post('requests/:id/complete')
-  complete(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string) {
-    return this.requests.complete(user.sub, id);
+  complete(@CurrentUser() user: AuthUser, @Param('id', ParseUUIDPipe) id: string, @Body() dto: CompleteDto) {
+    return this.requests.complete(user.sub, id, dto.recap);
   }
 
   // ----- Salle de cours (les deux participants)

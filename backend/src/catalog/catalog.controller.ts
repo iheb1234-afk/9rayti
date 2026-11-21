@@ -1,7 +1,20 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDate, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsDate,
+  IsIn,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+  Max,
+  Min,
+} from 'class-validator';
 import type { AuthUser } from '../common/roles';
 import { AuthGuard, CurrentUser, Roles } from '../common/roles';
 import { CatalogService } from './catalog.service';
@@ -18,6 +31,16 @@ class SearchQuery {
 class SlotDto {
   @Type(() => Date) @IsDate() startsAt!: Date;
   @IsInt() @Min(30) @Max(180) durationMin!: number;
+}
+
+class TutorProfileDto {
+  @IsOptional() @IsString() @Length(0, 600) bio?: string;
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(3)
+  @IsIn(['fr', 'ar', 'en'], { each: true })
+  languages?: string[];
 }
 
 class RateDto {
@@ -41,6 +64,16 @@ export class CatalogController {
     return this.catalog.search(q);
   }
 
+  @Get('stats')
+  stats() {
+    return this.catalog.stats();
+  }
+
+  @Get('reviews/latest')
+  latestReviews() {
+    return this.catalog.latestReviews();
+  }
+
   @Get('tutors/:id')
   detail(@Param('id') id: string) {
     return this.catalog.detail(id);
@@ -54,6 +87,16 @@ export class CatalogController {
 @Controller('tutor')
 export class TutorSpaceController {
   constructor(private readonly catalog: CatalogService) {}
+
+  @Get('profile')
+  profile(@CurrentUser() user: AuthUser) {
+    return this.catalog.myProfile(user.sub);
+  }
+
+  @Patch('profile')
+  updateProfile(@CurrentUser() user: AuthUser, @Body() dto: TutorProfileDto) {
+    return this.catalog.updateMyProfile(user.sub, dto);
+  }
 
   @Get('slots')
   slots(@CurrentUser() user: AuthUser) {

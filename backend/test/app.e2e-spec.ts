@@ -29,11 +29,23 @@ describe('API 9rayti (e2e)', () => {
 
   afterAll(() => app.close());
 
+  const api = () => request(app.getHttpServer());
+  const sarraId = async () =>
+    (await api().get('/api/tutors?subject=probabilites').expect(200)).body.find(
+      (t: { firstName: string }) => t.firstName === 'Sarra',
+    ).id as string;
+
   it('GET /api/health répond avec la base de données', () =>
-    request(app.getHttpServer()).get('/api/health').expect(200).expect((r) => expect(r.body.status).toBe('ok')));
+    request(app.getHttpServer())
+      .get('/api/health')
+      .expect(200)
+      .expect((r) => expect(r.body.status).toBe('ok')));
 
   it('refuse un mauvais mot de passe', () =>
-    request(app.getHttpServer()).post('/api/auth/login').send({ email: 'omar@9rayti.tn', password: 'mauvais1' }).expect(401));
+    request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({ email: 'omar@9rayti.tn', password: 'mauvais1' })
+      .expect(401));
 
   it('la recherche ne renvoie que des tuteurs validés de la matière', async () => {
     const r = await request(app.getHttpServer()).get('/api/tutors?subject=probabilites').expect(200);
@@ -43,7 +55,10 @@ describe('API 9rayti (e2e)', () => {
 
   it('protège les routes réservées', async () => {
     await request(app.getHttpServer()).get('/api/requests/mine').expect(401);
-    await request(app.getHttpServer()).get('/api/tutor/dashboard').set('authorization', `Bearer ${student}`).expect(403);
+    await request(app.getHttpServer())
+      .get('/api/tutor/dashboard')
+      .set('authorization', `Bearer ${student}`)
+      .expect(403);
   });
 
   it('parcours complet : demande → acceptation → salle de cours → fin', async () => {
@@ -68,7 +83,10 @@ describe('API 9rayti (e2e)', () => {
       .expect(409);
 
     // La salle reste fermée tant que le tuteur n'a pas accepté.
-    await request(app.getHttpServer()).get(`/api/classroom/${created.body.id}`).set('authorization', `Bearer ${student}`).expect(403);
+    await request(app.getHttpServer())
+      .get(`/api/classroom/${created.body.id}`)
+      .set('authorization', `Bearer ${student}`)
+      .expect(403);
 
     const accepted = await request(app.getHttpServer())
       .post(`/api/requests/${created.body.id}/accept`)
@@ -76,11 +94,17 @@ describe('API 9rayti (e2e)', () => {
       .expect(200);
     expect(accepted.body.state).toBe('acceptee');
 
-    const room = await request(app.getHttpServer()).get(`/api/classroom/${created.body.id}`).set('authorization', `Bearer ${student}`).expect(200);
+    const room = await request(app.getHttpServer())
+      .get(`/api/classroom/${created.body.id}`)
+      .set('authorization', `Bearer ${student}`)
+      .expect(200);
     expect(room.body.jitsiUrl).toMatch(/^https:\/\/meet\.jit\.si\/9rayti-/);
 
     // Une fois acceptée, l'étudiant ne peut plus annuler.
-    await request(app.getHttpServer()).post(`/api/requests/${created.body.id}/cancel`).set('authorization', `Bearer ${student}`).expect(400);
+    await request(app.getHttpServer())
+      .post(`/api/requests/${created.body.id}/cancel`)
+      .set('authorization', `Bearer ${student}`)
+      .expect(400);
 
     const done = await request(app.getHttpServer())
       .post(`/api/requests/${created.body.id}/complete`)
@@ -88,5 +112,80 @@ describe('API 9rayti (e2e)', () => {
       .expect(200);
     expect(done.body.state).toBe('faite');
     expect(done.body.canReport).toBe(true);
+  });
+
+  describe('Objectif 4', () => {
+    it('masque les coordonnées dans les messages (règle anti-fuite)', async () => {
+      const id = await sarraId();
+      const sent = await api()
+        .post(`/api/messages/${id}`)
+        .set('authorization', `Bearer ${student}`)
+        .send({ body: 'écris-moi sur WhatsApp au 22 345 678' })
+        .expect(201);
+      expect(sent.body.masked).toBe(true);
+      expect(sent.body.body).not.toContain('345');
+      const thread = await api().get(`/api/messages/${id}`).set('authorization', `Bearer ${student}`).expect(200);
+      expect(thread.body.messages.at(-1).body).toBe(sent.body.body);
+    });
+
+    it('le tuteur est notifié du message, et le reçoit dans sa liste de conversations', async () => {
+      const notifs = await api().get('/api/notifications').set('authorization', `Bearer ${tutor}`).expect(200);
+      expect(notifs.body.items.some((n: { type: string }) => n.type === 'message')).toBe(true);
+      const threads = await api().get('/api/messages').set('authorization', `Bearer ${tutor}`).expect(200);
+      expect(threads.body.some((t: { partner: { name: string } }) => t.partner.name === 'Omar')).toBe(true);
+    });
+
+    it('ajoute puis retire un tuteur des favoris', async () => {
+      const id = await sarraId();
+      const added = await api().put(`/api/favorites/${id}`).set('authorization', `Bearer ${student}`).expect(200);
+      expect(added.body).toContain(id);
+      const removed = await api().delete(`/api/favorites/${id}`).set('authorization', `Bearer ${student}`).expect(200);
+      expect(removed.body).not.toContain(id);
+    });
+
+    it('l’admin tranche un signalement : l’étudiant est remboursé en crédits', async () => {
+      const admin = await login('admin@9rayti.tn');
+      const reports = await api().get('/api/admin/reports').set('authorization', `Bearer ${admin}`).expect(200);
+      if (!reports.body.length) return; // déjà tranché lors d'un passage précédent sur la même base
+      const r = reports.body[0];
+      const owner = r.student.firstName === 'Omar' ? student : null;
+      const before = owner
+        ? (await api().get('/api/credits/me').set('authorization', `Bearer ${owner}`)).body.balanceMillimes
+        : 0;
+      const resolved = await api()
+        .post(`/api/admin/reports/${r.id}/resolve`)
+        .set('authorization', `Bearer ${admin}`)
+        .send({ decision: 'rembourser', note: 'Retard confirmé' })
+        .expect(200);
+      expect(resolved.body.state).toBe('remboursee');
+      if (owner) {
+        const after = (await api().get('/api/credits/me').set('authorization', `Bearer ${owner}`)).body.balanceMillimes;
+        expect(after - before).toBe(r.totalMillimes);
+      }
+    });
+
+    it('chiffres publics, avis récents et revenus du tuteur', async () => {
+      const stats = await api().get('/api/stats').expect(200);
+      expect(stats.body.tutors).toBeGreaterThan(0);
+      await api().get('/api/reviews/latest').expect(200);
+      const revenue = await api().get('/api/tutor/revenue').set('authorization', `Bearer ${tutor}`).expect(200);
+      expect(revenue.body.weeks).toHaveLength(12);
+    });
+
+    it('formulaire de contact public, avec validation', async () => {
+      await api()
+        .post('/api/contact')
+        .send({ name: 'A', email: 'pas-un-email', topic: 'question', message: 'court' })
+        .expect(400);
+      await api()
+        .post('/api/contact')
+        .send({
+          name: 'Visiteur',
+          email: 'visiteur@exemple.tn',
+          topic: 'question',
+          message: 'Comment devenir tuteur sur 9rayti ?',
+        })
+        .expect(201);
+    });
   });
 });

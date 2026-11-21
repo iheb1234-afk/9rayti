@@ -8,11 +8,17 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { CatalogModule } from './catalog/catalog.module';
 import { Subject } from './catalog/subject.entity';
+import { ContactModule } from './contact/contact.module';
 import { CreditsModule } from './credits/credits.module';
 import { ExamSessionsModule } from './exam-sessions/exam-sessions.module';
+import { FavoritesModule } from './favorites/favorites.module';
+import { MessagesModule } from './messages/messages.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { RequestsModule } from './requests/requests.module';
 import { SeedService } from './seed/seed.service';
+import { ProfilePhoto } from './users/profile-photo.entity';
 import { User } from './users/user.entity';
+import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [
@@ -30,14 +36,18 @@ import { User } from './users/user.entity';
       signOptions: { expiresIn: '7d' },
     }),
     ScheduleModule.forRoot(),
-    TypeOrmModule.forFeature([User, Subject]),
+    TypeOrmModule.forFeature([User, Subject, ProfilePhoto]),
+    NotificationsModule,
     CreditsModule,
     CatalogModule,
     RequestsModule,
     ExamSessionsModule,
     AdminModule,
+    FavoritesModule,
+    MessagesModule,
+    ContactModule,
   ],
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, UsersController],
   providers: [AuthService, SeedService],
 })
 export class AppModule {}

@@ -46,19 +46,38 @@ describe('Machine à états d’une demande de cours', () => {
     expect(nextState('signaler', 'faite')).toBe('signalee');
   });
 
+  it('un signalement est tranché par l’admin : rembourser l’étudiant ou payer le tuteur', () => {
+    expect(nextState('rembourser', 'signalee')).toBe('remboursee');
+    expect(nextState('verser', 'signalee')).toBe('versee');
+    expect(canApply('rembourser', 'faite')).toBe(false);
+    expect(REFUND_STATES.has('remboursee')).toBe(true);
+  });
+
   it('les états finaux n’acceptent plus aucune action', () => {
-    const finals: RequestState[] = ['versee', 'signalee', 'refusee', 'expiree', 'annulee', 'annulee_tuteur'];
-    const actions: RequestAction[] = ['accepter', 'refuser', 'expirer', 'annuler', 'annuler_tuteur', 'terminer', 'signaler', 'verser'];
+    const finals: RequestState[] = ['versee', 'remboursee', 'refusee', 'expiree', 'annulee', 'annulee_tuteur'];
+    const actions: RequestAction[] = [
+      'accepter',
+      'refuser',
+      'expirer',
+      'annuler',
+      'annuler_tuteur',
+      'terminer',
+      'signaler',
+      'verser',
+      'rembourser',
+    ];
     for (const s of finals) for (const a of actions) expect(canApply(a, s)).toBe(false);
   });
 
   it('le message d’erreur nomme l’action et l’état', () => {
-    expect(() => nextState('verser', 'en_attente')).toThrow('Action « verser » impossible depuis l\'état « en_attente »');
+    expect(() => nextState('verser', 'en_attente')).toThrow(
+      "Action « verser » impossible depuis l'état « en_attente »",
+    );
   });
 
-  it('chaque état remboursé libère l’argent en crédits, aucun état de classe n’est remboursé', () => {
-    for (const s of CLASSROOM_STATES) expect(REFUND_STATES.has(s)).toBe(false);
-    expect([...REFUND_STATES].sort()).toEqual(['annulee', 'annulee_tuteur', 'expiree', 'refusee']);
+  it('chaque état remboursé rend l’argent en crédits ; seule une salle tranchée par l’admin reste ouverte', () => {
+    for (const s of CLASSROOM_STATES) if (s !== 'remboursee') expect(REFUND_STATES.has(s)).toBe(false);
+    expect([...REFUND_STATES].sort()).toEqual(['annulee', 'annulee_tuteur', 'expiree', 'refusee', 'remboursee']);
   });
 });
 

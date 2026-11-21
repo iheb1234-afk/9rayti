@@ -84,3 +84,43 @@ export class LoginDto {
   @IsString()
   password!: string;
 }
+
+export class UpdateProfileDto {
+  @IsOptional()
+  @IsString()
+  @Length(1, 40)
+  firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(1, 40)
+  lastName?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(2, 60)
+  school?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(0, 30)
+  year?: string;
+}
+
+export class ChangePasswordDto {
+  @IsString()
+  currentPassword!: string;
+
+  @IsString()
+  @Length(8, 72, { message: 'Le nouveau mot de passe doit faire au moins 8 caractères' })
+  @Matches(/\d/, { message: 'Le nouveau mot de passe doit contenir au moins un chiffre' })
+  newPassword!: string;
+}
+
+export class AvatarDto {
+  /** Image redimensionnée dans le navigateur, en data URL (PNG, JPEG ou WebP, 300 ko au plus). */
+  @IsString()
+  @Matches(/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/, { message: 'Image invalide (PNG, JPEG ou WebP)' })
+  @Length(30, 420_000, { message: 'Image trop lourde (300 ko au plus)' })
+  dataUrl!: string;
+}

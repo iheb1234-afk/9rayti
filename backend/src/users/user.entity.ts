@@ -32,6 +32,10 @@ export class User {
   @Column({ type: 'varchar', length: 2, default: 'fr' })
   lang!: 'fr' | 'ar' | 'en';
 
+  /** 0 = pas de photo. Incrémenté à chaque nouvelle photo : sert de clé de cache dans l'URL. */
+  @Column({ type: 'int', default: 0 })
+  avatarVersion!: number;
+
   @OneToOne(() => TutorProfile, (p) => p.user)
   tutorProfile?: TutorProfile;
 
