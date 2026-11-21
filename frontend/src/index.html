@@ -1,16 +1,46 @@
 <!doctype html>
 <html lang="fr" dir="ltr">
-<head>
-  <meta charset="utf-8">
-  <title>9rayti · Tutorat entre étudiants</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="9rayti : des étudiants qui ont réussi une matière donnent des cours en direct à d'autres étudiants, partout en Tunisie.">
-  <meta name="theme-color" content="#0D4F9C">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-</head>
-<body>
-  <app-root></app-root>
-  <noscript>9rayti a besoin de JavaScript pour fonctionner.</noscript>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>9rayti · Tutorat entre étudiants</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="9rayti : des étudiants qui ont réussi une matière donnent des cours en direct à d'autres étudiants, partout en Tunisie."
+    />
+    <meta name="theme-color" content="#0D4F9C" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0A1A2E" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <script>
+      // Appliqué avant le démarrage d'Angular : bonne langue, bon sens d'écriture et bon thème
+      // dès le premier affichage (pas de flash blanc ni de page qui se retourne).
+      (function () {
+        var d = document.documentElement,
+          lang = 'fr',
+          theme = null;
+        try {
+          lang = localStorage.getItem('9rayti.lang') || (navigator.language || 'fr').slice(0, 2);
+          theme = localStorage.getItem('9rayti.theme');
+        } catch (e) {}
+        if (['fr', 'ar', 'en'].indexOf(lang) < 0) lang = 'fr';
+        d.lang = lang;
+        d.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        if (!theme) theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        d.setAttribute('data-theme', theme);
+        var l = document.createElement('link');
+        l.rel = 'preload';
+        l.as = 'fetch';
+        l.crossOrigin = 'anonymous';
+        l.href = 'i18n/' + lang + '.json';
+        document.head.appendChild(l);
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+    <noscript>9rayti a besoin de JavaScript pour fonctionner.</noscript>
+  </body>
 </html>

@@ -1,31 +1,37 @@
-import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, Injectable, inject, isDevMode, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling, withViewTransitions } from '@angular/router';
-import { Translation, TranslocoLoader, provideTransloco } from '@jsverse/transloco';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {
+  ApplicationConfig,
+  inject,
+  isDevMode,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
+import { provideTransloco } from '@jsverse/transloco';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
-import { authInterceptor } from './core/http';
-import { LangService } from './core/lang.service';
+import { authInterceptor } from './core/auth/auth.interceptor';
+import { LangService } from './core/i18n/lang.service';
+import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
 import { demoInterceptor } from './demo/demo.interceptor';
-
-/** Fichiers de traduction servis depuis public/i18n (chemin relatif : fonctionne aussi sous GitHub Pages). */
-@Injectable({ providedIn: 'root' })
-export class TranslocoHttpLoader implements TranslocoLoader {
-  private readonly http = inject(HttpClient);
-  getTranslation(lang: string) {
-    return this.http.get<Translation>(`i18n/${lang}.json`);
-  }
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // Sans zone.js : les signals disent à Angular quoi redessiner (moins de JavaScript, moins de travail).
+    provideZonelessChangeDetection(),
     provideRouter(
       routes,
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
-      withViewTransitions(),
+      // Transitions animées entre les pages (API View Transitions du navigateur).
+      withViewTransitions({ skipInitialTransition: true }),
     ),
     provideHttpClient(
       withFetch(),
@@ -42,6 +48,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    // La langue (et sa traduction) est chargée avant le premier affichage : pas de texte qui saute.
     provideAppInitializer(() => inject(LangService).init()),
   ],
 };
