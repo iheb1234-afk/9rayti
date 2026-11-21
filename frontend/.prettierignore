@@ -1,0 +1,7 @@
+dist
+node_modules
+.angular
+coverage
+public/i18n
+src/app/demo/fixture.json
+src/app/components/icon/icons.ts
