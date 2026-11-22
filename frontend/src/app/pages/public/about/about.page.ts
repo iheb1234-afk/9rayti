@@ -14,14 +14,24 @@ import { TiltDirective } from '../../../directives/tilt.directive';
 /** À propos : la mission, les valeurs, ce qui distingue 9rayti, et l'histoire du projet. */
 @Component({
   selector: 'app-about',
-  imports: [RouterLink, TranslocoPipe, CountUpDirective, RevealDirective, SplitTextDirective, TiltDirective, ...UI],
+  imports: [
+    RouterLink,
+    TranslocoPipe,
+    CountUpDirective,
+    RevealDirective,
+    SplitTextDirective,
+    TiltDirective,
+    ...UI,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './about.page.html',
   styleUrl: './about.page.scss',
 })
 export class AboutPage {
   private readonly api = inject(ApiService);
-  protected readonly stats = toSignal(this.api.stats().pipe(catchError(() => of(null))), { initialValue: null });
+  protected readonly stats = toSignal(this.api.stats().pipe(catchError(() => of(null))), {
+    initialValue: null,
+  });
   protected readonly values = [
     { key: 'help', icon: 'heart-handshake' },
     { key: 'trust', icon: 'shield-check' },

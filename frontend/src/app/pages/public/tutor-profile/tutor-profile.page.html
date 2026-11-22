@@ -1,35 +1,61 @@
 <div class="wrap">
-  <a routerLink="/recherche" [queryParams]="matiere() ? { matiere: matiere() } : {}" class="back small"><app-icon name="chevron-left" [flip]="true" /> {{ 'tutor.back' | transloco }}</a>
+  <a
+    routerLink="/recherche"
+    [queryParams]="matiere() ? { matiere: matiere() } : {}"
+    class="back small"
+    ><app-icon name="chevron-left" [flip]="true" /> {{ 'tutor.back' | transloco }}</a
+  >
 
   @if (tutor.error()) {
     <div class="empty">
       <div class="arcbig"><app-icon name="search-x" /></div>
       <h1>{{ 'tutor.notFound' | transloco }}</h1>
-      <a class="btn" routerLink="/recherche" style="margin-top: 16px">{{ 'nav.find' | transloco }}</a>
+      <a class="btn" routerLink="/recherche" style="margin-top: 16px">{{
+        'nav.find' | transloco
+      }}</a>
     </div>
   } @else if (tutor.value(); as t) {
     <div class="prof">
       <div>
         <div class="phead">
-          <app-avatar [name]="t.firstName + ' ' + t.lastInitial" [photo]="api.asset(t.avatarUrl)" [size]="110" transitionName="tutor-avatar" />
+          <app-avatar
+            [name]="t.firstName + ' ' + t.lastInitial"
+            [photo]="api.asset(t.avatarUrl)"
+            [size]="110"
+            transitionName="tutor-avatar"
+          />
           <div class="who">
             <div class="row">
-              <h1><bdi>{{ t.firstName }} {{ t.lastInitial }}.</bdi></h1>
-              <span class="badge"><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span>
+              <h1>
+                <bdi>{{ t.firstName }} {{ t.lastInitial }}</bdi>
+              </h1>
+              <span class="badge"
+                ><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span
+              >
               @if (t.isNew) {
                 <span class="badge sun">{{ 'common.new' | transloco }}</span>
               }
             </div>
-            <div class="muted"><bdi>{{ t.school }} · {{ t.year }}</bdi></div>
+            <div class="muted">
+              <bdi>{{ t.school }} · {{ t.year }}</bdi>
+            </div>
             <div class="kpis">
               @if (t.rating !== null) {
-                <span><span class="star" aria-hidden="true">★</span> <b>{{ t.rating | num }}</b> ({{ 'common.reviews' | transloco: { n: t.ratingCount } }})</span>
+                <span
+                  ><span class="star" aria-hidden="true">★</span> <b>{{ t.rating | num }}</b> ({{
+                    'common.reviews' | transloco: { n: t.ratingCount }
+                  }})</span
+                >
               } @else {
                 <span>{{ 'tutor.newHint' | transloco }}</span>
               }
-              <span><b>{{ t.hoursTaught }} h</b> {{ 'tutor.taught' | transloco }}</span>
+              <span
+                ><b>{{ t.hoursTaught }} h</b> {{ 'tutor.taught' | transloco }}</span
+              >
               @if (t.responseRate !== null) {
-                <span><b>{{ t.responseRate }} %</b> {{ 'tutor.responseRate' | transloco }}</span>
+                <span
+                  ><b>{{ t.responseRate }} %</b> {{ 'tutor.responseRate' | transloco }}</span
+                >
               }
               <span
                 ><app-icon name="languages" />
@@ -41,11 +67,23 @@
             <div class="row tools">
               <app-favorite-button [tutorId]="t.id" />
               @if (auth.role() === 'etudiant') {
-                <a class="btn sm ghost" [routerLink]="['/messages', t.id]"><app-icon name="message-square" /> {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a>
+                <a class="btn sm ghost" [routerLink]="['/messages', t.id]"
+                  ><app-icon name="message-square" />
+                  {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+                >
               } @else if (!auth.loggedIn()) {
-                <a class="btn sm ghost" routerLink="/connexion" [queryParams]="{ next: '/messages/' + t.id }"><app-icon name="message-square" /> {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a>
+                <a
+                  class="btn sm ghost"
+                  routerLink="/connexion"
+                  [queryParams]="{ next: '/messages/' + t.id }"
+                  ><app-icon name="message-square" />
+                  {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+                >
               }
-              <app-share-profile [name]="t.firstName + ' ' + t.lastInitial + '.'" [path]="'/tuteurs/' + t.id" />
+              <app-share-profile
+                [name]="t.firstName + ' ' + t.lastInitial"
+                [path]="'/tuteurs/' + t.id"
+              />
             </div>
           </div>
         </div>
@@ -54,7 +92,9 @@
           <h2 class="h3">{{ 'tutor.about' | transloco }}</h2>
           <p class="bio">{{ t.bio }}</p>
           @if (t.declaredAverageVerified) {
-            <p class="small muted verif"><app-icon name="shield-check" /> {{ 'tutor.verifiedNote' | transloco }}</p>
+            <p class="small muted verif">
+              <app-icon name="shield-check" /> {{ 'tutor.verifiedNote' | transloco }}
+            </p>
           }
         </section>
 
@@ -62,7 +102,8 @@
           <h2 class="h3">{{ 'tutor.subjects' | transloco }}</h2>
           @for (s of t.subjects; track s.code) {
             <div class="tline">
-              <span>{{ s | subject }}</span><b>{{ s.pricePerHourMillimes | dt }} {{ 'common.perHour' | transloco }}</b>
+              <span>{{ s | subject }}</span
+              ><b>{{ s.pricePerHourMillimes | dt }} {{ 'common.perHour' | transloco }}</b>
             </div>
           }
         </section>
@@ -74,7 +115,9 @@
               <app-avatar [name]="r.author" [photo]="api.asset(r.authorAvatarUrl)" [size]="38" />
               <div class="rbody">
                 <div class="between">
-                  <b>{{ r.author }} · <span class="muted small">{{ r.subject | subject }}</span></b>
+                  <b
+                    >{{ r.author }} · <span class="muted small">{{ r.subject | subject }}</span></b
+                  >
                   <app-rating-stars [value]="r.rating" />
                 </div>
                 @if (r.comment) {
@@ -94,17 +137,29 @@
           <div class="done" role="status">
             <span class="okc"><app-icon name="circle-check" /></span>
             <h2 class="h3">{{ 'book.sentT' | transloco }}</h2>
-            <p class="small muted">{{ 'book.sentD' | transloco: { name: t.firstName, when: (r.expiresAt | when) } }}</p>
+            <p class="small muted">
+              {{ 'book.sentD' | transloco: { name: t.firstName, when: (r.expiresAt | when) } }}
+            </p>
             <a class="btn block" routerLink="/mon-espace">{{ 'book.track' | transloco }}</a>
-            <a class="btn block ghost" [routerLink]="['/messages', t.id]" style="margin-top: 8px"><app-icon name="message-square" /> {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a>
+            <a class="btn block ghost" [routerLink]="['/messages', t.id]" style="margin-top: 8px"
+              ><app-icon name="message-square" />
+              {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+            >
           </div>
         } @else {
           <h2 id="book-h" class="h3">{{ 'book.title' | transloco }}</h2>
-          <div class="price big">{{ price() | dt }} <small>{{ 'common.perHour' | transloco }}</small></div>
+          <div class="price big">
+            {{ price() | dt }} <small>{{ 'common.perHour' | transloco }}</small>
+          </div>
 
           <div class="fld">
             <label for="b-subject">{{ 'search.subject' | transloco }}</label>
-            <select id="b-subject" [ngModel]="subjectCode()" (ngModelChange)="subjectCode.set($event)" name="subject">
+            <select
+              id="b-subject"
+              [ngModel]="subjectCode()"
+              (ngModelChange)="subjectCode.set($event)"
+              name="subject"
+            >
               @for (s of t.subjects; track s.code) {
                 <option [value]="s.code">{{ s | subject }}</option>
               }
@@ -119,7 +174,14 @@
                   <span class="dname">{{ d.first | when: 'day' }}</span>
                   <div class="slots">
                     @for (s of d.slots; track s.id) {
-                      <button type="button" role="radio" class="slot" [attr.aria-checked]="slotId() === s.id" [class.on]="slotId() === s.id" (click)="slotId.set(s.id)">
+                      <button
+                        type="button"
+                        role="radio"
+                        class="slot"
+                        [attr.aria-checked]="slotId() === s.id"
+                        [class.on]="slotId() === s.id"
+                        (click)="slotId.set(s.id)"
+                      >
                         {{ s.startsAt | when: 'time' }}
                       </button>
                     }
@@ -132,48 +194,98 @@
           }
 
           <div class="fld">
-            <label for="b-file" class="drop"><app-icon name="paperclip" /> <span>{{ attachment() || ('book.attach' | transloco) }}</span></label>
-            <input id="b-file" type="file" accept="application/pdf,image/*" class="sr-only" (change)="pick($event)" />
+            <label for="b-file" class="drop"
+              ><app-icon name="paperclip" />
+              <span>{{ attachment() || ('book.attach' | transloco) }}</span></label
+            >
+            <input
+              id="b-file"
+              type="file"
+              accept="application/pdf,image/*"
+              class="sr-only"
+              (change)="pick($event)"
+            />
           </div>
           <div class="fld">
             <label for="b-msg">{{ 'book.message' | transloco }}</label>
-            <textarea id="b-msg" [(ngModel)]="message" name="message" maxlength="500" [placeholder]="'book.messagePh' | transloco"></textarea>
+            <textarea
+              id="b-msg"
+              [(ngModel)]="message"
+              name="message"
+              maxlength="500"
+              [placeholder]="'book.messagePh' | transloco"
+            ></textarea>
           </div>
 
           <div class="lbl" id="pay-l">{{ 'book.pay' | transloco }}</div>
           <div class="pay" role="radiogroup" aria-labelledby="pay-l">
-            <button type="button" role="radio" [attr.aria-checked]="payWith() === 'credits'" [class.on]="payWith() === 'credits'" (click)="payWith.set('credits')">
+            <button
+              type="button"
+              role="radio"
+              [attr.aria-checked]="payWith() === 'credits'"
+              [class.on]="payWith() === 'credits'"
+              (click)="payWith.set('credits')"
+            >
               <app-icon name="wallet" /> {{ 'book.credits' | transloco }}
               @if ((auth.user()?.balanceMillimes ?? null) !== null) {
                 <small>{{ auth.user()?.balanceMillimes | dt }}</small>
               }
             </button>
-            <button type="button" role="radio" [attr.aria-checked]="payWith() === 'carte'" [class.on]="payWith() === 'carte'" (click)="payWith.set('carte')">
+            <button
+              type="button"
+              role="radio"
+              [attr.aria-checked]="payWith() === 'carte'"
+              [class.on]="payWith() === 'carte'"
+              (click)="payWith.set('carte')"
+            >
               <app-icon name="credit-card" /> {{ 'book.card' | transloco }}
             </button>
           </div>
           @if (balanceShort()) {
-            <p class="alert info small"><app-icon name="info" /> {{ 'book.lowBalance' | transloco }} <a routerLink="/mon-espace" [queryParams]="{ onglet: 'credits' }">{{ 'student.recharge' | transloco }}</a></p>
+            <p class="alert info small">
+              <app-icon name="info" /> {{ 'book.lowBalance' | transloco }}
+              <a routerLink="/mon-espace" [queryParams]="{ onglet: 'credits' }">{{
+                'student.recharge' | transloco
+              }}</a>
+            </p>
           }
 
           <div class="sum">
-            <div><span>{{ 'book.lesson' | transloco }}</span><span>{{ price() | dt }}</span></div>
-            <div><span>{{ 'book.fee' | transloco }}</span><span>{{ fee | dt }}</span></div>
-            <div class="tot"><span>{{ 'book.total' | transloco }}</span><span>{{ price() + fee | dt }}</span></div>
+            <div>
+              <span>{{ 'book.lesson' | transloco }}</span
+              ><span>{{ price() | dt }}</span>
+            </div>
+            <div>
+              <span>{{ 'book.fee' | transloco }}</span
+              ><span>{{ fee | dt }}</span>
+            </div>
+            <div class="tot">
+              <span>{{ 'book.total' | transloco }}</span
+              ><span>{{ price() + fee | dt }}</span>
+            </div>
           </div>
 
           @if (error()) {
-            <div class="alert err" role="alert"><app-icon name="triangle-alert" /> {{ error() }}</div>
+            <div class="alert err" role="alert">
+              <app-icon name="triangle-alert" /> {{ error() }}
+            </div>
           }
 
           @if (!auth.loggedIn()) {
-            <a class="btn block" routerLink="/connexion" [queryParams]="{ next: router.url }">{{ 'book.loginFirst' | transloco }}</a>
+            <a class="btn block" routerLink="/connexion" [queryParams]="{ next: router.url }">{{
+              'book.loginFirst' | transloco
+            }}</a>
           } @else if (auth.role() !== 'etudiant') {
             <p class="alert info small">{{ 'book.studentsOnly' | transloco }}</p>
           } @else {
-            <button type="button" class="btn block" [disabled]="!slotId() || busy()" (click)="send(t.id, $event)">
+            <button
+              type="button"
+              class="btn block"
+              [disabled]="!slotId() || busy()"
+              (click)="send(t.id, $event)"
+            >
               @if (busy()) {
-                <app-icon name="loader-circle" class="spin" />
+                <app-icon name="loader-circle" />
               }
               {{ 'book.send' | transloco }}
             </button>
@@ -184,7 +296,10 @@
     </div>
   } @else {
     <div class="phead sk">
-      <div class="skeleton" style="width: 110px; height: 131px; border-radius: 55px 55px 14px 14px"></div>
+      <div
+        class="skeleton"
+        style="width: 110px; height: 131px; border-radius: 55px 55px 14px 14px"
+      ></div>
       <div style="flex: 1">
         <div class="skeleton" style="height: 34px; width: 50%"></div>
         <div class="skeleton" style="height: 16px; width: 30%; margin-top: 10px"></div>

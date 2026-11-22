@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '../icon/icon.component';
 import { ModalComponent } from '../modal/modal.component';
@@ -11,22 +18,67 @@ import { ModalComponent } from '../modal/modal.component';
   selector: 'app-share-profile',
   imports: [ModalComponent, IconComponent, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<button type="button" class="btn sm ghost" (click)="open()"><app-icon name="send" /> {{ 'share.button' | transloco }}</button>
+  template: `<button type="button" class="btn sm ghost" (click)="open()">
+      <app-icon name="send" /> {{ 'share.button' | transloco }}
+    </button>
     <app-modal #modal [title]="'share.title' | transloco: { name: name() }">
       <div class="share">
-        <canvas #qr width="220" height="220" class="qr" role="img" [attr.aria-label]="'share.qr' | transloco"></canvas>
+        <canvas
+          #qr
+          width="220"
+          height="220"
+          class="qr"
+          role="img"
+          [attr.aria-label]="'share.qr' | transloco"
+        ></canvas>
         <div class="row link">
-          <input class="in" [value]="url()" readonly [attr.aria-label]="'share.link' | transloco" (focus)="$any($event.target).select()" />
-          <button type="button" class="btn sm" (click)="copy()"><app-icon [name]="copied() ? 'check' : 'file-text'" /> {{ (copied() ? 'share.copied' : 'share.copy') | transloco }}</button>
+          <input
+            class="in"
+            [value]="url()"
+            readonly
+            [attr.aria-label]="'share.link' | transloco"
+            (focus)="$any($event.target).select()"
+          />
+          <button type="button" class="btn sm" (click)="copy()">
+            <app-icon [name]="copied() ? 'check' : 'file-text'" />
+            {{ (copied() ? 'share.copied' : 'share.copy') | transloco }}
+          </button>
         </div>
-        <a class="btn sm alt" target="_blank" rel="noopener" [href]="whatsapp()"><app-icon name="message-square" /> WhatsApp</a>
+        <a class="btn sm alt" target="_blank" rel="noopener" [href]="whatsapp()"
+          ><app-icon name="message-square" /> WhatsApp</a
+        >
       </div>
     </app-modal>`,
   styles: `
-    .share { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-    .qr { border-radius: 14px; border: 1px solid var(--trait); background: #fff; padding: 8px; width: 220px; height: 220px; }
-    .link { width: 100%; flex-wrap: nowrap; }
-    .in { flex: 1; min-width: 0; border: 1px solid var(--trait); border-radius: 10px; padding: 9px 12px; background: var(--fond); font: inherit; font-size: 14px; color: var(--texte); }
+    .share {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .qr {
+      border-radius: 14px;
+      border: 1px solid var(--trait);
+      background: #fff;
+      padding: 8px;
+      width: 220px;
+      height: 220px;
+    }
+    .link {
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+    .in {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--trait);
+      border-radius: 10px;
+      padding: 9px 12px;
+      background: var(--fond);
+      font: inherit;
+      font-size: 14px;
+      color: var(--texte);
+    }
   `,
 })
 export class ShareProfileComponent {
@@ -48,7 +100,11 @@ export class ShareProfileComponent {
     this.copied.set(false);
     this.modal().open();
     const QR = await import('qrcode');
-    await QR.toCanvas(this.qr().nativeElement, this.url(), { width: 204, margin: 1, color: { dark: '#0B3C78', light: '#ffffff' } });
+    await QR.toCanvas(this.qr().nativeElement, this.url(), {
+      width: 204,
+      margin: 1,
+      color: { dark: '#0B3C78', light: '#ffffff' },
+    });
   }
 
   protected async copy(): Promise<void> {

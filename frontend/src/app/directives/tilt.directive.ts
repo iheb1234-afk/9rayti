@@ -15,7 +15,10 @@ import { reducedMotion } from '../core/motion/motion';
 })
 export class TiltDirective {
   /** Inclinaison maximale, en degrés. */
-  readonly max = input(7, { alias: 'appTilt', transform: (v: unknown) => (v === '' || v === undefined ? 7 : Number(v)) });
+  readonly max = input(7, {
+    alias: 'appTilt',
+    transform: (v: unknown) => (v === '' || v === undefined ? 7 : Number(v)),
+  });
   private readonly el = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
   private frame = 0;
 

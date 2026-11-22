@@ -1,5 +1,5 @@
 @let t = tutor();
-<article class="card tut" appTilt="3" (click)="open($event)">
+<article class="card tut" appTilt="3">
   <app-avatar
     [name]="t.firstName + ' ' + t.lastInitial"
     [photo]="api.asset(t.avatarUrl)"
@@ -9,7 +9,11 @@
   <div class="mid">
     <div class="row1">
       <h3>
-        <a [routerLink]="['/tuteurs', t.id]" [queryParams]="subject() ? { matiere: subject() } : {}" class="stretch"
+        <a
+          [routerLink]="['/tuteurs', t.id]"
+          [queryParams]="subject() ? { matiere: subject() } : {}"
+          class="stretch"
+          (click)="open($event)"
           ><bdi>{{ t.firstName }} {{ t.lastInitial }}</bdi></a
         >
       </h3>
@@ -19,11 +23,15 @@
       }
     </div>
     <div class="meta">
-      <span><bdi>{{ t.school }} · {{ t.year }}</bdi></span>
+      <span
+        ><bdi>{{ t.school }} · {{ t.year }}</bdi></span
+      >
       @if (t.rating !== null) {
         <span
           ><span class="star" aria-hidden="true">★</span> {{ t.rating | num }}
-          <span class="muted">({{ 'common.reviews' | transloco: { n: t.ratingCount } }})</span></span
+          <span class="muted"
+            >({{ 'common.reviews' | transloco: { n: t.ratingCount } }})</span
+          ></span
         >
       }
       <span>{{ 'common.hours' | transloco: { n: t.hoursTaught } }}</span>
@@ -39,7 +47,9 @@
   </div>
   <div class="end">
     <app-favorite-button [tutorId]="t.id" />
-    <div class="price">{{ t.pricePerHourMillimes | dt }} <small>{{ 'common.perHour' | transloco }}</small></div>
+    <div class="price">
+      {{ t.pricePerHourMillimes | dt }} <small>{{ 'common.perHour' | transloco }}</small>
+    </div>
     @if (t.nextSlot) {
       <span class="small muted"><app-icon name="calendar" /> {{ t.nextSlot | when }}</span>
     } @else {

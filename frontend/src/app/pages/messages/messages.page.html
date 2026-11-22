@@ -5,13 +5,28 @@
   <div class="chat card" [class.has-thread]="!!partnerId()">
     <aside class="list" [attr.aria-label]="'msg.conversations' | transloco">
       @for (t of threads(); track t.partner.id; let i = $index) {
-        <a class="th" [routerLink]="['/messages', t.partner.id]" [class.on]="t.partner.id === partnerId()" [style.animation-delay.ms]="i * 40">
-          <app-avatar [name]="t.partner.name" [photo]="api.asset(t.partner.avatarUrl)" [size]="42" />
+        <a
+          class="th"
+          [routerLink]="['/messages', t.partner.id]"
+          [class.on]="t.partner.id === partnerId()"
+          [style.animation-delay.ms]="i * 40"
+        >
+          <app-avatar
+            [name]="t.partner.name"
+            [photo]="api.asset(t.partner.avatarUrl)"
+            [size]="42"
+          />
           <span class="mid">
             <span class="between"
-              ><b>{{ t.partner.name }}</b><span class="small muted">{{ t.last.createdAt | when: 'relative' }}</span></span
+              ><b>{{ t.partner.name }}</b
+              ><span class="small muted">{{ t.last.createdAt | when: 'relative' }}</span></span
             >
-            <span class="small muted prev">@if (t.last.mine) {{{ 'msg.you' | transloco }} : }{{ t.last.body }}</span>
+            <span class="small muted prev">
+              @if (t.last.mine) {
+                {{ 'msg.you' | transloco }} :
+              }
+              {{ t.last.body }}</span
+            >
           </span>
           @if (t.unread) {
             <span class="unread">{{ t.unread }}</span>
@@ -24,7 +39,11 @@
 
     <section class="pane" [attr.aria-label]="'msg.conversation' | transloco">
       @if (!partnerId()) {
-        <app-empty-state icon="message-square" [title]="'msg.pickT' | transloco" [text]="'msg.pickD' | transloco">
+        <app-empty-state
+          icon="message-square"
+          [title]="'msg.pickT' | transloco"
+          [text]="'msg.pickD' | transloco"
+        >
           @if (auth.role() === 'etudiant') {
             <a class="btn" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
           }
@@ -33,14 +52,25 @@
         <app-empty-state icon="search-x" [title]="'msg.notFound' | transloco" />
       } @else if (thread.value(); as t) {
         <header class="ph">
-          <a routerLink="/messages" class="back" [attr.aria-label]="'msg.back' | transloco"><app-icon name="chevron-left" [flip]="true" /></a>
-          <app-avatar [name]="t.partner.name" [photo]="api.asset(t.partner.avatarUrl)" [size]="40" />
+          <a routerLink="/messages" class="back" [attr.aria-label]="'msg.back' | transloco"
+            ><app-icon name="chevron-left" [flip]="true"
+          /></a>
+          <app-avatar
+            [name]="t.partner.name"
+            [photo]="api.asset(t.partner.avatarUrl)"
+            [size]="40"
+          />
           <div>
             <b>{{ t.partner.name }}</b>
-            <div class="small muted">{{ t.partner.school }} · {{ (t.partner.role === 'tuteur' ? 'auth.tutor' : 'auth.student') | transloco }}</div>
+            <div class="small muted">
+              {{ t.partner.school }} ·
+              {{ (t.partner.role === 'tuteur' ? 'auth.tutor' : 'auth.student') | transloco }}
+            </div>
           </div>
           @if (t.partner.role === 'tuteur') {
-            <a class="btn sm alt push" [routerLink]="['/tuteurs', t.partner.id]">{{ 'msg.seeProfile' | transloco }}</a>
+            <a class="btn sm alt push" [routerLink]="['/tuteurs', t.partner.id]">{{
+              'msg.seeProfile' | transloco
+            }}</a>
           }
         </header>
         <div class="msgs" #scroller aria-live="polite">
@@ -50,17 +80,21 @@
               <span class="meta"
                 >{{ m.createdAt | when: 'time' }}
                 @if (m.masked) {
-                  <span class="mask" [attr.title]="'msg.maskedT' | transloco"><app-icon name="lock" /> {{ 'msg.masked' | transloco }}</span>
+                  <span class="mask" [attr.title]="'msg.maskedT' | transloco"
+                    ><app-icon name="lock" /> {{ 'msg.masked' | transloco }}</span
+                  >
                 }
               </span>
             </div>
           } @empty {
-            <p class="small muted center hello">{{ 'msg.first' | transloco: { name: t.partner.name } }}</p>
+            <p class="small muted center hello">
+              {{ 'msg.first' | transloco: { name: t.partner.name } }}
+            </p>
           }
         </div>
         @if (t.canWrite) {
           <form class="compose" (ngSubmit)="send()">
-            <label class="sr-only" for="msg-draft">{{ 'msg.write' | transloco }}</label>
+            <label class="sr-only" for="msg-draft">{{ 'msg.placeholder' | transloco }}</label>
             <textarea
               id="msg-draft"
               rows="1"
@@ -71,7 +105,12 @@
               [placeholder]="'msg.placeholder' | transloco"
               (keydown)="key($event)"
             ></textarea>
-            <button class="btn send" type="submit" [disabled]="!draft().trim() || sending()" [attr.aria-label]="'common.send' | transloco">
+            <button
+              class="btn send"
+              type="submit"
+              [disabled]="!draft().trim() || sending()"
+              [attr.aria-label]="'common.send' | transloco"
+            >
               <app-icon [name]="sending() ? 'loader-circle' : 'send'" [flip]="true" />
             </button>
           </form>

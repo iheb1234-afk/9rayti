@@ -32,7 +32,7 @@
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 28px;
-  min-height: 62vh;
+  min-height: 56vh;
   align-items: center;
   opacity: 0.38;
   transition: opacity 0.4s;
@@ -82,7 +82,7 @@
   background: var(--fond);
   color: var(--texte);
 }
-.rule .ic {
+.rule ::ng-deep .ic {
   flex: none;
   color: var(--lien);
 }
@@ -145,6 +145,9 @@
     opacity: 0;
     transform: translateY(24px) scale(0.97);
   }
+}
+.scr > * {
+  flex-shrink: 0;
 }
 .scr > *:not(.bar) {
   animation: rise 0.5s var(--ease-out) both;
@@ -386,7 +389,7 @@
 .ui-ctrl i.red {
   background: #e0453a;
 }
-.ui-doc .ic {
+.ui-doc ::ng-deep .ic {
   color: var(--brique);
 }
 .ui-stars {
@@ -412,7 +415,7 @@
   animation: rise 0.5s var(--ease-out) both;
   animation-delay: calc(200ms + var(--d) * 180ms);
 }
-.ui-verif .ic {
+.ui-verif ::ng-deep .ic {
   color: var(--olivier);
 }
 .ui-bars {
@@ -467,11 +470,11 @@ summary {
 summary::-webkit-details-marker {
   display: none;
 }
-summary .ic {
+summary ::ng-deep .ic {
   flex: none;
   transition: transform 0.3s var(--ease-out);
 }
-details[open] summary .ic {
+details[open] summary ::ng-deep .ic {
   transform: rotate(180deg);
 }
 .ans {

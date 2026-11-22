@@ -12,7 +12,9 @@ export class FavoritesService {
   constructor() {
     effect(() => {
       if (this.auth.role() === 'etudiant') {
-        this.api.favoriteIds().subscribe({ next: (ids) => this.ids.set(new Set(ids)), error: () => undefined });
+        this.api
+          .favoriteIds()
+          .subscribe({ next: (ids) => this.ids.set(new Set(ids)), error: () => undefined });
       } else {
         this.ids.set(new Set());
       }
@@ -31,7 +33,10 @@ export class FavoritesService {
     else next.delete(tutorId);
     this.ids.set(next);
     const call = adding ? this.api.addFavorite(tutorId) : this.api.removeFavorite(tutorId);
-    call.subscribe({ next: (ids) => this.ids.set(new Set(ids)), error: () => this.ids.set(new Set(this.ids())) });
+    call.subscribe({
+      next: (ids) => this.ids.set(new Set(ids)),
+      error: () => this.ids.set(new Set(this.ids())),
+    });
     return adding;
   }
 }

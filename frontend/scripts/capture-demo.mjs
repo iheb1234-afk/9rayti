@@ -9,9 +9,24 @@ const get = async (path, token) => {
   return r.json();
 };
 const login = async (email) =>
-  (await fetch(API + '/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, password: 'demo1234' }) })).json();
+  (
+    await fetch(API + '/auth/login', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email, password: 'demo1234' }),
+    })
+  ).json();
 
-const EMAILS = ['yasmine@9rayti.tn', 'omar@9rayti.tn', 'sarra@9rayti.tn', 'youssef@9rayti.tn', 'amira@9rayti.tn', 'mehdi@9rayti.tn', 'nour@9rayti.tn', 'admin@9rayti.tn'];
+const EMAILS = [
+  'yasmine@9rayti.tn',
+  'omar@9rayti.tn',
+  'sarra@9rayti.tn',
+  'youssef@9rayti.tn',
+  'amira@9rayti.tn',
+  'mehdi@9rayti.tn',
+  'nour@9rayti.tn',
+  'admin@9rayti.tn',
+];
 
 // ----- Public
 const subjects = await get('/subjects');
@@ -40,7 +55,14 @@ const addThread = (studentId, tutorId, messages, mineRole) => {
   for (const m of messages) {
     if (t.messages.some((x) => x.id === m.id)) continue;
     const fromRole = m.mine ? mineRole : mineRole === 'etudiant' ? 'tuteur' : 'etudiant';
-    t.messages.push({ id: m.id, fromRole, body: m.body, masked: m.masked, readAt: m.readAt, createdAt: m.createdAt });
+    t.messages.push({
+      id: m.id,
+      fromRole,
+      body: m.body,
+      masked: m.masked,
+      readAt: m.readAt,
+      createdAt: m.createdAt,
+    });
   }
   t.messages.sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));
 };
@@ -54,11 +76,13 @@ for (const email of EMAILS) {
   if (u.role === 'etudiant') {
     for (const r of await get('/requests/mine', s.token)) {
       requests[r.id] = r;
-      if (['acceptee', 'faite', 'versee', 'signalee', 'remboursee'].includes(r.state)) classrooms[r.id] = await get(`/classroom/${r.id}`, s.token);
+      if (['acceptee', 'faite', 'versee', 'signalee', 'remboursee'].includes(r.state))
+        classrooms[r.id] = await get(`/classroom/${r.id}`, s.token);
     }
     credits[u.id] = await get('/credits/me', s.token);
     favorites[u.id] = await get('/favorites/ids', s.token);
-    for (const x of await get('/exam-sessions/mine', s.token)) if (x.booked) (sessionsBooked[x.id] ??= []).push(u.id);
+    for (const x of await get('/exam-sessions/mine', s.token))
+      if (x.booked) (sessionsBooked[x.id] ??= []).push(u.id);
     for (const th of await get('/messages', s.token)) {
       const d = await get(`/messages/${th.partner.id}`, s.token);
       addThread(u.id, th.partner.id, d.messages, 'etudiant');
@@ -72,10 +96,19 @@ for (const email of EMAILS) {
     } catch {
       /* profil absent */
     }
-    tutorExtra[u.id] = { slots: await get('/tutor/slots', s.token), rates: await get('/tutor/rates', s.token), profile };
-    if (u.tutorStatus === 'valide') tutorSessions = tutorSessions.concat(await get('/tutor/exam-sessions', s.token));
+    tutorExtra[u.id] = {
+      slots: await get('/tutor/slots', s.token),
+      rates: await get('/tutor/rates', s.token),
+      profile,
+    };
+    if (u.tutorStatus === 'valide')
+      tutorSessions = tutorSessions.concat(await get('/tutor/exam-sessions', s.token));
     for (const th of await get('/messages', s.token)) {
-      people[th.partner.id] = { firstName: th.partner.name, school: th.partner.school, avatarUrl: th.partner.avatarUrl };
+      people[th.partner.id] = {
+        firstName: th.partner.name,
+        school: th.partner.school,
+        avatarUrl: th.partner.avatarUrl,
+      };
       const d = await get(`/messages/${th.partner.id}`, s.token);
       addThread(th.partner.id, u.tutorProfileId, d.messages, 'tuteur');
     }
@@ -93,17 +126,46 @@ for (let page = 1, pages = 1; page <= pages; page++) {
   pages = p.pages;
   for (const r of p.items) requests[r.id] ??= r;
 }
-for (const r of Object.values(requests)) people[r.student.id] ??= { firstName: r.student.firstName, school: r.student.school, avatarUrl: r.student.avatarUrl ?? null };
+for (const r of Object.values(requests))
+  people[r.student.id] ??= {
+    firstName: r.student.firstName,
+    school: r.student.school,
+    avatarUrl: r.student.avatarUrl ?? null,
+  };
 
 // ----- Sessions d'examen (vue tuteur : avec les inscrits)
 const examSessions = (await get('/exam-sessions')).map((x) => {
   const own = tutorSessions.find((t) => t.id === x.id);
-  return { ...x, booked: false, bookedBy: sessionsBooked[x.id] ?? [], students: own?.students ?? [] };
+  return {
+    ...x,
+    booked: false,
+    bookedBy: sessionsBooked[x.id] ?? [],
+    students: own?.students ?? [],
+  };
 });
 
 writeFileSync(
   new URL('../src/app/demo/fixture.json', import.meta.url),
-  JSON.stringify({ capturedAt: new Date().toISOString(), subjects, stats, latestReviews, tutors, users, people, requests, classrooms, credits, tutorExtra, favorites, notifications, threads, pending, reports: reports.map((r) => r.id), contacts, examSessions }),
+  JSON.stringify({
+    capturedAt: new Date().toISOString(),
+    subjects,
+    stats,
+    latestReviews,
+    tutors,
+    users,
+    people,
+    requests,
+    classrooms,
+    credits,
+    tutorExtra,
+    favorites,
+    notifications,
+    threads,
+    pending,
+    reports: reports.map((r) => r.id),
+    contacts,
+    examSessions,
+  }),
 );
 console.log(
   `fixture : ${cards.length} tuteurs, ${Object.keys(requests).length} demandes, ${users.length} comptes, ${Object.keys(threads).length} conversations, ${Object.values(notifications).flat().length} notifications`,

@@ -1,4 +1,13 @@
-import { DestroyRef, Directive, ElementRef, afterNextRender, effect, inject, input, signal } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  afterNextRender,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { reducedMotion } from '../core/motion/motion';
 
 /**
@@ -21,7 +30,10 @@ export class CountUpDirective {
     destroyRef.onDestroy(() => cancelAnimationFrame(this.frame));
     afterNextRender(() => {
       if (typeof IntersectionObserver === 'undefined') return this.visible.set(true);
-      const io = new IntersectionObserver(([e]) => e.isIntersecting && (this.visible.set(true), io.disconnect()), { threshold: 0.3 });
+      const io = new IntersectionObserver(
+        ([e]) => e.isIntersecting && (this.visible.set(true), io.disconnect()),
+        { threshold: 0.3 },
+      );
       io.observe(this.el);
       destroyRef.onDestroy(() => io.disconnect());
     });

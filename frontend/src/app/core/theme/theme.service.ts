@@ -13,12 +13,16 @@ const KEY = '9rayti.theme';
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly doc = inject(DOCUMENT);
-  readonly theme = signal<Theme>((this.doc.documentElement.getAttribute('data-theme') as Theme) || 'light');
+  readonly theme = signal<Theme>(
+    (this.doc.documentElement.getAttribute('data-theme') as Theme) || 'light',
+  );
 
   toggle(event?: MouseEvent): void {
     const next: Theme = this.theme() === 'dark' ? 'light' : 'dark';
     const apply = () => this.apply(next);
-    const doc = this.doc as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> } };
+    const doc = this.doc as Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> };
+    };
     if (!doc.startViewTransition || reducedMotion()) return apply();
 
     const x = event?.clientX ?? innerWidth - 40;
@@ -31,7 +35,11 @@ export class ThemeService {
       .then(() =>
         root.animate(
           { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-          { duration: 650, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' },
+          {
+            duration: 650,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            pseudoElement: '::view-transition-new(root)',
+          },
         ),
       )
       .catch(() => undefined);

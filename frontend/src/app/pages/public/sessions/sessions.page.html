@@ -1,15 +1,30 @@
 <div class="wrap">
-  <app-page-header [title]="'sessions.title' | transloco" [subtitle]="'sessions.lead' | transloco" [kicker]="'sessions.kicker' | transloco">
+  <app-page-header
+    [title]="'sessions.title' | transloco"
+    [subtitle]="'sessions.lead' | transloco"
+    [kicker]="'sessions.kicker' | transloco"
+  >
     @if (auth.role() === 'tuteur') {
-      <a class="btn" routerLink="/espace-tuteur" [queryParams]="{ onglet: 'sessions' }"><app-icon name="calendar-plus" /> {{ 'sessions.create' | transloco }}</a>
+      <a class="btn" routerLink="/espace-tuteur" [queryParams]="{ onglet: 'sessions' }"
+        ><app-icon name="calendar-plus" /> {{ 'sessions.create' | transloco }}</a
+      >
     }
   </app-page-header>
 
   @if (subjects().length > 1) {
     <div class="chips filters" role="group" [attr.aria-label]="'search.subject' | transloco">
-      <button type="button" class="chip" [attr.aria-pressed]="!subject()" (click)="subject.set('')">{{ 'search.allSubjects' | transloco }}</button>
+      <button type="button" class="chip" [attr.aria-pressed]="!subject()" (click)="subject.set('')">
+        {{ 'search.allSubjects' | transloco }}
+      </button>
       @for (s of subjects(); track s.code) {
-        <button type="button" class="chip" [attr.aria-pressed]="subject() === s.code" (click)="subject.set(s.code)">{{ s | subject }}</button>
+        <button
+          type="button"
+          class="chip"
+          [attr.aria-pressed]="subject() === s.code"
+          (click)="subject.set(s.code)"
+        >
+          {{ s | subject }}
+        </button>
       }
     </div>
   }
@@ -24,7 +39,11 @@
         }
       } @else {
         <div class="full">
-          <app-empty-state icon="calendar" [title]="'sessions.none' | transloco" [text]="'sessions.noneD' | transloco">
+          <app-empty-state
+            icon="calendar"
+            [title]="'sessions.none' | transloco"
+            [text]="'sessions.noneD' | transloco"
+          >
             <a class="btn alt" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
           </app-empty-state>
         </div>

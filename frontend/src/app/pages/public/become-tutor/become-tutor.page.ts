@@ -20,7 +20,17 @@ const SESSION_SHARE = 0.8;
 /** « Devenir tuteur » : avantages, conditions et simulateur de gains (sitemap : public). */
 @Component({
   selector: 'app-become-tutor',
-  imports: [RouterLink, FormsModule, TranslocoPipe, CountUpDirective, MagneticDirective, RevealDirective, SplitTextDirective, TiltDirective, ...UI],
+  imports: [
+    RouterLink,
+    FormsModule,
+    TranslocoPipe,
+    CountUpDirective,
+    MagneticDirective,
+    RevealDirective,
+    SplitTextDirective,
+    TiltDirective,
+    ...UI,
+  ],
   providers: [DtPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './become-tutor.page.html',
@@ -36,13 +46,21 @@ export class BecomeTutorPage {
   protected readonly places = signal(8);
   protected readonly placePrice = signal(12);
 
-  protected readonly lessons = computed(() => Math.round(this.hours() * WEEKS * this.price() * 1000));
-  protected readonly group = computed(() => Math.round(this.sessions() * this.places() * this.placePrice() * SESSION_SHARE * 1000));
+  protected readonly lessons = computed(() =>
+    Math.round(this.hours() * WEEKS * this.price() * 1000),
+  );
+  protected readonly group = computed(() =>
+    Math.round(this.sessions() * this.places() * this.placePrice() * SESSION_SHARE * 1000),
+  );
   protected readonly total = computed(() => this.lessons() + this.group());
   protected readonly semester = computed(() => this.total() * 4);
-  protected readonly lessonsPct = computed(() => (this.total() ? (this.lessons() / this.total()) * 100 : 0));
+  protected readonly lessonsPct = computed(() =>
+    this.total() ? (this.lessons() / this.total()) * 100 : 0,
+  );
   /** Petite récompense visuelle quand le total dépasse un palier. */
-  protected readonly tier = computed(() => (this.total() >= 800_000 ? 3 : this.total() >= 400_000 ? 2 : 1));
+  protected readonly tier = computed(() =>
+    this.total() >= 800_000 ? 3 : this.total() >= 400_000 ? 2 : 1,
+  );
 
   protected readonly perks = [
     { key: 'price', icon: 'coins' },

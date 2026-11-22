@@ -616,7 +616,8 @@
     "courses": "{{ n }} lesson(s)",
     "next": "Next payout on {{ when }}",
     "history": "Payment history",
-    "none": "No payments yet."
+    "none": "No payments yet.",
+    "showAll": "See all {{ n }} payments"
   },
   "how": {
     "title": "How it works",

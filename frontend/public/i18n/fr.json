@@ -616,7 +616,8 @@
     "courses": "{{ n }} cours",
     "next": "Prochain versement le {{ when }}",
     "history": "Historique des paiements",
-    "none": "Aucun paiement pour l'instant."
+    "none": "Aucun paiement pour l'instant.",
+    "showAll": "Voir les {{ n }} paiements"
   },
   "how": {
     "title": "Comment ça marche",

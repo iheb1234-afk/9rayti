@@ -686,6 +686,9 @@ p {
   color: #fff;
   border-color: var(--bleu);
 }
+.tile.main .big {
+  color: #fff;
+}
 .tile.main h3,
 .tile.main .muted {
   color: #fff;
@@ -779,6 +782,12 @@ dialog.modal .mbody {
 }
 
 /* ----- Apparition au défilement (directive appReveal) ----- */
+.rise {
+  animation: rise 0.7s var(--ease-out) both;
+}
+.split-pending {
+  opacity: 0;
+}
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -809,7 +818,11 @@ dialog.modal .mbody {
     border-color 0.25s,
     box-shadow 0.3s;
   box-shadow: 0 20px 50px var(--ombre);
-  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--soleil) 14%, transparent), transparent 55%);
+  background-image: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--soleil) 14%, transparent),
+    transparent 55%
+  );
 }
 
 /* ----- Transitions entre pages (API View Transitions) ----- */

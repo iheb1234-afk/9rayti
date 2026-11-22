@@ -117,8 +117,15 @@
             </div>
           </form>
         }
-        <a class="btn sm ghost block" [routerLink]="['/messages', r.role === 'tuteur' ? r.student.id : r.tutor.id]" style="margin-top: 14px"
-          ><app-icon name="message-square" /> {{ 'msg.writeTo' | transloco: { name: r.role === 'tuteur' ? r.student.firstName : r.tutor.firstName } }}</a
+        <a
+          class="btn sm ghost block"
+          [routerLink]="['/messages', r.role === 'tuteur' ? r.student.id : r.tutor.id]"
+          style="margin-top: 14px"
+          ><app-icon name="message-square" />
+          {{
+            'msg.writeTo'
+              | transloco: { name: r.role === 'tuteur' ? r.student.firstName : r.tutor.firstName }
+          }}</a
         >
         <div class="rules small muted">
           <p>
@@ -151,12 +158,22 @@
   <form (submit)="$event.preventDefault(); complete(id(), endModal)">
     <div class="fld">
       <label for="recap">{{ 'tspace.recap' | transloco }}</label>
-      <textarea id="recap" [(ngModel)]="recap" name="recap" maxlength="1000" [placeholder]="'tspace.recapPh' | transloco"></textarea>
+      <textarea
+        id="recap"
+        [(ngModel)]="recap"
+        name="recap"
+        maxlength="1000"
+        [placeholder]="'tspace.recapPh' | transloco"
+      ></textarea>
       <div class="hint">{{ 'tspace.recapHint' | transloco }}</div>
     </div>
     <div class="row" style="justify-content: flex-end; margin-top: 8px">
-      <button type="button" class="btn ghost sm" (click)="endModal.close()">{{ 'common.close' | transloco }}</button>
-      <button type="submit" class="btn sm danger" [disabled]="busy()"><app-icon name="phone-off" /> {{ 'room.end' | transloco }}</button>
+      <button type="button" class="btn ghost sm" (click)="endModal.close()">
+        {{ 'common.close' | transloco }}
+      </button>
+      <button type="submit" class="btn sm danger" [disabled]="busy()">
+        <app-icon name="phone-off" /> {{ 'room.end' | transloco }}
+      </button>
     </div>
   </form>
 </app-modal>

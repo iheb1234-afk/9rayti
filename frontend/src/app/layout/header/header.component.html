@@ -3,21 +3,52 @@
     <a routerLink="/" class="home" [attr.aria-label]="'nav.home' | transloco"><app-logo /></a>
 
     <nav class="nav" [class.open]="menuOpen()" id="menu" [attr.aria-label]="'nav.main' | transloco">
-      <a routerLink="/recherche" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{ 'nav.find' | transloco }}</a>
-      <a routerLink="/sessions" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{ 'nav.sessions' | transloco }}</a>
-      <a routerLink="/comment-ca-marche" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{ 'nav.how' | transloco }}</a>
+      <a routerLink="/recherche" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{
+        'nav.find' | transloco
+      }}</a>
+      <a routerLink="/sessions" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{
+        'nav.sessions' | transloco
+      }}</a>
+      <a
+        routerLink="/comment-ca-marche"
+        routerLinkActive="on"
+        ariaCurrentWhenActive="page"
+        class="nl"
+        >{{ 'nav.how' | transloco }}</a
+      >
       @if (!auth.loggedIn()) {
-        <a routerLink="/devenir-tuteur" routerLinkActive="on" ariaCurrentWhenActive="page" class="nl">{{ 'nav.teach' | transloco }}</a>
+        <a
+          routerLink="/devenir-tuteur"
+          routerLinkActive="on"
+          ariaCurrentWhenActive="page"
+          class="nl wide"
+          >{{ 'nav.teach' | transloco }}</a
+        >
       }
 
       <div class="tools">
-        <button type="button" class="kbd-search" (click)="palette.open.set(true)" [attr.aria-label]="'palette.title' | transloco">
-          <app-icon name="search" /><span class="hide-sm">{{ 'palette.short' | transloco }}</span><kbd class="hide-sm">Ctrl K</kbd>
+        <button
+          type="button"
+          class="kbd-search"
+          (click)="palette.open.set(true)"
+          [attr.aria-label]="'palette.title' | transloco"
+        >
+          <app-icon name="search" /><span class="hide-sm">{{ 'palette.short' | transloco }}</span
+          ><kbd class="hide-sm">Ctrl K</kbd>
         </button>
         <div class="lang" role="group" [attr.aria-label]="'nav.language' | transloco">
           @for (l of langs; track l.code) {
-            <button type="button" [class.on]="lang.lang() === l.code" [attr.aria-pressed]="lang.lang() === l.code" [attr.lang]="l.code" [attr.title]="l.name"
-              [attr.aria-label]="l.name" (click)="lang.use(l.code)">{{ l.label }}</button>
+            <button
+              type="button"
+              [class.on]="lang.lang() === l.code"
+              [attr.aria-pressed]="lang.lang() === l.code"
+              [attr.lang]="l.code"
+              [attr.title]="l.name"
+              [attr.aria-label]="l.name"
+              (click)="lang.use(l.code)"
+            >
+              {{ l.label }}
+            </button>
           }
         </div>
         <app-theme-toggle />
@@ -26,12 +57,24 @@
       @if (auth.user(); as u) {
         <div class="me">
           @if (u.role === 'etudiant' && u.balanceMillimes !== undefined) {
-            <a routerLink="/mon-espace" [queryParams]="{ onglet: 'credits' }" class="badge blue credit" [attr.aria-label]="'nav.credits' | transloco">
-              <app-icon name="wallet" /> <span [appCountUp]="u.balanceMillimes" [format]="money"></span>
+            <a
+              routerLink="/mon-espace"
+              [queryParams]="{ onglet: 'credits' }"
+              class="badge blue credit"
+              [attr.aria-label]="'nav.credits' | transloco"
+            >
+              <app-icon name="wallet" />
+              <span [appCountUp]="u.balanceMillimes" [format]="money"></span>
             </a>
           }
           @if (u.role !== 'admin') {
-            <a routerLink="/messages" class="icon-btn" routerLinkActive="on" [attr.aria-label]="'nav.messages' | transloco" [attr.title]="'nav.messages' | transloco">
+            <a
+              routerLink="/messages"
+              class="icon-btn"
+              routerLinkActive="on"
+              [attr.aria-label]="'nav.messages' | transloco"
+              [attr.title]="'nav.messages' | transloco"
+            >
               <app-icon name="message-square" />
               @if (notifs.unreadMessages() > 0) {
                 <span class="dot">{{ notifs.unreadMessages() }}</span>
@@ -40,22 +83,45 @@
           }
           <app-notification-bell />
           <div class="um">
-            <button type="button" class="avatar-btn" (click)="userMenu.set(!userMenu())" [attr.aria-expanded]="userMenu()" aria-controls="user-menu"
-              [attr.aria-label]="'nav.account' | transloco">
-              <app-avatar [name]="u.firstName + ' ' + u.lastName" [photo]="api.asset(u.avatarUrl)" [size]="30" />
+            <button
+              type="button"
+              class="avatar-btn"
+              (click)="userMenu.set(!userMenu())"
+              [attr.aria-expanded]="userMenu()"
+              aria-controls="user-menu"
+              [attr.aria-label]="'nav.account' | transloco"
+            >
+              <app-avatar
+                [name]="u.firstName + ' ' + u.lastName"
+                [photo]="api.asset(u.avatarUrl)"
+                [size]="30"
+              />
               <span class="hide-sm">{{ u.firstName }}</span>
               <app-icon name="chevron-down" />
             </button>
             @if (userMenu()) {
               <div class="dd card" id="user-menu">
-                <div class="who"><b>{{ u.firstName }} {{ u.lastName }}</b><span class="small muted">{{ u.email }}</span></div>
-                <a [routerLink]="auth.homeFor(u.role)" (click)="userMenu.set(false)"><app-icon name="layout-dashboard" /> {{ 'nav.mySpace' | transloco }}</a>
+                <div class="who">
+                  <b>{{ u.firstName }} {{ u.lastName }}</b
+                  ><span class="small muted">{{ u.email }}</span>
+                </div>
+                <a [routerLink]="auth.homeFor(u.role)" (click)="userMenu.set(false)"
+                  ><app-icon name="layout-dashboard" /> {{ 'nav.mySpace' | transloco }}</a
+                >
                 @if (u.role !== 'admin') {
-                  <a routerLink="/messages" (click)="userMenu.set(false)"><app-icon name="message-square" /> {{ 'nav.messages' | transloco }}</a>
+                  <a routerLink="/messages" (click)="userMenu.set(false)"
+                    ><app-icon name="message-square" /> {{ 'nav.messages' | transloco }}</a
+                  >
                 }
-                <a routerLink="/profil" (click)="userMenu.set(false)"><app-icon name="user" /> {{ 'nav.profile' | transloco }}</a>
-                <a routerLink="/notifications" (click)="userMenu.set(false)"><app-icon name="bell" /> {{ 'notif.title' | transloco }}</a>
-                <button type="button" (click)="userMenu.set(false); auth.logout()"><app-icon name="log-out" [flip]="true" /> {{ 'nav.logout' | transloco }}</button>
+                <a routerLink="/profil" (click)="userMenu.set(false)"
+                  ><app-icon name="user" /> {{ 'nav.profile' | transloco }}</a
+                >
+                <a routerLink="/notifications" (click)="userMenu.set(false)"
+                  ><app-icon name="bell" /> {{ 'notif.title' | transloco }}</a
+                >
+                <button type="button" (click)="userMenu.set(false); auth.logout()">
+                  <app-icon name="log-out" [flip]="true" /> {{ 'nav.logout' | transloco }}
+                </button>
               </div>
             }
           </div>
@@ -63,13 +129,23 @@
       } @else {
         <div class="me">
           <a class="btn sm alt" routerLink="/connexion">{{ 'nav.login' | transloco }}</a>
-          <a class="btn sm" routerLink="/inscription" appMagnetic>{{ 'nav.register' | transloco }}</a>
+          <a class="btn sm" routerLink="/inscription" appMagnetic>{{
+            'nav.register' | transloco
+          }}</a>
         </div>
       }
     </nav>
 
-    <button type="button" class="burger" [class.x]="menuOpen()" (click)="menuOpen.set(!menuOpen())" [attr.aria-expanded]="menuOpen()" aria-controls="menu">
-      <span></span><span></span><span></span><span class="sr-only">{{ 'nav.menu' | transloco }}</span>
+    <button
+      type="button"
+      class="burger"
+      [class.x]="menuOpen()"
+      (click)="menuOpen.set(!menuOpen())"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="menu"
+    >
+      <span></span><span></span><span></span
+      ><span class="sr-only">{{ 'nav.menu' | transloco }}</span>
     </button>
   </div>
 </header>

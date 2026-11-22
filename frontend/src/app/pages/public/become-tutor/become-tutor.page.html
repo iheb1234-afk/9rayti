@@ -2,12 +2,21 @@
   <div class="glow" aria-hidden="true"></div>
   <div class="wrap grid">
     <div>
-      <span class="badge sun"><app-icon name="graduation-cap" /> {{ 'become.kicker' | transloco }}</span>
-      <h1 [appSplit]="'become.h1' | transloco"></h1>
+      <span class="badge sun"
+        ><app-icon name="graduation-cap" /> {{ 'become.kicker' | transloco }}</span
+      >
+      <h1 class="rise">{{ 'become.h1' | transloco }}</h1>
       <p class="lead">{{ 'become.lead' | transloco }}</p>
       <div class="row">
-        <a class="btn big" routerLink="/inscription" [queryParams]="{ role: 'tuteur' }" appMagnetic>{{ 'become.cta' | transloco }} <app-icon name="arrow-right" [flip]="true" /></a>
-        <a class="btn big ghost" routerLink="/comment-ca-marche" [queryParams]="{ pour: 'tuteur' }">{{ 'nav.how' | transloco }}</a>
+        <a class="btn big" routerLink="/inscription" [queryParams]="{ role: 'tuteur' }" appMagnetic
+          >{{ 'become.cta' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
+        <a
+          class="btn big ghost"
+          routerLink="/comment-ca-marche"
+          [queryParams]="{ pour: 'tuteur' }"
+          >{{ 'nav.how' | transloco }}</a
+        >
       </div>
       <ul class="ticks small">
         @for (t of [1, 2, 3]; track t) {
@@ -21,23 +30,75 @@
       <h2 id="sim-t" class="h3"><app-icon name="calculator" /> {{ 'become.simT' | transloco }}</h2>
       <fieldset>
         <legend class="small">{{ 'become.lessons' | transloco }}</legend>
-        <label for="s-price">{{ 'become.price' | transloco }} <b>{{ price() }} DT</b></label>
-        <input id="s-price" type="range" min="10" max="40" [ngModel]="price()" (ngModelChange)="price.set(+$event)" name="price" />
-        <label for="s-hours">{{ 'become.hours' | transloco }} <b>{{ hours() }} h</b></label>
-        <input id="s-hours" type="range" min="1" max="20" [ngModel]="hours()" (ngModelChange)="hours.set(+$event)" name="hours" />
+        <label for="s-price"
+          >{{ 'become.price' | transloco }} <b>{{ price() }} DT</b></label
+        >
+        <input
+          id="s-price"
+          type="range"
+          min="10"
+          max="40"
+          [ngModel]="price()"
+          (ngModelChange)="price.set(+$event)"
+          name="price"
+        />
+        <label for="s-hours"
+          >{{ 'become.hours' | transloco }} <b>{{ hours() }} h</b></label
+        >
+        <input
+          id="s-hours"
+          type="range"
+          min="1"
+          max="20"
+          [ngModel]="hours()"
+          (ngModelChange)="hours.set(+$event)"
+          name="hours"
+        />
       </fieldset>
       <fieldset>
         <legend class="small">{{ 'become.groups' | transloco }}</legend>
-        <label for="s-sess">{{ 'become.sessions' | transloco }} <b>{{ sessions() }}</b></label>
-        <input id="s-sess" type="range" min="0" max="8" [ngModel]="sessions()" (ngModelChange)="sessions.set(+$event)" name="sessions" />
+        <label for="s-sess"
+          >{{ 'become.sessions' | transloco }} <b>{{ sessions() }}</b></label
+        >
+        <input
+          id="s-sess"
+          type="range"
+          min="0"
+          max="8"
+          [ngModel]="sessions()"
+          (ngModelChange)="sessions.set(+$event)"
+          name="sessions"
+        />
         <div class="two">
           <div>
-            <label for="s-places">{{ 'become.places' | transloco }} <b>{{ places() }}</b></label>
-            <input id="s-places" type="range" min="2" max="15" [ngModel]="places()" (ngModelChange)="places.set(+$event)" name="places" [disabled]="!sessions()" />
+            <label for="s-places"
+              >{{ 'become.places' | transloco }} <b>{{ places() }}</b></label
+            >
+            <input
+              id="s-places"
+              type="range"
+              min="2"
+              max="15"
+              [ngModel]="places()"
+              (ngModelChange)="places.set(+$event)"
+              name="places"
+              [disabled]="!sessions()"
+            />
           </div>
           <div>
-            <label for="s-pp">{{ 'become.placePrice' | transloco }} <b>{{ placePrice() }} DT</b></label>
-            <input id="s-pp" type="range" min="5" max="30" [ngModel]="placePrice()" (ngModelChange)="placePrice.set(+$event)" name="placePrice" [disabled]="!sessions()" />
+            <label for="s-pp"
+              >{{ 'become.placePrice' | transloco }} <b>{{ placePrice() }} DT</b></label
+            >
+            <input
+              id="s-pp"
+              type="range"
+              min="5"
+              max="30"
+              [ngModel]="placePrice()"
+              (ngModelChange)="placePrice.set(+$event)"
+              name="placePrice"
+              [disabled]="!sessions()"
+            />
           </div>
         </div>
       </fieldset>
@@ -45,14 +106,19 @@
         <span class="small muted">{{ 'become.perMonth' | transloco }}</span>
         <b class="total" [appCountUp]="total()" [format]="money" [duration]="600"></b>
         <div class="split" aria-hidden="true">
-          <span class="a" [style.width.%]="lessonsPct()"></span><span class="b" [style.width.%]="100 - lessonsPct()"></span>
+          <span class="a" [style.width.%]="lessonsPct()"></span
+          ><span class="b" [style.width.%]="100 - lessonsPct()"></span>
         </div>
         <div class="legend small">
-          <span><i class="a"></i> {{ 'become.fromLessons' | transloco }} · {{ lessons() | dt }}</span>
+          <span
+            ><i class="a"></i> {{ 'become.fromLessons' | transloco }} · {{ lessons() | dt }}</span
+          >
           <span><i class="b"></i> {{ 'become.fromGroups' | transloco }} · {{ group() | dt }}</span>
         </div>
         <p class="small muted sem">
-          <span class="medal" [attr.data-tier]="tier()" aria-hidden="true"><app-icon name="trophy" /></span>
+          <span class="medal" [attr.data-tier]="tier()" aria-hidden="true"
+            ><app-icon name="trophy"
+          /></span>
           {{ 'become.semester' | transloco: { amount: (semester() | dt) } }}
         </p>
         <p class="small muted note">{{ 'become.note' | transloco }}</p>
@@ -95,8 +161,12 @@
     <div class="qs">
       @for (q of faq; track q; let i = $index) {
         <details class="card" [appReveal]="i * 60 + 'ms'">
-          <summary>{{ 'become.faq.' + q + '.q' | transloco }}<app-icon name="chevron-down" /></summary>
-          <div class="ans"><p class="muted">{{ 'become.faq.' + q + '.a' | transloco }}</p></div>
+          <summary>
+            {{ 'become.faq.' + q + '.q' | transloco }}<app-icon name="chevron-down" />
+          </summary>
+          <div class="ans">
+            <p class="muted">{{ 'become.faq.' + q + '.a' | transloco }}</p>
+          </div>
         </details>
       }
     </div>
@@ -105,6 +175,13 @@
   <section class="sec final">
     <h2>{{ 'become.finalT' | transloco }}</h2>
     <p>{{ 'become.finalD' | transloco }}</p>
-    <a class="btn big light" routerLink="/inscription" [queryParams]="{ role: 'tuteur' }" appMagnetic (click)="cheer($event)">{{ 'become.cta' | transloco }}</a>
+    <a
+      class="btn big light"
+      routerLink="/inscription"
+      [queryParams]="{ role: 'tuteur' }"
+      appMagnetic
+      (click)="cheer($event)"
+      >{{ 'become.cta' | transloco }}</a
+    >
   </section>
 </div>

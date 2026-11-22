@@ -85,7 +85,8 @@ export class ApiService {
 
   private params(filters: object): HttpParams {
     let p = new HttpParams();
-    for (const [k, v] of Object.entries(filters)) if (v !== undefined && v !== null && v !== '') p = p.set(k, String(v));
+    for (const [k, v] of Object.entries(filters))
+      if (v !== undefined && v !== null && v !== '') p = p.set(k, String(v));
     return p;
   }
 
@@ -112,7 +113,10 @@ export class ApiService {
     return this.http.patch<User>(`${this.base}/auth/me`, patch);
   }
   changePassword(currentPassword: string, newPassword: string) {
-    return this.http.post<{ ok: true }>(`${this.base}/auth/me/password`, { currentPassword, newPassword });
+    return this.http.post<{ ok: true }>(`${this.base}/auth/me/password`, {
+      currentPassword,
+      newPassword,
+    });
   }
   setAvatar(dataUrl: string) {
     return this.http.put<User>(`${this.base}/auth/me/avatar`, { dataUrl });
@@ -188,7 +192,11 @@ export class ApiService {
   updateTutorProfile(patch: { bio?: string; languages?: Lang[] }) {
     return this.http.patch<TutorOwnProfile>(`${this.base}/tutor/profile`, patch);
   }
-  act(id: string, action: 'accept' | 'refuse' | 'tutor-cancel' | 'complete', body: { recap?: string } = {}) {
+  act(
+    id: string,
+    action: 'accept' | 'refuse' | 'tutor-cancel' | 'complete',
+    body: { recap?: string } = {},
+  ) {
     return this.http.post<CourseRequest>(`${this.base}/requests/${id}/${action}`, body);
   }
   mySlots() {
@@ -218,7 +226,11 @@ export class ApiService {
     return this.http.get<Classroom>(`${this.base}/classroom/${id}`);
   }
   addDocument(id: string, kind: 'pdf' | 'replay', name: string, url: string) {
-    return this.http.post<CourseDocument>(`${this.base}/classroom/${id}/documents`, { kind, name, url });
+    return this.http.post<CourseDocument>(`${this.base}/classroom/${id}/documents`, {
+      kind,
+      name,
+      url,
+    });
   }
 
   // ----- Crédits
@@ -231,7 +243,9 @@ export class ApiService {
 
   // ----- Sessions d'examen
   examSessions(subject?: string) {
-    return this.http.get<ExamSession[]>(`${this.base}/exam-sessions`, { params: this.params({ subject }) });
+    return this.http.get<ExamSession[]>(`${this.base}/exam-sessions`, {
+      params: this.params({ subject }),
+    });
   }
   myExamSessions() {
     return this.http.get<ExamSession[]>(`${this.base}/exam-sessions/mine`);
@@ -259,7 +273,10 @@ export class ApiService {
     return this.http.get<NotificationList>(`${this.base}/notifications`);
   }
   readNotifications(id?: string) {
-    return this.http.post<NotificationList>(`${this.base}/notifications/${id ? `${id}/` : ''}read`, {});
+    return this.http.post<NotificationList>(
+      `${this.base}/notifications/${id ? `${id}/` : ''}read`,
+      {},
+    );
   }
 
   // ----- Administration
@@ -276,10 +293,15 @@ export class ApiService {
     return this.http.get<CourseRequest[]>(`${this.base}/admin/reports`);
   }
   resolveReport(id: string, decision: 'rembourser' | 'verser', note: string) {
-    return this.http.post<CourseRequest>(`${this.base}/admin/reports/${id}/resolve`, { decision, note });
+    return this.http.post<CourseRequest>(`${this.base}/admin/reports/${id}/resolve`, {
+      decision,
+      note,
+    });
   }
   adminRequests(q: { state?: string; search?: string; page?: number }) {
-    return this.http.get<Paged<CourseRequest>>(`${this.base}/admin/requests`, { params: this.params(q) });
+    return this.http.get<Paged<CourseRequest>>(`${this.base}/admin/requests`, {
+      params: this.params(q),
+    });
   }
   adminSubjects() {
     return this.http.get<AdminSubject[]>(`${this.base}/admin/subjects`);

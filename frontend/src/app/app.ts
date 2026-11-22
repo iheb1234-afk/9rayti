@@ -15,7 +15,16 @@ import { ToastHostComponent } from './layout/toast-host/toast-host.component';
 /** Coquille de l'application : en-tête, page courante, pied de page, notifications, recherche rapide. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TranslocoPipe, IconComponent, HeaderComponent, FooterComponent, ToastHostComponent, CommandPaletteComponent, RouteProgressComponent],
+  imports: [
+    RouterOutlet,
+    TranslocoPipe,
+    IconComponent,
+    HeaderComponent,
+    FooterComponent,
+    ToastHostComponent,
+    CommandPaletteComponent,
+    RouteProgressComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.scss',

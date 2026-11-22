@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -55,7 +64,9 @@ export class TutorSpacePage {
   private readonly i18n = inject(TranslocoService);
   private readonly dt = inject(DtPipe);
   protected readonly money = (m: number) => this.dt.transform(m);
-  protected readonly tab = linkedSignal<string>(() => (TABS.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'demandes'));
+  protected readonly tab = linkedSignal<string>(() =>
+    TABS.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'demandes',
+  );
 
   protected readonly dash = rxResource({ stream: () => this.api.tutorDashboard() });
   protected readonly requests = rxResource({ stream: () => this.api.tutorRequests() });
@@ -63,30 +74,52 @@ export class TutorSpacePage {
   protected readonly rates = rxResource({ stream: () => this.api.myRates() });
   protected readonly sessions = rxResource({ stream: () => this.api.myExamSessionsAsTutor() });
   protected readonly revenue = rxResource({ stream: () => this.api.tutorRevenue() });
-  protected readonly subjects = toSignal(this.api.subjects().pipe(catchError(() => of([]))), { initialValue: [] });
+  protected readonly subjects = toSignal(this.api.subjects().pipe(catchError(() => of([]))), {
+    initialValue: [],
+  });
 
-  protected readonly pending = computed(() => (this.requests.value() ?? []).filter((r) => r.state === 'en_attente'));
+  protected readonly pending = computed(() =>
+    (this.requests.value() ?? []).filter((r) => r.state === 'en_attente'),
+  );
   protected readonly courses = computed(() =>
     (this.requests.value() ?? [])
       .filter((r) => ['acceptee', 'faite', 'versee', 'signalee', 'remboursee'].includes(r.state))
-      .sort((a, b) => (a.state === 'acceptee' ? -1 : 0) - (b.state === 'acceptee' ? -1 : 0) || +new Date(b.startsAt) - +new Date(a.startsAt)),
+      .sort(
+        (a, b) =>
+          (a.state === 'acceptee' ? -1 : 0) - (b.state === 'acceptee' ? -1 : 0) ||
+          +new Date(b.startsAt) - +new Date(a.startsAt),
+      ),
   );
   protected readonly tabs = computed<TabItem[]>(() =>
-    TABS.map((id) => ({ id, label: this.i18n.translate(`tspace.tab.${id}`), count: id === 'demandes' ? this.pending().length : undefined })),
+    TABS.map((id) => ({
+      id,
+      label: this.i18n.translate(`tspace.tab.${id}`),
+      count: id === 'demandes' ? this.pending().length : undefined,
+    })),
   );
   /** Les 7 prochains jours, avec les heures libres (vert) et réservées (bleu). */
   protected readonly week = computed(() => {
     const slots = this.slots.value() ?? [];
-    const fmt = new Intl.DateTimeFormat(this.lang.locale(), { weekday: 'short', day: 'numeric', timeZone: 'Africa/Tunis' });
+    const fmt = new Intl.DateTimeFormat(this.lang.locale(), {
+      weekday: 'short',
+      day: 'numeric',
+      timeZone: 'Africa/Tunis',
+    });
     const key = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Tunis' });
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date(Date.now() + i * 86_400_000);
       const k = key.format(d);
-      return { key: k, label: fmt.format(d), slots: slots.filter((s) => key.format(new Date(s.startsAt)) === k) };
+      return {
+        key: k,
+        label: fmt.format(d),
+        slots: slots.filter((s) => key.format(new Date(s.startsAt)) === k),
+      };
     });
   });
 
   protected readonly busy = signal(false);
+  /** Historique des paiements : les 8 derniers, puis tout sur demande. */
+  protected readonly historyLimit = signal(8);
   protected readonly today = new Date().toISOString().slice(0, 10);
   protected day = new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
   protected time = '18:00';
@@ -95,7 +128,6 @@ export class TutorSpacePage {
   protected ratePrice = 20;
   // Nouvelle session d'examen
   protected session = {
-    subjectCode: '',
     day: new Date(Date.now() + 3 * 86_400_000).toISOString().slice(0, 10),
     time: '10:00',
     durationMin: 120,
@@ -104,6 +136,8 @@ export class TutorSpacePage {
     pricePerPlaceDt: 12,
     description: '',
   };
+  /** Matière de la nouvelle session : la première matière du tuteur, tant qu'il n'en choisit pas une autre. */
+  protected readonly sessionSubject = linkedSignal(() => this.rates.value()?.[0]?.code ?? '');
   // Fin de cours : compte rendu facultatif
   protected readonly completing = signal<CourseRequest | null>(null);
   protected recap = '';
@@ -145,7 +179,11 @@ export class TutorSpacePage {
     });
   }
 
-  protected act(r: CourseRequest, action: 'accept' | 'refuse' | 'tutor-cancel', event?: Event): void {
+  protected act(
+    r: CourseRequest,
+    action: 'accept' | 'refuse' | 'tutor-cancel',
+    event?: Event,
+  ): void {
     this.run(this.api.act(r.id, action), `tspace.done.${action}`, () => {
       if (action === 'accept') void celebrate(originOf(event));
     });
@@ -159,7 +197,12 @@ export class TutorSpacePage {
 
   protected complete(): void {
     const r = this.completing();
-    if (r) this.run(this.api.act(r.id, 'complete', { recap: this.recap.trim() || undefined }), 'tspace.done.complete', () => this.completeModal().close());
+    if (r)
+      this.run(
+        this.api.act(r.id, 'complete', { recap: this.recap.trim() || undefined }),
+        'tspace.done.complete',
+        () => this.completeModal().close(),
+      );
   }
 
   protected addSlot(): void {
@@ -173,12 +216,14 @@ export class TutorSpacePage {
   }
 
   protected saveRate(): void {
-    this.run(this.api.setRate(this.rateCode, Number(this.ratePrice)), 'tspace.rateSaved', () => this.rates.reload());
+    this.run(this.api.setRate(this.rateCode, Number(this.ratePrice)), 'tspace.rateSaved', () =>
+      this.rates.reload(),
+    );
   }
 
   protected createSession(event: Event): void {
     const s = this.session;
-    const code = s.subjectCode || this.rates.value()?.[0]?.code;
+    const code = this.sessionSubject();
     if (!code) return;
     this.run(
       this.api.createExamSession({

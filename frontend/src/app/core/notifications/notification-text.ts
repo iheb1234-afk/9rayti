@@ -1,10 +1,19 @@
 import { AppNotification, Lang } from '../api/models';
 
 /** Paramètres d'une notification, avec la matière dans la langue active. */
-export function notificationParams(n: AppNotification, lang: Lang, money: (millimes: number) => string): Record<string, string | number> {
+export function notificationParams(
+  n: AppNotification,
+  lang: Lang,
+  money: (millimes: number) => string,
+): Record<string, string | number> {
   const p = n.params;
-  const subject = (lang === 'ar' ? p['subjectAr'] : lang === 'en' ? p['subjectEn'] : p['subjectFr']) ?? '';
-  return { ...p, subject, amount: typeof p['amount'] === 'number' ? money(p['amount']) : (p['amount'] ?? '') };
+  const subject =
+    (lang === 'ar' ? p['subjectAr'] : lang === 'en' ? p['subjectEn'] : p['subjectFr']) ?? '';
+  return {
+    ...p,
+    subject,
+    amount: typeof p['amount'] === 'number' ? money(p['amount']) : (p['amount'] ?? ''),
+  };
 }
 
 /** Icône associée à chaque type de notification. */

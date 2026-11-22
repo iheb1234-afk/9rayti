@@ -19,10 +19,14 @@ import { DtPipe } from '../../pipes/dt.pipe';
   template: `<div class="wrap">
     <app-page-header [title]="'notif.title' | transloco" [subtitle]="'notif.sub' | transloco">
       @if (notifs.unread() > 0) {
-        <button type="button" class="btn alt" (click)="notifs.markAllRead()"><app-icon name="check" /> {{ 'notif.readAll' | transloco }}</button>
+        <button type="button" class="btn alt" (click)="notifs.markAllRead()">
+          <app-icon name="check" /> {{ 'notif.readAll' | transloco }}
+        </button>
       }
       @if (permission() === 'default') {
-        <button type="button" class="btn ghost" (click)="enable()"><app-icon name="bell" /> {{ 'profile.notifEnable' | transloco }}</button>
+        <button type="button" class="btn ghost" (click)="enable()">
+          <app-icon name="bell" /> {{ 'profile.notifEnable' | transloco }}
+        </button>
       }
     </app-page-header>
     <ul class="list">
@@ -30,36 +34,107 @@ import { DtPipe } from '../../pipes/dt.pipe';
         <li [style.animation-delay.ms]="i * 35">
           <button type="button" class="card item" [class.unread]="!n.readAt" (click)="go(n)">
             <span class="ic-w t-{{ n.type }}"><app-icon [name]="icon(n)" /></span>
-            <span class="txt">{{ text(n) }}<span class="small muted">{{ n.createdAt | when: 'relative' }} · {{ n.createdAt | when }}</span></span>
+            <span class="txt"
+              >{{ text(n)
+              }}<span class="small muted"
+                >{{ n.createdAt | when: 'relative' }} · {{ n.createdAt | when }}</span
+              ></span
+            >
             @if (!n.readAt) {
-              <span class="new" aria-hidden="true"></span><span class="sr-only">{{ 'notif.new' | transloco }}</span>
+              <span class="new" aria-hidden="true"></span
+              ><span class="sr-only">{{ 'notif.new' | transloco }}</span>
             }
           </button>
         </li>
       } @empty {
-        <app-empty-state icon="bell" [title]="'notif.none' | transloco" [text]="'notif.noneD' | transloco" />
+        <app-empty-state
+          icon="bell"
+          [title]="'notif.none' | transloco"
+          [text]="'notif.noneD' | transloco"
+        />
       }
     </ul>
   </div>`,
   styles: `
-    .list { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
-    li { animation: rise 0.45s var(--ease-out) both; }
-    .item { width: 100%; display: flex; gap: 14px; align-items: center; padding: 14px 16px; text-align: start; color: var(--texte); font-size: 15px; }
-    .item:hover { border-color: var(--lien); }
-    .item.unread { border-inline-start: 4px solid var(--bleu); }
-    .ic-w { width: 40px; height: 40px; border-radius: 12px; flex: none; display: flex; align-items: center; justify-content: center; background: var(--bleu-clair); color: var(--lien); }
-    .t-versement, .t-demande_acceptee, .t-tuteur_valide { background: var(--olivier-clair); color: var(--olivier-texte); }
-    .t-signalement, .t-cours_annule, .t-demande_refusee { background: var(--brique-clair); color: var(--brique-texte); }
-    .t-avis_recu, .t-cours_termine, .t-demande_expiree { background: var(--soleil-clair); color: var(--soleil-texte); }
-    .txt { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-    .new { width: 10px; height: 10px; border-radius: 50%; background: var(--bleu); animation: pop 0.4s var(--ease-spring); }
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 760px;
+    }
+    li {
+      animation: rise 0.45s var(--ease-out) both;
+    }
+    .item {
+      width: 100%;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 16px;
+      text-align: start;
+      color: var(--texte);
+      font-size: 15px;
+    }
+    .item:hover {
+      border-color: var(--lien);
+    }
+    .item.unread {
+      border-inline-start: 4px solid var(--bleu);
+    }
+    .ic-w {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bleu-clair);
+      color: var(--lien);
+    }
+    .t-versement,
+    .t-demande_acceptee,
+    .t-tuteur_valide {
+      background: var(--olivier-clair);
+      color: var(--olivier-texte);
+    }
+    .t-signalement,
+    .t-cours_annule,
+    .t-demande_refusee {
+      background: var(--brique-clair);
+      color: var(--brique-texte);
+    }
+    .t-avis_recu,
+    .t-cours_termine,
+    .t-demande_expiree {
+      background: var(--soleil-clair);
+      color: var(--soleil-texte);
+    }
+    .txt {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .new {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bleu);
+      animation: pop 0.4s var(--ease-spring);
+    }
   `,
 })
 export class NotificationsPage {
   protected readonly notifs = inject(NotificationsService);
   private readonly router = inject(Router);
   private readonly dt = inject(DtPipe);
-  protected readonly permission = signal(typeof Notification === 'undefined' ? 'unsupported' : Notification.permission);
+  protected readonly permission = signal(
+    typeof Notification === 'undefined' ? 'unsupported' : Notification.permission,
+  );
 
   constructor() {
     inject(LangService).setTitle('notif.title');

@@ -11,7 +11,9 @@ export class SharedElementService {
 
   /** Appelé au clic : pose le nom tout de suite sur l'élément (avant la capture de l'ancienne page). */
   markTutor(id: string, avatar: HTMLElement | null): void {
-    document.querySelectorAll<HTMLElement>('[style*="view-transition-name: tutor-avatar"]').forEach((el) => (el.style.viewTransitionName = ''));
+    document
+      .querySelectorAll<HTMLElement>('[style*="view-transition-name: tutor-avatar"]')
+      .forEach((el) => (el.style.viewTransitionName = ''));
     if (avatar) avatar.style.viewTransitionName = 'tutor-avatar';
     this.tutorId.set(id);
   }

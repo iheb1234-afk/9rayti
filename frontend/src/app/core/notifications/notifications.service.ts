@@ -44,7 +44,10 @@ export class NotificationsService {
         return;
       }
       this.refresh();
-      if (environment.demo) this.timer = setInterval(() => this.refresh(), 20_000) as unknown as ReturnType<typeof setTimeout>;
+      if (environment.demo)
+        this.timer = setInterval(() => this.refresh(), 20_000) as unknown as ReturnType<
+          typeof setTimeout
+        >;
       else this.connect(token);
     });
   }
@@ -67,20 +70,27 @@ export class NotificationsService {
   /** Texte traduit d'une notification. */
   text(n: AppNotification, money: (m: number) => string): string {
     const params = notificationParams(n, this.lang.lang(), money);
-    const key = n.type === 'signalement_traite' ? `notif.signalement_traite_${params['decision'] ?? 'rembourser'}` : `notif.${n.type}`;
+    const key =
+      n.type === 'signalement_traite'
+        ? `notif.signalement_traite_${params['decision'] ?? 'rembourser'}`
+        : `notif.${n.type}`;
     return this.i18n.translate(key, params);
   }
 
   markAllRead(): void {
     this.unread.set(0);
-    this.items.update((l) => l.map((n) => ({ ...n, readAt: n.readAt ?? new Date().toISOString() })));
+    this.items.update((l) =>
+      l.map((n) => ({ ...n, readAt: n.readAt ?? new Date().toISOString() })),
+    );
     this.api.readNotifications().subscribe({ error: () => undefined });
   }
 
   markRead(n: AppNotification): void {
     if (n.readAt) return;
     this.unread.update((u) => Math.max(0, u - 1));
-    this.items.update((l) => l.map((x) => (x.id === n.id ? { ...x, readAt: new Date().toISOString() } : x)));
+    this.items.update((l) =>
+      l.map((x) => (x.id === n.id ? { ...x, readAt: new Date().toISOString() } : x)),
+    );
     this.api.readNotifications(n.id).subscribe({ error: () => undefined });
   }
 
@@ -92,12 +102,19 @@ export class NotificationsService {
 
   private connect(token: string): void {
     if (typeof EventSource === 'undefined') return;
-    const es = new EventSource(`${this.api.base}/notifications/stream?token=${encodeURIComponent(token)}`);
+    const es = new EventSource(
+      `${this.api.base}/notifications/stream?token=${encodeURIComponent(token)}`,
+    );
     this.source = es;
     es.addEventListener('open', () => (this.retry = 2000));
-    es.addEventListener('notification', (e) => this.onNotification(JSON.parse((e as MessageEvent).data) as AppNotification));
+    es.addEventListener('notification', (e) =>
+      this.onNotification(JSON.parse((e as MessageEvent).data) as AppNotification),
+    );
     es.addEventListener('message', (e) => {
-      const data = JSON.parse((e as MessageEvent).data) as { partnerId: string; message: ChatMessage };
+      const data = JSON.parse((e as MessageEvent).data) as {
+        partnerId: string;
+        message: ChatMessage;
+      };
       this.incoming.next(data);
       this.refreshThreads();
     });
@@ -106,7 +123,10 @@ export class NotificationsService {
       if (this.source !== es) return;
       this.source = null;
       // Reconnexion avec une attente qui double (2 s, 4 s… jusqu'à 30 s).
-      this.timer = setTimeout(() => this.auth.token() && this.connect(this.auth.token()!), this.retry);
+      this.timer = setTimeout(
+        () => this.auth.token() && this.connect(this.auth.token()!),
+        this.retry,
+      );
       this.retry = Math.min(this.retry * 2, 30_000);
     };
   }
@@ -117,8 +137,13 @@ export class NotificationsService {
     const money = (m: number) => `${(m / 1000).toLocaleString(this.lang.locale())} DT`;
     const text = this.text(n, money);
     // La notification d'un message n'apparaît pas en bulle si la conversation est déjà ouverte.
-    if (n.type !== 'message' || !location.pathname.includes(n.link ?? '§')) this.toast.show(text, 'info');
-    if (typeof Notification !== 'undefined' && Notification.permission === 'granted' && document.hidden) {
+    if (n.type !== 'message' || !location.pathname.includes(n.link ?? '§'))
+      this.toast.show(text, 'info');
+    if (
+      typeof Notification !== 'undefined' &&
+      Notification.permission === 'granted' &&
+      document.hidden
+    ) {
       new Notification('9rayti', { body: text, icon: 'icons/icon-192.png', tag: n.id });
     }
   }

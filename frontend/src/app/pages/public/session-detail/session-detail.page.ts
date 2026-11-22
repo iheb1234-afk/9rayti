@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -41,7 +49,12 @@ export class SessionDetailPage {
   });
   protected readonly seats = computed(() => {
     const s = this.session.value();
-    return s ? Array.from({ length: s.placesMax }, (_, i) => ({ taken: i < s.placesTaken, min: i === s.placesMin - 1 })) : [];
+    return s
+      ? Array.from({ length: s.placesMax }, (_, i) => ({
+          taken: i < s.placesTaken,
+          min: i === s.placesMin - 1,
+        }))
+      : [];
   });
 
   constructor() {

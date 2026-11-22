@@ -15,8 +15,13 @@ import { IconComponent } from '../icon/icon.component';
     <ng-content />
   </div>`,
   styles: `
-    .arcbig { animation: float 4s ease-in-out infinite; }
-    p { margin: 8px auto 18px; max-width: 460px; }
+    .arcbig {
+      animation: float 4s ease-in-out infinite;
+    }
+    p {
+      margin: 8px auto 18px;
+      max-width: 460px;
+    }
   `,
 })
 export class EmptyStateComponent {

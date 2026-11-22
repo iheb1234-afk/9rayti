@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -21,7 +29,16 @@ const DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Tunis' });
 /** Profil public d'un tuteur et formulaire de réservation (sitemap : Profil › Demande). */
 @Component({
   selector: 'app-tutor',
-  imports: [RouterLink, FormsModule, TranslocoPipe, FavoriteButtonComponent, ShareProfileComponent, RatingStarsComponent, RevealDirective, ...UI],
+  imports: [
+    RouterLink,
+    FormsModule,
+    TranslocoPipe,
+    FavoriteButtonComponent,
+    ShareProfileComponent,
+    RatingStarsComponent,
+    RevealDirective,
+    ...UI,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tutor-profile.page.html',
   styleUrl: './tutor-profile.page.scss',
@@ -35,7 +52,10 @@ export class TutorProfilePage {
   private readonly lang = inject(LangService);
   protected readonly fee = FEE;
 
-  protected readonly tutor = rxResource({ params: () => this.id(), stream: ({ params }) => this.api.tutor(params) });
+  protected readonly tutor = rxResource({
+    params: () => this.id(),
+    stream: ({ params }) => this.api.tutor(params),
+  });
   protected readonly subjectCode = signal('');
   protected message = '';
   protected readonly slotId = signal<number | null>(null);
@@ -45,7 +65,9 @@ export class TutorProfilePage {
   protected readonly error = signal<string | null>(null);
   protected readonly sent = signal<CourseRequest | null>(null);
 
-  protected readonly freeSlots = computed<Slot[]>(() => (this.tutor.value()?.slots ?? []).filter((s) => !s.booked));
+  protected readonly freeSlots = computed<Slot[]>(() =>
+    (this.tutor.value()?.slots ?? []).filter((s) => !s.booked),
+  );
   /** Créneaux libres regroupés par jour (heure de Tunis), pour un sélecteur plus lisible. */
   protected readonly days = computed(() => {
     const map = new Map<string, Slot[]>();
@@ -57,7 +79,11 @@ export class TutorProfilePage {
   });
   protected readonly price = computed(() => {
     const t = this.tutor.value();
-    return t?.subjects.find((s) => s.code === this.subjectCode())?.pricePerHourMillimes ?? t?.pricePerHourMillimes ?? 0;
+    return (
+      t?.subjects.find((s) => s.code === this.subjectCode())?.pricePerHourMillimes ??
+      t?.pricePerHourMillimes ??
+      0
+    );
   });
   protected readonly balanceShort = computed(() => {
     const b = this.auth.user()?.balanceMillimes;
@@ -70,7 +96,10 @@ export class TutorProfilePage {
       if (!t) return;
       this.lang.setTitle('tutor.title', { name: `${t.firstName} ${t.lastInitial}` });
       const wanted = this.matiere();
-      if (!this.subjectCode()) this.subjectCode.set(t.subjects.find((s) => s.code === wanted)?.code ?? t.subjects[0]?.code ?? '');
+      if (!this.subjectCode())
+        this.subjectCode.set(
+          t.subjects.find((s) => s.code === wanted)?.code ?? t.subjects[0]?.code ?? '',
+        );
     });
   }
 

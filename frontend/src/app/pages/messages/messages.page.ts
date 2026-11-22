@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, computed, effect, inject, input, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -57,11 +68,13 @@ export class MessagesPage {
       }
     });
     // Messages reçus en direct pour la conversation ouverte.
-    this.notifs.incoming.pipe(takeUntilDestroyed(inject(DestroyRef))).subscribe(({ partnerId, message }) => {
-      if (partnerId !== this.partnerId()) return;
-      this.messages.update((l) => [...l, message]);
-      this.scrollDown();
-    });
+    this.notifs.incoming
+      .pipe(takeUntilDestroyed(inject(DestroyRef)))
+      .subscribe(({ partnerId, message }) => {
+        if (partnerId !== this.partnerId()) return;
+        this.messages.update((l) => [...l, message]);
+        this.scrollDown();
+      });
   }
 
   protected send(): void {

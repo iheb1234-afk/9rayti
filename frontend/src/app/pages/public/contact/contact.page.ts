@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -24,7 +31,12 @@ export class ContactPage {
   readonly sujet = input<string>();
   private readonly api = inject(ApiService);
   private readonly auth = inject(AuthService);
-  protected readonly topics: ContactForm['topic'][] = ['question', 'tuteur', 'probleme', 'partenariat'];
+  protected readonly topics: ContactForm['topic'][] = [
+    'question',
+    'tuteur',
+    'probleme',
+    'partenariat',
+  ];
   protected form = { name: '', email: '', message: '' };
   protected readonly topic = linkedSignal<ContactForm['topic']>(() => {
     const s = this.sujet() as ContactForm['topic'] | undefined;
@@ -48,17 +60,24 @@ export class ContactPage {
     const origin = originOf(event);
     this.busy.set(true);
     this.error.set(null);
-    this.api.contact({ name: this.form.name.trim(), email: this.form.email.trim(), topic: this.topic(), message: this.form.message.trim() }).subscribe({
-      next: () => {
-        this.busy.set(false);
-        this.sent.set(true);
-        void celebrate(origin);
-      },
-      error: (e) => {
-        this.busy.set(false);
-        this.error.set(errorMessage(e));
-      },
-    });
+    this.api
+      .contact({
+        name: this.form.name.trim(),
+        email: this.form.email.trim(),
+        topic: this.topic(),
+        message: this.form.message.trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.busy.set(false);
+          this.sent.set(true);
+          void celebrate(origin);
+        },
+        error: (e) => {
+          this.busy.set(false);
+          this.error.set(errorMessage(e));
+        },
+      });
   }
 
   protected again(): void {

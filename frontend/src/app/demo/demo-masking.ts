@@ -24,7 +24,9 @@ export function maskContactInfo(input: string): { text: string; masked: boolean 
   let text = normalizeDigits(input);
   for (const rule of RULES) {
     text = text.replace(rule, (match: string, lead?: string) =>
-      typeof lead === 'string' && match.startsWith(lead) && rule.source.startsWith('(^|') ? `${lead}${MASK}` : MASK,
+      typeof lead === 'string' && match.startsWith(lead) && rule.source.startsWith('(^|')
+        ? `${lead}${MASK}`
+        : MASK,
     );
   }
   text = text.replace(new RegExp(`(?:${MASK}\\s*){2,}`, 'g'), `${MASK} `).trim();

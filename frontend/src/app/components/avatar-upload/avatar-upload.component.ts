@@ -17,20 +17,44 @@ import { IconComponent } from '../icon/icon.component';
     <div class="acts">
       <label class="btn sm alt" [class.busy]="busy()">
         <app-icon name="upload" /> {{ 'profile.photoChange' | transloco }}
-        <input type="file" accept="image/png,image/jpeg,image/webp" class="sr-only" (change)="pick($event)" />
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          class="sr-only"
+          (change)="pick($event)"
+        />
       </label>
       @if (photo() || preview()) {
-        <button type="button" class="btn sm ghost" (click)="remove.emit(); preview.set(null)"><app-icon name="trash-2" /> {{ 'profile.photoRemove' | transloco }}</button>
+        <button type="button" class="btn sm ghost" (click)="remove.emit(); preview.set(null)">
+          <app-icon name="trash-2" /> {{ 'profile.photoRemove' | transloco }}
+        </button>
       }
       <span class="small muted">{{ 'profile.photoHint' | transloco }}</span>
     </div>
   </div>`,
   styles: `
-    .au { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-    .acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    label { cursor: pointer; }
-    label:focus-within { box-shadow: var(--focus); }
-    .busy { opacity: 0.6; pointer-events: none; }
+    .au {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .acts {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    label {
+      cursor: pointer;
+    }
+    label:focus-within {
+      box-shadow: var(--focus);
+    }
+    .busy {
+      opacity: 0.6;
+      pointer-events: none;
+    }
   `,
 })
 export class AvatarUploadComponent {
@@ -57,7 +81,17 @@ export class AvatarUploadComponent {
     canvas.width = canvas.height = size;
     const ctx = canvas.getContext('2d')!;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(bitmap, (bitmap.width - side) / 2, (bitmap.height - side) / 2, side, side, 0, 0, size, size);
+    ctx.drawImage(
+      bitmap,
+      (bitmap.width - side) / 2,
+      (bitmap.height - side) / 2,
+      side,
+      side,
+      0,
+      0,
+      size,
+      size,
+    );
     const webp = canvas.toDataURL('image/webp', 0.85);
     return webp.startsWith('data:image/webp') ? webp : canvas.toDataURL('image/jpeg', 0.85);
   }

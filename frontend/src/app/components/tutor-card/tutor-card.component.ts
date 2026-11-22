@@ -26,7 +26,8 @@ export class TutorCardComponent {
   protected readonly shared = inject(SharedElementService);
 
   protected open(e: MouseEvent): void {
-    const card = e.currentTarget as HTMLElement;
-    this.shared.markTutor(this.tutor().id, card.querySelector<HTMLElement>('.arc'));
+    // Le lien couvre toute la carte : on retrouve l'avatar pour l'animation vers le profil.
+    const card = (e.currentTarget as HTMLElement).closest('.tut');
+    this.shared.markTutor(this.tutor().id, card?.querySelector<HTMLElement>('.arc') ?? null);
   }
 }

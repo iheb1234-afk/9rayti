@@ -8,16 +8,24 @@
   </div>
   <div class="wrap hero">
     <div class="copy">
-      <span class="kick"><span class="pulse" aria-hidden="true"></span>{{ 'home.kick' | transloco }}</span>
+      <span class="kick"
+        ><span class="pulse" aria-hidden="true"></span>{{ 'home.kick' | transloco }}</span
+      >
       <h1 class="h1">
         @for (w of ('home.h1a' | transloco).split(' '); track $index) {
-          <span class="w" [style.--d]="$index">{{ w }}</span>{{ ' ' }}
+          <span class="w" [style.--d]="$index">{{ w }}</span
+          >{{ ' ' }}
         }
         <span class="w hl" [style.--d]="('home.h1a' | transloco).split(' ').length"
-          >{{ 'home.h1b' | transloco }}<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 50 4, 120 4, 197 11" /></svg></span
+          >{{ 'home.h1b' | transloco
+          }}<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 14 C 50 4, 120 4, 197 11" /></svg></span
         >{{ ' ' }}
         @for (w of ('home.h1c' | transloco).split(' '); track $index) {
-          <span class="w" [style.--d]="$index + ('home.h1a' | transloco).split(' ').length + 1">{{ w }}</span>{{ ' ' }}
+          <span class="w" [style.--d]="$index + ('home.h1a' | transloco).split(' ').length + 1">{{
+            w
+          }}</span
+          >{{ ' ' }}
         }
       </h1>
       <p class="lead">{{ 'home.lead' | transloco }}</p>
@@ -39,17 +47,21 @@
         <div class="popular small">
           <span class="muted">{{ 'home.popular' | transloco }}</span>
           @for (s of popular(); track s.code) {
-            <a class="chip" routerLink="/recherche" [queryParams]="{ matiere: s.code }">{{ s | subject }}</a>
+            <a class="chip" routerLink="/recherche" [queryParams]="{ matiere: s.code }">{{
+              s | subject
+            }}</a>
           }
         </div>
       }
 
       <div class="duo">
         <a class="btn big" routerLink="/recherche" appMagnetic
-          ><span>{{ 'home.cta1' | transloco }} <app-icon name="arrow-right" [flip]="true" class="go" /></span><small>{{ 'home.cta1s' | transloco }}</small></a
+          ><span>{{ 'home.cta1' | transloco }} <app-icon name="arrow-right" [flip]="true" /></span
+          ><small>{{ 'home.cta1s' | transloco }}</small></a
         >
         <a class="btn big alt" routerLink="/devenir-tuteur" appMagnetic
-          ><span>{{ 'home.cta2' | transloco }} <app-icon name="arrow-right" [flip]="true" class="go" /></span><small>{{ 'home.cta2s' | transloco }}</small></a
+          ><span>{{ 'home.cta2' | transloco }} <app-icon name="arrow-right" [flip]="true" /></span
+          ><small>{{ 'home.cta2s' | transloco }}</small></a
         >
       </div>
 
@@ -61,7 +73,8 @@
         </span>
         <span class="small">
           @if (st) {
-            <b><span class="star" aria-hidden="true">★</span> {{ st.averageRating ?? 5 | num }}</b> ·
+            <b><span class="star" aria-hidden="true">★</span> {{ st.averageRating ?? 5 | num }}</b>
+            ·
             {{ 'home.proof' | transloco: { students: st.students, courses: st.courses } }}
           } @else {
             {{ 'home.proofLoading' | transloco }}
@@ -74,10 +87,11 @@
       <div class="arch">
         <div class="court">
           <div class="sky"></div>
-          <div class="sun"></div>
+          <div class="astre"></div>
           <div class="sea"><i></i><i></i></div>
           <div class="village">
-            <span class="house ha"></span><span class="house hb"><b></b></span><span class="house hc"></span><span class="house hd"><b></b></span>
+            <span class="house ha"></span><span class="house hb"><b></b></span
+            ><span class="house hc"></span><span class="house hd"><b></b></span>
           </div>
         </div>
         <div class="leaf l"><span class="knock"></span></div>
@@ -92,8 +106,13 @@
         <div class="card mini">
           <span class="arc" style="width: 42px; height: 50px">SB</span>
           <div class="who">
-            <b><bdi>Sarra B.</bdi></b> <span class="badge"><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span>
-            <div class="small muted"><bdi>SUP'COM · <span class="star">★</span> 4,9 · 42 h</bdi></div>
+            <b><bdi>Sarra B.</bdi></b>
+            <span class="badge"
+              ><app-icon name="badge-check" />{{ 'common.verified' | transloco }}</span
+            >
+            <div class="small muted">
+              <bdi>SUP'COM · <span class="star">★</span> 4,9 · 42 h</bdi>
+            </div>
           </div>
           <div class="price">{{ 20000 | dt }}</div>
         </div>
@@ -116,193 +135,289 @@
           </div>
         </div>
       </div>
-      <div class="sunbadge" style="--z: 2.4"><app-icon name="clock" /> {{ 'home.sun' | transloco }}</div>
+      <div class="sunbadge" style="--z: 2.4">
+        <app-icon name="clock" /> {{ 'home.sun' | transloco }}
+      </div>
     </div>
   </div>
 </section>
 
 <!-- 2. Bandeau des matières ------------------------------------------------------------ -->
-<section class="marquee" [attr.aria-label]="'home.marquee' | transloco">
-  @for (row of [rowA(), rowB()]; track $index; let odd = $odd) {
-    <div class="track" [class.rev]="odd">
-      @for (copy of [0, 1]; track copy) {
-        <div class="lane" [attr.aria-hidden]="copy === 1 ? 'true' : null">
-          @for (s of row; track s.code) {
-            <a class="pill" routerLink="/recherche" [queryParams]="{ matiere: s.code }" [attr.tabindex]="copy === 1 ? -1 : null"
-              ><app-icon name="book-open" />{{ s | subject }}</a
-            >
-          }
-        </div>
-      }
-    </div>
-  }
-</section>
+@defer (on viewport; prefetch on idle) {
+  <section class="marquee" [attr.aria-label]="'home.marquee' | transloco">
+    @for (row of [rowA(), rowB()]; track $index; let odd = $odd) {
+      <div class="track" [class.rev]="odd">
+        @for (copy of [0, 1]; track copy) {
+          <div class="lane" [attr.aria-hidden]="copy === 1 ? 'true' : null">
+            @for (s of row; track s.code) {
+              <a
+                class="pill"
+                routerLink="/recherche"
+                [queryParams]="{ matiere: s.code }"
+                [attr.tabindex]="copy === 1 ? -1 : null"
+                ><app-icon name="book-open" />{{ s | subject }}</a
+              >
+            }
+          </div>
+        }
+      </div>
+    }
+  </section>
+} @placeholder {
+  <div class="ph ph-marquee"></div>
+}
 
 <!-- 3. Chiffres ------------------------------------------------------------------------- -->
-<section class="numbers" [attr.aria-label]="'home.numbersL' | transloco">
-  <div class="zellige" #zellige aria-hidden="true"></div>
-  <div class="wrap grid4">
-    <div appReveal>
-      <b [appCountUp]="st?.tutors ?? null"></b><span>{{ 'home.n.tutors' | transloco }}</span>
+@defer (on viewport; prefetch on idle) {
+  <section class="numbers" [attr.aria-label]="'home.numbersL' | transloco">
+    <div class="zellige" #zellige aria-hidden="true"></div>
+    <div class="wrap grid4">
+      <div appReveal>
+        <b [appCountUp]="st?.tutors ?? null"></b><span>{{ 'home.n.tutors' | transloco }}</span>
+      </div>
+      <div appReveal="80ms">
+        <b [appCountUp]="st?.students ?? null"></b><span>{{ 'home.n.students' | transloco }}</span>
+      </div>
+      <div appReveal="160ms">
+        <b [appCountUp]="st?.hoursTaught ?? null"></b><span>{{ 'home.n.hours' | transloco }}</span>
+      </div>
+      <div appReveal="240ms">
+        <b [appCountUp]="st?.averageRating ?? null" [format]="rating"></b
+        ><span>{{ 'home.n.rating' | transloco }}</span>
+      </div>
     </div>
-    <div appReveal="80ms">
-      <b [appCountUp]="st?.students ?? null"></b><span>{{ 'home.n.students' | transloco }}</span>
-    </div>
-    <div appReveal="160ms">
-      <b [appCountUp]="st?.hoursTaught ?? null"></b><span>{{ 'home.n.hours' | transloco }}</span>
-    </div>
-    <div appReveal="240ms">
-      <b [appCountUp]="st?.averageRating ?? null" [format]="rating"></b><span>{{ 'home.n.rating' | transloco }}</span>
-    </div>
-  </div>
-</section>
+  </section>
+} @placeholder {
+  <div class="ph ph-numbers"></div>
+}
 
 <div class="wrap">
   <!-- 4. Comment ça marche : un chemin qui se dessine au défilement ---------------------- -->
-  <section class="sec how" aria-labelledby="how">
-    <div class="sec-h">
-      <h2 id="how" [appSplit]="'home.how' | transloco"></h2>
-      <a routerLink="/comment-ca-marche" class="small more">{{ 'home.howMore' | transloco }} <app-icon name="arrow-right" [flip]="true" /></a>
-    </div>
-    <div class="path-box">
-      <svg class="path" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-        <path class="ghost" d="M40 240 C 220 240, 220 60, 500 60 S 780 240, 960 120" />
-        <path #path class="draw" d="M40 240 C 220 240, 220 60, 500 60 S 780 240, 960 120" />
-      </svg>
-      <ol class="steps">
-        @for (n of [1, 2, 3]; track n) {
-          <li class="card step" [appReveal]="n * 120 + 'ms'" appTilt="4">
-            <span class="n" aria-hidden="true">{{ n }}</span>
-            <span class="ill" aria-hidden="true"><app-icon [name]="n === 1 ? 'search' : n === 2 ? 'send' : 'video'" /></span>
-            <h3>{{ 'home.s' + n | transloco }}</h3>
-            <p class="muted small">{{ 'home.s' + n + 'd' | transloco }}</p>
-          </li>
-        }
-      </ol>
-    </div>
-  </section>
-
-  <!-- 5. Anti-fuite : démonstration du masquage des coordonnées --------------------------- -->
-  <section class="sec leak" aria-labelledby="leak">
-    <div class="leak-copy" appReveal>
-      <span class="badge blue"><app-icon name="lock" /> {{ 'home.leakK' | transloco }}</span>
-      <h2 id="leak" [appSplit]="'home.leakT' | transloco"></h2>
-      <p class="muted">{{ 'home.leakD' | transloco }}</p>
-      <ul class="guar">
-        @for (g of [1, 2, 3]; track g) {
-          <li>
-            <span class="gi"><app-icon [name]="g === 1 ? 'video' : g === 2 ? 'file-text' : 'wallet'" /></span>
-            <span><b>{{ 'home.g' + g | transloco }}</b><span class="small muted">{{ 'home.g' + g + 'd' | transloco }}</span></span>
-          </li>
-        }
-      </ul>
-    </div>
-    <div class="chat card" #chat appReveal="120ms" role="img" [attr.aria-label]="'home.chat.alt' | transloco">
-      <div class="chat-h">
-        <span class="arc" style="width: 34px; height: 40px; font-size: 13px">SB</span>
-        <div>
-          <b><bdi>Sarra B.</bdi></b>
-          <div class="small muted">{{ 'home.chat.status' | transloco }}</div>
-        </div>
-        <span class="small muted lock"><app-icon name="shield-check" /> 9rayti</span>
-      </div>
-      <div class="chat-b" aria-hidden="true">
-        <div class="bub me" [class.in]="chatStep() >= 1">{{ 'home.chat.q' | transloco }}</div>
-        @if (chatStep() === 2) {
-          <div class="bub them typing"><i></i><i></i><i></i></div>
-        }
-        <div class="bub them" [class.in]="chatStep() >= 3" [class.masked]="chatStep() === 4">
-          {{ 'home.chat.a' | transloco }} <span class="num" [class.done]="chatStep() === 4">{{ phone() }}</span>
-          @if (chatStep() === 4) {
-            <span class="flag"><app-icon name="lock" /> {{ 'msg.masked' | transloco }}</span>
-          }
-        </div>
-        <div class="bub sys" [class.in]="chatStep() === 4"><app-icon name="shield-check" /> {{ 'home.chat.sys' | transloco }}</div>
-      </div>
-      <button type="button" class="btn ghost sm replay" (click)="playChat()" [disabled]="chatStep() > 0 && chatStep() < 4">
-        <app-icon name="rotate-ccw" /> {{ 'home.chat.replay' | transloco }}
-      </button>
-    </div>
-  </section>
-
-  <!-- 6. Sessions d'examen ---------------------------------------------------------------- -->
-  @if (sessions().length) {
-    <section class="sec" aria-labelledby="sess">
+  @defer (on viewport; prefetch on idle) {
+    <section class="sec how" aria-labelledby="how">
       <div class="sec-h">
-        <h2 id="sess" [appSplit]="'home.sessions' | transloco"></h2>
-        <a routerLink="/sessions" class="small more">{{ 'common.seeAll' | transloco }} <app-icon name="arrow-right" [flip]="true" /></a>
+        <h2 id="how" [appSplit]="'home.how' | transloco"></h2>
+        <a routerLink="/comment-ca-marche" class="small more"
+          >{{ 'home.howMore' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
       </div>
-      <div class="sess">
-        @for (s of sessions().slice(0, 3); track s.id; let i = $index) {
-          <div [appReveal]="i * 90 + 'ms'"><app-session-card [session]="s" /></div>
-        }
+      <div class="path-box" #how>
+        <div class="rail" aria-hidden="true"><span class="fill" #fill></span></div>
+        <ol class="steps">
+          @for (n of [1, 2, 3]; track n) {
+            <li class="step" [appReveal]="n * 120 + 'ms'">
+              <span class="dot" aria-hidden="true">{{ n }}</span>
+              <div class="card body" appTilt="4">
+                <span class="ill" aria-hidden="true"
+                  ><app-icon [name]="n === 1 ? 'search' : n === 2 ? 'send' : 'video'"
+                /></span>
+                <h3>{{ 'home.s' + n | transloco }}</h3>
+                <p class="muted small">{{ 'home.s' + n + 'd' | transloco }}</p>
+              </div>
+            </li>
+          }
+        </ol>
       </div>
     </section>
+  } @placeholder {
+    <div class="sec ph ph-how"></div>
+  }
+
+  <!-- 5. Anti-fuite : démonstration du masquage des coordonnées --------------------------- -->
+  @defer (on viewport; prefetch on idle) {
+    <section class="sec leak" aria-labelledby="leak">
+      <div class="leak-copy" appReveal>
+        <span class="badge blue"><app-icon name="lock" /> {{ 'home.leakK' | transloco }}</span>
+        <h2 id="leak" [appSplit]="'home.leakT' | transloco"></h2>
+        <p class="muted">{{ 'home.leakD' | transloco }}</p>
+        <ul class="guar">
+          @for (g of [1, 2, 3]; track g) {
+            <li>
+              <span class="gi"
+                ><app-icon [name]="g === 1 ? 'video' : g === 2 ? 'file-text' : 'wallet'"
+              /></span>
+              <span
+                ><b>{{ 'home.g' + g | transloco }}</b
+                ><span class="small muted">{{ 'home.g' + g + 'd' | transloco }}</span></span
+              >
+            </li>
+          }
+        </ul>
+      </div>
+      <div
+        class="chat card"
+        #chat
+        appReveal="120ms"
+        role="img"
+        [attr.aria-label]="'home.chat.alt' | transloco"
+      >
+        <div class="chat-h">
+          <span class="arc" style="width: 34px; height: 40px; font-size: 13px">SB</span>
+          <div>
+            <b><bdi>Sarra B.</bdi></b>
+            <div class="small muted">{{ 'home.chat.status' | transloco }}</div>
+          </div>
+          <span class="small muted lock"><app-icon name="shield-check" /> 9rayti</span>
+        </div>
+        <div class="chat-b" aria-hidden="true">
+          <div class="bub me" [class.in]="chatStep() >= 1">{{ 'home.chat.q' | transloco }}</div>
+          @if (chatStep() === 2) {
+            <div class="bub them typing"><i></i><i></i><i></i></div>
+          }
+          <div class="bub them" [class.in]="chatStep() >= 3" [class.masked]="chatStep() === 4">
+            {{ 'home.chat.a' | transloco }}
+            <span class="num" [class.done]="chatStep() === 4">{{ phone() }}</span>
+            @if (chatStep() === 4) {
+              <span class="flag"><app-icon name="lock" /> {{ 'msg.masked' | transloco }}</span>
+            }
+          </div>
+          <div class="bub sys" [class.in]="chatStep() === 4">
+            <app-icon name="shield-check" /> {{ 'home.chat.sys' | transloco }}
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn ghost sm replay"
+          (click)="playChat()"
+          [disabled]="chatStep() > 0 && chatStep() < 4"
+        >
+          <app-icon name="rotate-ccw" /> {{ 'home.chat.replay' | transloco }}
+        </button>
+      </div>
+    </section>
+  } @placeholder {
+    <div class="sec ph ph-leak"></div>
+  }
+
+  <!-- 6. Sessions d'examen ---------------------------------------------------------------- -->
+  @defer (on viewport; prefetch on idle) {
+    @if (sessions().length) {
+      <section class="sec" aria-labelledby="sess">
+        <div class="sec-h">
+          <h2 id="sess" [appSplit]="'home.sessions' | transloco"></h2>
+          <a routerLink="/sessions" class="small more"
+            >{{ 'common.seeAll' | transloco }} <app-icon name="arrow-right" [flip]="true"
+          /></a>
+        </div>
+        <div class="sess">
+          @for (s of sessions().slice(0, 3); track s.id; let i = $index) {
+            <div [appReveal]="i * 90 + 'ms'"><app-session-card [session]="s" /></div>
+          }
+        </div>
+      </section>
+    }
+  } @placeholder {
+    <div class="sec ph ph-sessions"></div>
   }
 </div>
 
 <!-- 7. Avis : défilement continu, pause au survol ------------------------------------------ -->
-@if (reviews().length) {
-  <section class="sec reviews" aria-labelledby="revs">
-    <div class="wrap sec-h">
-      <h2 id="revs" [appSplit]="'home.reviews' | transloco"></h2>
-    </div>
-    <div class="rtrack">
-      @for (copy of [0, 1]; track copy) {
-        <ul class="rlane" [attr.aria-hidden]="copy === 1 ? 'true' : null">
-          @for (r of reviews(); track $index) {
-            <li class="card rcard">
-              <app-icon name="quote" class="q-ic" />
-              <app-rating-stars [value]="r.rating" />
-              <p>{{ r.comment }}</p>
-              <div class="rby">
-                <app-avatar [name]="r.author" [photo]="api.asset(r.authorAvatarUrl)" [size]="36" />
-                <div class="small">
-                  <b>{{ r.author }}</b> · <span class="muted">{{ r.school }}</span>
-                  <div class="muted">
-                    {{ r.subject | subject }} ·
-                    <a [routerLink]="['/tuteurs', r.tutor.id]" [attr.tabindex]="copy === 1 ? -1 : null"><bdi>{{ r.tutor.name }}</bdi></a>
+@defer (on viewport; prefetch on idle) {
+  @if (reviews().length) {
+    <section class="sec reviews" aria-labelledby="revs">
+      <div class="wrap sec-h">
+        <h2 id="revs" [appSplit]="'home.reviews' | transloco"></h2>
+      </div>
+      <div class="rtrack">
+        @for (copy of [0, 1]; track copy) {
+          <ul class="rlane" [attr.aria-hidden]="copy === 1 ? 'true' : null">
+            @for (r of reviews(); track $index) {
+              <li class="card rcard">
+                <span class="q-ic" aria-hidden="true"><app-icon name="quote" /></span>
+                <app-rating-stars [value]="r.rating" />
+                <p>{{ r.comment }}</p>
+                <div class="rby">
+                  <app-avatar
+                    [name]="r.author"
+                    [photo]="api.asset(r.authorAvatarUrl)"
+                    [size]="36"
+                  />
+                  <div class="small">
+                    <b>{{ r.author }}</b> · <span class="muted">{{ r.school }}</span>
+                    <div class="muted">
+                      {{ r.subject | subject }} ·
+                      <a
+                        [routerLink]="['/tuteurs', r.tutor.id]"
+                        [attr.tabindex]="copy === 1 ? -1 : null"
+                        ><bdi>{{ r.tutor.name }}</bdi></a
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          }
-        </ul>
-      }
-    </div>
-  </section>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </section>
+  }
+} @placeholder {
+  <div class="sec ph ph-reviews"></div>
 }
 
 <div class="wrap">
   <!-- 8. Devenir tuteur : mini-simulateur ------------------------------------------------- -->
-  <section class="sec teach card" aria-labelledby="teach" appReveal>
-    <div>
-      <span class="badge sun"><app-icon name="graduation-cap" /> {{ 'home.teachK' | transloco }}</span>
-      <h2 id="teach">{{ 'home.teachT' | transloco }}</h2>
-      <p class="muted">{{ 'home.teachD' | transloco }}</p>
-      <a class="btn" routerLink="/devenir-tuteur" appMagnetic>{{ 'home.sim.cta' | transloco }} <app-icon name="arrow-right" [flip]="true" /></a>
-    </div>
-    <div class="sim">
-      <label for="sim-h">{{ 'home.sim.hours' | transloco: { n: hours() } }}</label>
-      <input id="sim-h" type="range" min="1" max="15" [ngModel]="hours()" (ngModelChange)="hours.set(+$event)" name="h" />
-      <label for="sim-p">{{ 'home.sim.price' | transloco: { n: price() } }}</label>
-      <input id="sim-p" type="range" min="10" max="40" step="1" [ngModel]="price()" (ngModelChange)="price.set(+$event)" name="p" />
-      <div class="result" aria-live="polite">
-        <span class="small muted">{{ 'home.sim.result' | transloco }}</span>
-        <b [appCountUp]="monthly()" [format]="money" [duration]="500"></b>
-        <span class="small muted">{{ 'home.sim.note' | transloco }}</span>
+  @defer (on viewport; prefetch on idle) {
+    <section class="sec teach card" aria-labelledby="teach" appReveal>
+      <div>
+        <span class="badge sun"
+          ><app-icon name="graduation-cap" /> {{ 'home.teachK' | transloco }}</span
+        >
+        <h2 id="teach">{{ 'home.teachT' | transloco }}</h2>
+        <p class="muted">{{ 'home.teachD' | transloco }}</p>
+        <a class="btn" routerLink="/devenir-tuteur" appMagnetic
+          >{{ 'home.sim.cta' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
       </div>
-    </div>
-  </section>
+      <div class="sim">
+        <label for="sim-h">{{ 'home.sim.hours' | transloco: { n: hours() } }}</label>
+        <input
+          id="sim-h"
+          type="range"
+          min="1"
+          max="15"
+          [ngModel]="hours()"
+          (ngModelChange)="hours.set(+$event)"
+          name="h"
+        />
+        <label for="sim-p">{{ 'home.sim.price' | transloco: { n: price() } }}</label>
+        <input
+          id="sim-p"
+          type="range"
+          min="10"
+          max="40"
+          step="1"
+          [ngModel]="price()"
+          (ngModelChange)="price.set(+$event)"
+          name="p"
+        />
+        <div class="result" aria-live="polite">
+          <span class="small muted">{{ 'home.sim.result' | transloco }}</span>
+          <b [appCountUp]="monthly()" [format]="money" [duration]="500"></b>
+          <span class="small muted">{{ 'home.sim.note' | transloco }}</span>
+        </div>
+      </div>
+    </section>
+  } @placeholder {
+    <div class="sec ph ph-teach"></div>
+  }
 
   <!-- 9. Dernier appel ---------------------------------------------------------------------- -->
-  <section class="sec final" aria-labelledby="final">
-    <div class="final-arch studs" aria-hidden="true"></div>
-    <h2 id="final" [appSplit]="'home.finalT' | transloco"></h2>
-    <p>{{ 'home.finalD' | transloco }}</p>
-    <div class="row center">
-      <a class="btn big light" routerLink="/recherche" appMagnetic>{{ 'home.cta1' | transloco }}</a>
-      <a class="btn big outline" routerLink="/inscription" appMagnetic>{{ 'nav.register' | transloco }}</a>
-    </div>
-  </section>
+  @defer (on viewport; prefetch on idle) {
+    <section class="sec final" aria-labelledby="final">
+      <div class="final-arch studs" aria-hidden="true"></div>
+      <h2 id="final" [appSplit]="'home.finalT' | transloco"></h2>
+      <p>{{ 'home.finalD' | transloco }}</p>
+      <div class="row center">
+        <a class="btn big light" routerLink="/recherche" appMagnetic>{{
+          'home.cta1' | transloco
+        }}</a>
+        <a class="btn big outline" routerLink="/inscription" appMagnetic>{{
+          'nav.register' | transloco
+        }}</a>
+      </div>
+    </section>
+  } @placeholder {
+    <div class="sec ph ph-final"></div>
+  }
 </div>

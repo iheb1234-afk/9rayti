@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -18,7 +27,18 @@ import { DtPipe } from '../../../pipes/dt.pipe';
 
 type Tab = 'apercu' | 'validation' | 'signalements' | 'cours' | 'matieres' | 'contact';
 const TABS: Tab[] = ['apercu', 'validation', 'signalements', 'cours', 'matieres', 'contact'];
-const STATES: RequestState[] = ['en_attente', 'acceptee', 'faite', 'versee', 'signalee', 'remboursee', 'refusee', 'expiree', 'annulee', 'annulee_tuteur'];
+const STATES: RequestState[] = [
+  'en_attente',
+  'acceptee',
+  'faite',
+  'versee',
+  'signalee',
+  'remboursee',
+  'refusee',
+  'expiree',
+  'annulee',
+  'annulee_tuteur',
+];
 
 /**
  * Espace administrateur (sitemap : tableau de bord, validation des tuteurs, signalements,
@@ -26,7 +46,16 @@ const STATES: RequestState[] = ['en_attente', 'acceptee', 'faite', 'versee', 'si
  */
 @Component({
   selector: 'app-admin',
-  imports: [FormsModule, TranslocoPipe, PageHeaderComponent, StatTileComponent, TabsComponent, ModalComponent, EmptyStateComponent, ...UI],
+  imports: [
+    FormsModule,
+    TranslocoPipe,
+    PageHeaderComponent,
+    StatTileComponent,
+    TabsComponent,
+    ModalComponent,
+    EmptyStateComponent,
+    ...UI,
+  ],
   providers: [DtPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-dashboard.page.html',
@@ -40,7 +69,9 @@ export class AdminDashboardPage {
   private readonly dt = inject(DtPipe);
   protected readonly money = (m: number) => this.dt.transform(m);
   protected readonly states = STATES;
-  protected readonly tab = linkedSignal<string>(() => (TABS.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'apercu'));
+  protected readonly tab = linkedSignal<string>(() =>
+    TABS.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'apercu',
+  );
 
   protected readonly overview = rxResource({ stream: () => this.api.adminOverview() });
   protected readonly pending = rxResource({ stream: () => this.api.pendingTutors() });
@@ -53,17 +84,35 @@ export class AdminDashboardPage {
   protected readonly search = signal('');
   protected readonly page = signal(1);
   protected readonly list = rxResource({
-    params: () => ({ state: this.filterState() || undefined, search: this.search().trim() || undefined, page: this.page() }),
+    params: () => ({
+      state: this.filterState() || undefined,
+      search: this.search().trim() || undefined,
+      page: this.page(),
+    }),
     stream: ({ params }) => this.api.adminRequests(params),
   });
 
-  protected readonly total = computed(() => (this.overview.value()?.requests ?? []).reduce((s, r) => s + r.count, 0));
-  protected readonly volume = computed(() => (this.overview.value()?.requests ?? []).reduce((s, r) => s + r.volumeMillimes, 0));
-  protected readonly maxCount = computed(() => Math.max(1, ...(this.overview.value()?.requests ?? []).map((r) => r.count)));
+  protected readonly total = computed(() =>
+    (this.overview.value()?.requests ?? []).reduce((s, r) => s + r.count, 0),
+  );
+  protected readonly volume = computed(() =>
+    (this.overview.value()?.requests ?? []).reduce((s, r) => s + r.volumeMillimes, 0),
+  );
+  protected readonly maxCount = computed(() =>
+    Math.max(1, ...(this.overview.value()?.requests ?? []).map((r) => r.count)),
+  );
   protected readonly tabs = computed<TabItem[]>(() => {
     const o = this.overview.value();
-    const counts: Partial<Record<Tab, number>> = { validation: o?.tutors.pending, signalements: o?.reports, contact: o?.contacts };
-    return TABS.map((id) => ({ id, label: this.i18n.translate(`admin.tab.${id}`), count: counts[id] }));
+    const counts: Partial<Record<Tab, number>> = {
+      validation: o?.tutors.pending,
+      signalements: o?.reports,
+      contact: o?.contacts,
+    };
+    return TABS.map((id) => ({
+      id,
+      label: this.i18n.translate(`admin.tab.${id}`),
+      count: counts[id],
+    }));
   });
 
   protected readonly busy = signal(false);
@@ -112,11 +161,15 @@ export class AdminDashboardPage {
   protected resolve(): void {
     const r = this.resolving();
     if (!r || this.note.trim().length < 3) return;
-    this.run(this.api.resolveReport(r.id, this.decision, this.note.trim()), `admin.resolved.${this.decision}`, () => {
-      this.resolveModal().close();
-      this.reports.reload();
-      this.list.reload();
-    });
+    this.run(
+      this.api.resolveReport(r.id, this.decision, this.note.trim()),
+      `admin.resolved.${this.decision}`,
+      () => {
+        this.resolveModal().close();
+        this.reports.reload();
+        this.list.reload();
+      },
+    );
   }
 
   protected setFilter(state: string): void {
@@ -131,12 +184,24 @@ export class AdminDashboardPage {
 
   protected addSubject(): void {
     const s = this.newSubject;
-    const code = s.code.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+    const code = s.code
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, '-');
     if (!code || !s.nameFr.trim()) return;
-    this.run(this.api.addSubject({ code, nameFr: s.nameFr.trim(), nameAr: s.nameAr.trim() || s.nameFr.trim(), nameEn: s.nameEn.trim() || s.nameFr.trim() }), 'admin.subjectAdded', () => {
-      this.newSubject = { code: '', nameFr: '', nameAr: '', nameEn: '' };
-      this.subjects.reload();
-    });
+    this.run(
+      this.api.addSubject({
+        code,
+        nameFr: s.nameFr.trim(),
+        nameAr: s.nameAr.trim() || s.nameFr.trim(),
+        nameEn: s.nameEn.trim() || s.nameFr.trim(),
+      }),
+      'admin.subjectAdded',
+      () => {
+        this.newSubject = { code: '', nameFr: '', nameAr: '', nameEn: '' };
+        this.subjects.reload();
+      },
+    );
   }
 
   protected openEdit(s: AdminSubject): void {
@@ -147,10 +212,19 @@ export class AdminDashboardPage {
 
   protected saveSubject(): void {
     const s = this.editing();
-    if (s) this.run(this.api.updateSubject(s.id, this.edit), 'admin.subjectSaved', () => (this.subjectModal().close(), this.subjects.reload()));
+    if (s)
+      this.run(
+        this.api.updateSubject(s.id, this.edit),
+        'admin.subjectSaved',
+        () => (this.subjectModal().close(), this.subjects.reload()),
+      );
   }
 
   protected toggleContact(id: number, status: 'nouveau' | 'traite'): void {
-    this.run(this.api.setContactStatus(id, status === 'nouveau' ? 'traite' : 'nouveau'), 'admin.contactSaved', () => this.contacts.reload());
+    this.run(
+      this.api.setContactStatus(id, status === 'nouveau' ? 'traite' : 'nouveau'),
+      'admin.contactSaved',
+      () => this.contacts.reload(),
+    );
   }
 }

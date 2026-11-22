@@ -17,12 +17,33 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     <div class="actions"><ng-content /></div>
   </header>`,
   styles: `
-    .ph { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin: 32px 0 8px; }
-    .kick { margin-bottom: 10px; }
-    h1 { animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-    p { margin-top: 6px; max-width: 640px; animation: rise 0.6s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .actions:empty { display: none; }
+    .ph {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 32px 0 8px;
+    }
+    .kick {
+      margin-bottom: 10px;
+    }
+    h1 {
+      animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    p {
+      margin-top: 6px;
+      max-width: 640px;
+      animation: rise 0.6s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .actions:empty {
+      display: none;
+    }
   `,
 })
 export class PageHeaderComponent {

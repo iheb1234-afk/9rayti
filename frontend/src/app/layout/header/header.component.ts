@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  signal,
+} from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filter } from 'rxjs';
@@ -22,7 +29,16 @@ import { DtPipe } from '../../pipes/dt.pipe';
  */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, TranslocoPipe, ...UI, NotificationBellComponent, ThemeToggleComponent, CountUpDirective, MagneticDirective],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    TranslocoPipe,
+    ...UI,
+    NotificationBellComponent,
+    ThemeToggleComponent,
+    CountUpDirective,
+    MagneticDirective,
+  ],
   providers: [DtPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',

@@ -1,7 +1,14 @@
 <div class="wrap">
-  <app-page-header [title]="'student.hello' | transloco: { name: auth.user()?.firstName }" [subtitle]="'student.sub' | transloco">
-    <a class="btn alt" routerLink="/messages"><app-icon name="message-square" /> {{ 'nav.messages' | transloco }}</a>
-    <a class="btn" routerLink="/recherche"><app-icon name="search" /> {{ 'nav.find' | transloco }}</a>
+  <app-page-header
+    [title]="'student.hello' | transloco: { name: auth.user()?.firstName }"
+    [subtitle]="'student.sub' | transloco"
+  >
+    <a class="btn alt" routerLink="/messages"
+      ><app-icon name="message-square" /> {{ 'nav.messages' | transloco }}</a
+    >
+    <a class="btn" routerLink="/recherche"
+      ><app-icon name="search" /> {{ 'nav.find' | transloco }}</a
+    >
   </app-page-header>
 
   <div class="tiles">
@@ -9,21 +16,37 @@
       <h3>{{ 'student.next' | transloco }}</h3>
       @if (nextCourse(); as n) {
         <div class="big w">{{ n.subject | subject }}</div>
-        <div class="muted">{{ n.startsAt | when }} · <bdi>{{ n.tutor.firstName }} {{ n.tutor.lastInitial }}</bdi></div>
+        <div class="muted">
+          {{ n.startsAt | when }} · <bdi>{{ n.tutor.firstName }} {{ n.tutor.lastInitial }}</bdi>
+        </div>
         @if (left(n.startsAt); as l) {
           <div class="countdown" aria-live="off">
-            <span><b>{{ l.h >= 24 ? (l.h / 24 | num: 0) : l.h }}</b>{{ (l.h >= 24 ? 'student.days' : 'student.hours') | transloco }}</span>
-            <span><b>{{ l.m }}</b>min</span>
+            <span
+              ><b>{{ l.h >= 24 ? (l.h / 24 | num: 0) : l.h }}</b
+              >{{ (l.h >= 24 ? 'student.days' : 'student.hours') | transloco }}</span
+            >
+            <span
+              ><b>{{ l.m }}</b
+              >min</span
+            >
           </div>
         }
-        <a class="btn sm" [routerLink]="['/salle', n.id]"><app-icon name="video" /> {{ 'student.enter' | transloco }}</a>
+        <a class="btn sm" [routerLink]="['/salle', n.id]"
+          ><app-icon name="video" /> {{ 'student.enter' | transloco }}</a
+        >
       } @else {
         <p class="muted" style="margin-top: 6px">{{ 'student.noNext' | transloco }}</p>
         <a class="btn sm" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
       }
     </div>
-    <app-stat-tile [label]="'student.balance' | transloco" [value]="credits.value()?.balanceMillimes ?? auth.user()?.balanceMillimes ?? 0" [format]="money">
-      <button type="button" class="linkbtn small" (click)="tab.set('credits')"><app-icon name="plus" /> {{ 'student.recharge' | transloco }}</button>
+    <app-stat-tile
+      [label]="'student.balance' | transloco"
+      [value]="credits.value()?.balanceMillimes ?? auth.user()?.balanceMillimes ?? 0"
+      [format]="money"
+    >
+      <button type="button" class="linkbtn small" (click)="tab.set('credits')">
+        <app-icon name="plus" /> {{ 'student.recharge' | transloco }}
+      </button>
     </app-stat-tile>
     <app-stat-tile [label]="'student.learned' | transloco" [value]="hoursLearned()">
       <span class="small muted">{{ 'student.pendingN' | transloco: { n: pendingCount() } }}</span>
@@ -42,7 +65,11 @@
           <ng-container *ngTemplateOutlet="row; context: { $implicit: r, i: i }" />
         } @empty {
           @if (!requests.isLoading()) {
-            <app-empty-state icon="inbox" [title]="'student.emptyT' | transloco" [text]="'student.emptyD' | transloco">
+            <app-empty-state
+              icon="inbox"
+              [title]="'student.emptyT' | transloco"
+              [text]="'student.emptyD' | transloco"
+            >
               <a class="btn" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
             </app-empty-state>
           }
@@ -60,7 +87,11 @@
           @for (t of favs.value() ?? []; track t.id) {
             <app-tutor-card [tutor]="t" />
           } @empty {
-            <app-empty-state icon="star" [title]="'fav.emptyT' | transloco" [text]="'fav.emptyD' | transloco">
+            <app-empty-state
+              icon="star"
+              [title]="'fav.emptyT' | transloco"
+              [text]="'fav.emptyD' | transloco"
+            >
               <a class="btn alt" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
             </app-empty-state>
           }
@@ -75,7 +106,9 @@
             </div>
             <div class="row">
               @for (a of [10, 20, 50]; track a) {
-                <button type="button" class="btn sm alt" [disabled]="busy()" (click)="recharge(a)">+ {{ a * 1000 | dt }}</button>
+                <button type="button" class="btn sm alt" [disabled]="busy()" (click)="recharge(a)">
+                  + {{ a * 1000 | dt }}
+                </button>
               }
             </div>
           </div>
@@ -86,9 +119,14 @@
             <div class="tline mv" [style.animation-delay.ms]="i * 30">
               <div>
                 <b>{{ m.label }}</b>
-                <div class="small muted">{{ m.createdAt | when }} · {{ 'credit.' + m.reason | transloco }}</div>
+                <div class="small muted">
+                  {{ m.createdAt | when }} · {{ 'credit.' + m.reason | transloco }}
+                </div>
               </div>
-              <b [class.plus]="m.amountMillimes > 0">{{ m.amountMillimes > 0 ? '+' : '−' }}{{ (m.amountMillimes < 0 ? -m.amountMillimes : m.amountMillimes) | dt: 1 }}</b>
+              <b [class.plus]="m.amountMillimes > 0"
+                >{{ m.amountMillimes > 0 ? '+' : '−'
+                }}{{ (m.amountMillimes < 0 ? -m.amountMillimes : m.amountMillimes) | dt: 1 }}</b
+              >
             </div>
           } @empty {
             <p class="muted small">{{ 'student.noMovements' | transloco }}</p>
@@ -112,48 +150,89 @@
 
 <ng-template #row let-r let-i="i">
   <article class="card lrow" [style.animation-delay.ms]="i * 50">
-    <app-avatar [name]="r.tutor.firstName + ' ' + r.tutor.lastInitial" [photo]="api.asset(r.tutor.avatarUrl)" [size]="44" />
+    <app-avatar
+      [name]="r.tutor.firstName + ' ' + r.tutor.lastInitial"
+      [photo]="api.asset(r.tutor.avatarUrl)"
+      [size]="44"
+    />
     <div class="mid">
-      <div class="row"><b>{{ r.subject | subject }}</b> <app-state-badge [state]="r.state" /></div>
+      <div class="row">
+        <b>{{ r.subject | subject }}</b> <app-state-badge [state]="r.state" />
+      </div>
       <div class="small muted">
-        {{ r.startsAt | when }} · <bdi>{{ r.tutor.firstName }} {{ r.tutor.lastInitial }}</bdi> · {{ r.totalMillimes | dt }}
+        {{ r.startsAt | when }} · <bdi>{{ r.tutor.firstName }} {{ r.tutor.lastInitial }}</bdi> ·
+        {{ r.totalMillimes | dt }}
         @if (r.payWith === 'credits') {
           ({{ 'book.credits' | transloco }})
         }
       </div>
       @if (r.state === 'en_attente' && left(r.expiresAt); as t) {
-        <span class="timer"><app-icon name="hourglass" /> {{ 'student.answerIn' | transloco: { h: t.h, m: t.m } }}</span>
+        <span class="timer"
+          ><app-icon name="hourglass" />
+          {{ 'student.answerIn' | transloco: { h: t.h, m: t.m } }}</span
+        >
       }
       @if (['refusee', 'expiree', 'annulee', 'annulee_tuteur', 'remboursee'].includes(r.state)) {
-        <span class="small refund"><app-icon name="wallet" /> {{ 'student.refunded' | transloco: { amount: (r.totalMillimes | dt) } }}</span>
+        <span class="small refund"
+          ><app-icon name="wallet" />
+          {{ 'student.refunded' | transloco: { amount: (r.totalMillimes | dt) } }}</span
+        >
       }
       @if (r.resolutionNote) {
-        <p class="small note"><app-icon name="shield-check" /> {{ 'student.decision' | transloco }} : {{ r.resolutionNote }}</p>
+        <p class="small note">
+          <app-icon name="shield-check" /> {{ 'student.decision' | transloco }} :
+          {{ r.resolutionNote }}
+        </p>
       }
       @if (r.recap) {
-        <p class="small recap"><app-icon name="file-text" /> <b>{{ 'room.recap' | transloco }} :</b> {{ r.recap }}</p>
+        <p class="small recap">
+          <app-icon name="file-text" /> <b>{{ 'room.recap' | transloco }} :</b> {{ r.recap }}
+        </p>
       }
       @if (r.review) {
-        <span class="small"><span class="star">{{ '★'.repeat(r.review.rating) }}</span> {{ 'student.reviewed' | transloco }}</span>
+        <span class="small"
+          ><span class="star">{{ '★'.repeat(r.review.rating) }}</span>
+          {{ 'student.reviewed' | transloco }}</span
+        >
       }
     </div>
     <div class="acts">
       @if (['acceptee', 'faite', 'versee', 'signalee', 'remboursee'].includes(r.state)) {
-        <a class="btn sm" [routerLink]="['/salle', r.id]"><app-icon name="video" /> {{ 'student.room' | transloco }}</a>
+        <a class="btn sm" [routerLink]="['/salle', r.id]"
+          ><app-icon name="video" /> {{ 'student.room' | transloco }}</a
+        >
       }
       @if (r.state === 'en_attente') {
-        <button type="button" class="btn sm ghost" [disabled]="busy()" (click)="cancel(r)">{{ 'common.cancel' | transloco }}</button>
+        <button type="button" class="btn sm ghost" [disabled]="busy()" (click)="cancel(r)">
+          {{ 'common.cancel' | transloco }}
+        </button>
       }
       @if (r.canReview) {
-        <button type="button" class="btn sm alt" (click)="openReview(r)"><app-icon name="star" /> {{ 'student.rate' | transloco }}</button>
+        <button type="button" class="btn sm alt" (click)="openReview(r)">
+          <app-icon name="star" /> {{ 'student.rate' | transloco }}
+        </button>
       }
       @if (r.canReport) {
-        <button type="button" class="btn sm ghost" (click)="openReport(r)"><app-icon name="flag" /> {{ 'student.report' | transloco }}</button>
+        <button type="button" class="btn sm ghost" (click)="openReport(r)">
+          <app-icon name="flag" /> {{ 'student.report' | transloco }}
+        </button>
       }
-      @if (['versee', 'refusee', 'expiree', 'annulee', 'annulee_tuteur', 'remboursee'].includes(r.state)) {
-        <a class="btn sm ghost" [routerLink]="['/tuteurs', r.tutor.id]" [queryParams]="{ matiere: r.subject.code }"><app-icon name="calendar-plus" /> {{ 'student.rebook' | transloco }}</a>
+      @if (
+        ['versee', 'refusee', 'expiree', 'annulee', 'annulee_tuteur', 'remboursee'].includes(
+          r.state
+        )
+      ) {
+        <a
+          class="btn sm ghost"
+          [routerLink]="['/tuteurs', r.tutor.id]"
+          [queryParams]="{ matiere: r.subject.code }"
+          ><app-icon name="calendar-plus" /> {{ 'student.rebook' | transloco }}</a
+        >
       }
-      <a class="btn sm ghost icon-only" [routerLink]="['/messages', r.tutor.id]" [attr.aria-label]="'msg.writeTo' | transloco: { name: r.tutor.firstName }"
+      <a
+        class="btn sm ghost icon-only"
+        [routerLink]="['/messages', r.tutor.id]"
+        [attr.aria-label]="'msg.writeTo' | transloco: { name: r.tutor.firstName }"
         ><app-icon name="message-square"
       /></a>
     </div>
@@ -162,14 +241,21 @@
 
 <app-modal #reviewModal [title]="'student.rateT' | transloco" (closed)="target.set(null)">
   <form (submit)="$event.preventDefault(); sendReview()">
-    <p class="small muted">{{ target()?.subject | subject }} · <bdi>{{ target()?.tutor?.firstName }}</bdi></p>
+    <p class="small muted">
+      {{ target()?.subject | subject }} · <bdi>{{ target()?.tutor?.firstName }}</bdi>
+    </p>
     <app-rating-stars [(value)]="rating" [editable]="true" [label]="'student.rateT' | transloco" />
     <div class="fld" style="margin-top: 12px">
-      <label for="rv-c">{{ 'student.comment' | transloco }}</label><textarea id="rv-c" [(ngModel)]="comment" name="comment" maxlength="500"></textarea>
+      <label for="rv-c">{{ 'student.comment' | transloco }}</label
+      ><textarea id="rv-c" [(ngModel)]="comment" name="comment" maxlength="500"></textarea>
     </div>
     <div class="row end">
-      <button type="button" class="btn ghost sm" (click)="reviewModal.close()">{{ 'common.close' | transloco }}</button>
-      <button type="submit" class="btn sm" [disabled]="busy()">{{ 'common.send' | transloco }}</button>
+      <button type="button" class="btn ghost sm" (click)="reviewModal.close()">
+        {{ 'common.close' | transloco }}
+      </button>
+      <button type="submit" class="btn sm" [disabled]="busy()">
+        {{ 'common.send' | transloco }}
+      </button>
     </div>
   </form>
 </app-modal>
@@ -179,11 +265,22 @@
     <p class="small muted">{{ 'student.reportD' | transloco }}</p>
     <div class="fld" style="margin-top: 12px">
       <label for="rp-r">{{ 'student.reason' | transloco }}</label>
-      <textarea id="rp-r" [(ngModel)]="reason" name="reason" minlength="5" maxlength="500" required></textarea>
+      <textarea
+        id="rp-r"
+        [(ngModel)]="reason"
+        name="reason"
+        minlength="5"
+        maxlength="500"
+        required
+      ></textarea>
     </div>
     <div class="row end">
-      <button type="button" class="btn ghost sm" (click)="reportModal.close()">{{ 'common.close' | transloco }}</button>
-      <button type="submit" class="btn sm danger" [disabled]="busy() || reason.trim().length < 5">{{ 'student.report' | transloco }}</button>
+      <button type="button" class="btn ghost sm" (click)="reportModal.close()">
+        {{ 'common.close' | transloco }}
+      </button>
+      <button type="submit" class="btn sm danger" [disabled]="busy() || reason.trim().length < 5">
+        {{ 'student.report' | transloco }}
+      </button>
     </div>
   </form>
 </app-modal>

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -19,7 +26,19 @@ import { ThemeService } from '../../core/theme/theme.service';
 import { ToastService } from '../../core/ui/toast.service';
 import { RevealDirective } from '../../directives/reveal.directive';
 
-const SCHOOLS = ['SUP’COM', 'ENIT', 'INSAT', 'ESPRIT', 'ISI', 'FST', 'ENSI', 'IHEC', 'ENIS', 'ISG', 'Autre'];
+const SCHOOLS = [
+  'SUP’COM',
+  'ENIT',
+  'INSAT',
+  'ESPRIT',
+  'ISI',
+  'FST',
+  'ENSI',
+  'IHEC',
+  'ENIS',
+  'ISG',
+  'Autre',
+];
 
 /** Mon profil (sitemap : étudiant « Mon profil », tuteur « Profil, vérification »). */
 @Component({
@@ -49,14 +68,23 @@ export class ProfilePage {
   private readonly i18n = inject(TranslocoService);
   private readonly fb = inject(FormBuilder);
   protected readonly schools = SCHOOLS;
-  protected readonly years = ['1re année', '2e année', '3e année', '4e année', '5e année', 'Master'];
+  protected readonly years = [
+    '1re année',
+    '2e année',
+    '3e année',
+    '4e année',
+    '5e année',
+    'Master',
+  ];
   protected readonly langs: { code: Lang; name: string }[] = [
     { code: 'fr', name: 'Français' },
     { code: 'ar', name: 'العربية' },
     { code: 'en', name: 'English' },
   ];
   protected readonly busy = signal<string | null>(null);
-  protected readonly permission = signal<string>(typeof Notification === 'undefined' ? 'unsupported' : Notification.permission);
+  protected readonly permission = signal<string>(
+    typeof Notification === 'undefined' ? 'unsupported' : Notification.permission,
+  );
 
   /** Profil public du tuteur (bio, langues, statut de vérification). */
   protected readonly tutor = rxResource({
@@ -82,7 +110,13 @@ export class ProfilePage {
     this.lang.setTitle('nav.profile');
     effect(() => {
       const u = this.auth.user();
-      if (u && !this.info.dirty) this.info.reset({ firstName: u.firstName, lastName: u.lastName, school: u.school, year: u.year });
+      if (u && !this.info.dirty)
+        this.info.reset({
+          firstName: u.firstName,
+          lastName: u.lastName,
+          school: u.school,
+          year: u.year,
+        });
     });
     effect(() => {
       const t = this.tutor.value();
@@ -104,12 +138,18 @@ export class ProfilePage {
 
   protected setPhoto(dataUrl: string): void {
     this.busy.set('photo');
-    this.api.setAvatar(dataUrl).subscribe({ next: (u) => this.done('photo', () => this.auth.patch(u)), error: (e) => this.fail(e) });
+    this.api.setAvatar(dataUrl).subscribe({
+      next: (u) => this.done('photo', () => this.auth.patch(u)),
+      error: (e) => this.fail(e),
+    });
   }
 
   protected removePhoto(): void {
     this.busy.set('photo');
-    this.api.removeAvatar().subscribe({ next: (u) => this.done('photo', () => this.auth.patch(u)), error: (e) => this.fail(e) });
+    this.api.removeAvatar().subscribe({
+      next: (u) => this.done('photo', () => this.auth.patch(u)),
+      error: (e) => this.fail(e),
+    });
   }
 
   protected toggleLang(code: Lang): void {
@@ -131,7 +171,10 @@ export class ProfilePage {
     if (this.pwd.invalid) return this.pwd.markAllAsTouched();
     const { currentPassword, newPassword } = this.pwd.getRawValue();
     this.busy.set('pwd');
-    this.api.changePassword(currentPassword, newPassword).subscribe({ next: () => this.done('pwd', () => this.pwd.reset()), error: (e) => this.fail(e) });
+    this.api.changePassword(currentPassword, newPassword).subscribe({
+      next: () => this.done('pwd', () => this.pwd.reset()),
+      error: (e) => this.fail(e),
+    });
   }
 
   protected async enableNotifications(): Promise<void> {

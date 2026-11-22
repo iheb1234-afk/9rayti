@@ -2,7 +2,7 @@
 <section class="hero">
   <div class="wrap">
     <span class="badge blue">{{ 'about.kicker' | transloco }}</span>
-    <h1 [appSplit]="'about.h1' | transloco"></h1>
+    <h1 class="rise">{{ 'about.h1' | transloco }}</h1>
     <p class="lead">{{ 'about.lead' | transloco }}</p>
   </div>
   <div class="arches" aria-hidden="true">
@@ -20,10 +20,22 @@
       <p class="muted">{{ 'about.mission2' | transloco }}</p>
     </div>
     <div class="nums" appReveal="120ms">
-      <div class="card"><b [appCountUp]="st?.tutors ?? null"></b><span class="small muted">{{ 'home.n.tutors' | transloco }}</span></div>
-      <div class="card"><b [appCountUp]="st?.subjects ?? null"></b><span class="small muted">{{ 'about.subjects' | transloco }}</span></div>
-      <div class="card"><b [appCountUp]="st?.courses ?? null"></b><span class="small muted">{{ 'about.courses' | transloco }}</span></div>
-      <div class="card"><b [appCountUp]="st?.hoursTaught ?? null"></b><span class="small muted">{{ 'home.n.hours' | transloco }}</span></div>
+      <div class="card">
+        <b [appCountUp]="st?.tutors ?? null"></b
+        ><span class="small muted">{{ 'home.n.tutors' | transloco }}</span>
+      </div>
+      <div class="card">
+        <b [appCountUp]="st?.subjects ?? null"></b
+        ><span class="small muted">{{ 'about.subjects' | transloco }}</span>
+      </div>
+      <div class="card">
+        <b [appCountUp]="st?.courses ?? null"></b
+        ><span class="small muted">{{ 'about.courses' | transloco }}</span>
+      </div>
+      <div class="card">
+        <b [appCountUp]="st?.hoursTaught ?? null"></b
+        ><span class="small muted">{{ 'home.n.hours' | transloco }}</span>
+      </div>
     </div>
   </section>
 
@@ -44,10 +56,16 @@
     <h2 id="cmp" [appSplit]="'about.compareT' | transloco"></h2>
     <div class="card tablewrap" appReveal>
       <table>
-        <caption class="sr-only">{{ 'about.compareT' | transloco }}</caption>
+        <caption class="sr-only">
+          {{
+            'about.compareT' | transloco
+          }}
+        </caption>
         <thead>
           <tr>
-            <th scope="col"><span class="sr-only">{{ 'about.criterion' | transloco }}</span></th>
+            <th scope="col">
+              <span class="sr-only">{{ 'about.criterion' | transloco }}</span>
+            </th>
             <th scope="col" class="us">9rayti</th>
             <th scope="col">{{ 'about.col.group' | transloco }}</th>
             <th scope="col">{{ 'about.col.private' | transloco }}</th>
@@ -93,8 +111,16 @@
       <p><b>Iheb Attia</b> · {{ 'about.teamRole' | transloco }}</p>
       <p class="small muted">{{ 'about.teamD' | transloco }}</p>
       <div class="row">
-        <a class="btn sm ghost" href="https://github.com/iheb1234-afk/9rayti" target="_blank" rel="noopener"><app-icon name="external-link" /> {{ 'about.code' | transloco }}</a>
-        <a class="btn sm" routerLink="/contact"><app-icon name="mail" /> {{ 'nav.contact' | transloco }}</a>
+        <a
+          class="btn sm ghost"
+          href="https://github.com/iheb1234-afk/9rayti"
+          target="_blank"
+          rel="noopener"
+          ><app-icon name="external-link" /> {{ 'about.code' | transloco }}</a
+        >
+        <a class="btn sm" routerLink="/contact"
+          ><app-icon name="mail" /> {{ 'nav.contact' | transloco }}</a
+        >
       </div>
     </div>
   </section>

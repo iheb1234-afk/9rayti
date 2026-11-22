@@ -35,14 +35,17 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors(environment.demo ? [authInterceptor, lazyDemoInterceptor] : [authInterceptor]),
+      withInterceptors(
+        environment.demo ? [authInterceptor, lazyDemoInterceptor] : [authInterceptor],
+      ),
     ),
     provideTransloco({
       config: {
         availableLangs: ['fr', 'ar', 'en'],
         defaultLang: 'fr',
         fallbackLang: 'fr',
-        missingHandler: { useFallbackTranslation: true },
+        // Les trois fichiers ont exactement les mêmes clés (vérifié) : pas de second fichier à charger.
+        missingHandler: { useFallbackTranslation: false },
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
       },

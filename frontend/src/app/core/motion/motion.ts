@@ -3,7 +3,9 @@
  * ils ne pèsent rien sur le premier affichage. Tout respecte prefers-reduced-motion.
  */
 export function reducedMotion(): boolean {
-  return typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return (
+    typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 export interface GsapKit {
@@ -16,7 +18,11 @@ let gsapKit: Promise<GsapKit> | null = null;
 
 /** GSAP + ScrollTrigger (animations liées au défilement) + SplitText (texte lettre par lettre). */
 export function loadGsap(): Promise<GsapKit> {
-  gsapKit ??= Promise.all([import('gsap'), import('gsap/ScrollTrigger'), import('gsap/SplitText')]).then(([g, st, sp]) => {
+  gsapKit ??= Promise.all([
+    import('gsap'),
+    import('gsap/ScrollTrigger'),
+    import('gsap/SplitText'),
+  ]).then(([g, st, sp]) => {
     g.gsap.registerPlugin(st.ScrollTrigger, sp.SplitText);
     return { gsap: g.gsap, ScrollTrigger: st.ScrollTrigger, SplitText: sp.SplitText };
   });
@@ -30,8 +36,28 @@ export async function celebrate(origin?: { x: number; y: number }): Promise<void
   if (reducedMotion()) return;
   const confetti = (await import('canvas-confetti')).default;
   const o = origin ?? { x: 0.5, y: 0.6 };
-  confetti({ particleCount: 90, spread: 70, startVelocity: 38, origin: o, colors: BRAND, scalar: 0.9, disableForReducedMotion: true });
-  setTimeout(() => confetti({ particleCount: 50, spread: 110, startVelocity: 25, origin: o, colors: BRAND, shapes: ['circle'], disableForReducedMotion: true }), 180);
+  confetti({
+    particleCount: 90,
+    spread: 70,
+    startVelocity: 38,
+    origin: o,
+    colors: BRAND,
+    scalar: 0.9,
+    disableForReducedMotion: true,
+  });
+  setTimeout(
+    () =>
+      confetti({
+        particleCount: 50,
+        spread: 110,
+        startVelocity: 25,
+        origin: o,
+        colors: BRAND,
+        shapes: ['circle'],
+        disableForReducedMotion: true,
+      }),
+    180,
+  );
 }
 
 /** Origine (0 → 1) d'un événement souris, pour faire partir les confettis du bouton cliqué. */

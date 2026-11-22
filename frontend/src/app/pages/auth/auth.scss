@@ -6,7 +6,14 @@
   align-items: start;
 }
 .side2 {
-  background-color: var(--lien);
+  background-color: var(--bleu);
+  // Clous de la porte plus discrets que le motif global : le texte reste lisible.
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 2px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.18));
+  background-size:
+    18px 18px,
+    100% 100%;
   color: #fff;
   border-radius: 200px 200px 18px 18px;
   padding: 130px 36px 40px;

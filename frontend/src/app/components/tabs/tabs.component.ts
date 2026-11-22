@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, afterRenderEffect, input, model, viewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  afterRenderEffect,
+  input,
+  model,
+  viewChildren,
+} from '@angular/core';
 
 export interface TabItem {
   id: string;
@@ -13,7 +21,7 @@ export interface TabItem {
 @Component({
   selector: 'app-tabs',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="dtabs" role="tablist" [attr.aria-label]="label()" (keydown)="keys($event)">
+  template: `<div class="dtabs" role="tablist" [attr.aria-label]="label()">
     @for (t of tabs(); track t.id) {
       <button
         #tab
@@ -24,6 +32,7 @@ export interface TabItem {
         [attr.aria-controls]="'panel-' + t.id"
         [tabindex]="active() === t.id ? 0 : -1"
         (click)="active.set(t.id)"
+        (keydown)="keys($event)"
       >
         {{ t.label }}
         @if (t.count) {
@@ -34,10 +43,24 @@ export interface TabItem {
     <span class="ink" aria-hidden="true"></span>
   </div>`,
   styles: `
-    .dtabs { position: relative; }
-    .dtabs button[aria-selected='true'] { box-shadow: none; }
-    .ink { position: absolute; bottom: 0; height: 2px; background: var(--bleu); border-radius: 2px; left: 0; width: 0;
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    .dtabs {
+      position: relative;
+    }
+    .dtabs button[aria-selected='true'] {
+      box-shadow: none;
+    }
+    .ink {
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background: var(--bleu);
+      border-radius: 2px;
+      left: 0;
+      width: 0;
+      transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
   `,
 })
 export class TabsComponent {
@@ -63,7 +86,8 @@ export class TabsComponent {
     const ids = this.tabs().map((t) => t.id);
     const i = ids.indexOf(this.active());
     const rtl = document.documentElement.dir === 'rtl';
-    const step = e.key === 'ArrowRight' ? (rtl ? -1 : 1) : e.key === 'ArrowLeft' ? (rtl ? 1 : -1) : 0;
+    const step =
+      e.key === 'ArrowRight' ? (rtl ? -1 : 1) : e.key === 'ArrowLeft' ? (rtl ? 1 : -1) : 0;
     let next = i;
     if (step) next = (i + step + ids.length) % ids.length;
     else if (e.key === 'Home') next = 0;

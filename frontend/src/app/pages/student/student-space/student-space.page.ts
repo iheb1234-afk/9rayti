@@ -1,5 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -62,32 +71,56 @@ export class StudentSpacePage {
   protected readonly money = (m: number) => this.dt.transform(m);
   private readonly ids: Tab[] = ['cours', 'historique', 'favoris', 'credits', 'sessions'];
   /** L'onglet suit ?onglet= dans l'URL, puis les clics. */
-  protected readonly tab = linkedSignal<string>(() => (this.ids.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'cours'));
+  protected readonly tab = linkedSignal<string>(() =>
+    this.ids.includes(this.onglet() as Tab) ? (this.onglet() as Tab) : 'cours',
+  );
 
   protected readonly requests = rxResource({ stream: () => this.api.myRequests() });
   protected readonly credits = rxResource({ stream: () => this.api.credits() });
   private readonly sessions = rxResource({ stream: () => this.api.myExamSessions() });
   /** Les favoris se rechargent quand on ajoute ou retire un cœur. */
-  protected readonly favs = rxResource({ params: () => this.favorites.ids().size, stream: () => this.api.favorites() });
+  protected readonly favs = rxResource({
+    params: () => this.favorites.ids().size,
+    stream: () => this.api.favorites(),
+  });
 
   protected readonly upcoming = computed(() =>
     (this.requests.value() ?? [])
-      .filter((r) => UPCOMING.has(r.state) && !(r.state === 'faite' && !r.canReview && !r.canReport))
+      .filter(
+        (r) => UPCOMING.has(r.state) && !(r.state === 'faite' && !r.canReview && !r.canReport),
+      )
       .sort((a, b) => +new Date(a.startsAt) - +new Date(b.startsAt)),
   );
   protected readonly history = computed(() =>
-    (this.requests.value() ?? []).filter((r) => !this.upcoming().includes(r)).sort((a, b) => +new Date(b.startsAt) - +new Date(a.startsAt)),
+    (this.requests.value() ?? [])
+      .filter((r) => !this.upcoming().includes(r))
+      .sort((a, b) => +new Date(b.startsAt) - +new Date(a.startsAt)),
   );
-  protected readonly pendingCount = computed(() => (this.requests.value() ?? []).filter((r) => r.state === 'en_attente').length);
-  protected readonly nextCourse = computed(() => this.upcoming().find((r) => r.state === 'acceptee' && +new Date(r.startsAt) > Date.now() - 2 * 3600_000) ?? null);
-  protected readonly mySessions = computed(() => (this.sessions.value() ?? []).filter((s) => s.booked));
+  protected readonly pendingCount = computed(
+    () => (this.requests.value() ?? []).filter((r) => r.state === 'en_attente').length,
+  );
+  protected readonly nextCourse = computed(
+    () =>
+      this.upcoming().find(
+        (r) => r.state === 'acceptee' && +new Date(r.startsAt) > Date.now() - 2 * 3600_000,
+      ) ?? null,
+  );
+  protected readonly mySessions = computed(() =>
+    (this.sessions.value() ?? []).filter((s) => s.booked),
+  );
   protected readonly hoursLearned = computed(() =>
-    (this.requests.value() ?? []).filter((r) => ['faite', 'versee'].includes(r.state)).reduce((s, r) => s + r.durationMin / 60, 0),
+    (this.requests.value() ?? [])
+      .filter((r) => ['faite', 'versee'].includes(r.state))
+      .reduce((s, r) => s + r.durationMin / 60, 0),
   );
   protected readonly tabs = computed<TabItem[]>(() => [
     { id: 'cours', label: this.i18n.translate('student.tab.cours'), count: this.upcoming().length },
     { id: 'historique', label: this.i18n.translate('student.tab.historique') },
-    { id: 'favoris', label: this.i18n.translate('student.tab.favoris'), count: this.favorites.ids().size || undefined },
+    {
+      id: 'favoris',
+      label: this.i18n.translate('student.tab.favoris'),
+      count: this.favorites.ids().size || undefined,
+    },
     { id: 'credits', label: this.i18n.translate('student.tab.credits') },
     { id: 'sessions', label: this.i18n.translate('student.tab.sessions') },
   ]);
@@ -158,7 +191,10 @@ export class StudentSpacePage {
 
   protected sendReport(): void {
     const r = this.target();
-    if (r) this.run(this.api.report(r.id, this.reason.trim()), 'student.reported', () => this.reportModal().close());
+    if (r)
+      this.run(this.api.report(r.id, this.reason.trim()), 'student.reported', () =>
+        this.reportModal().close(),
+      );
   }
 
   protected recharge(dt: number): void {

@@ -179,7 +179,13 @@ export interface Revenue {
 export interface ExamSession {
   id: string;
   subject: Subject;
-  tutor: { id: string; firstName: string; lastInitial: string; school?: string; avatarUrl?: string | null };
+  tutor: {
+    id: string;
+    firstName: string;
+    lastInitial: string;
+    school?: string;
+    avatarUrl?: string | null;
+  };
   startsAt: string;
   durationMin: number;
   placesMin: number;

@@ -1,4 +1,19 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, computed, effect, inject, input, linkedSignal, signal, untracked, viewChild, viewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  signal,
+  untracked,
+  viewChild,
+  viewChildren,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { UI } from '../../../components';
@@ -39,7 +54,15 @@ const JOURNEYS: Record<Who, Step[]> = {
  */
 @Component({
   selector: 'app-how-it-works',
-  imports: [RouterLink, TranslocoPipe, PageHeaderComponent, TabsComponent, RevealDirective, SplitTextDirective, ...UI],
+  imports: [
+    RouterLink,
+    TranslocoPipe,
+    PageHeaderComponent,
+    TabsComponent,
+    RevealDirective,
+    SplitTextDirective,
+    ...UI,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './how-it-works.page.html',
   styleUrl: './how-it-works.page.scss',
@@ -49,7 +72,9 @@ export class HowItWorksPage {
   readonly pour = input<string>();
   private readonly i18n = inject(TranslocoService);
   private readonly destroyRef = inject(DestroyRef);
-  protected readonly who = linkedSignal<string>(() => (this.pour() === 'tuteur' ? 'tuteur' : 'etudiant'));
+  protected readonly who = linkedSignal<string>(() =>
+    this.pour() === 'tuteur' ? 'tuteur' : 'etudiant',
+  );
   protected readonly steps = computed(() => JOURNEYS[this.who() as Who]);
   protected readonly active = signal(0);
   protected readonly tabs = computed<TabItem[]>(() => [
@@ -68,13 +93,23 @@ export class HowItWorksPage {
       if (typeof IntersectionObserver === 'undefined') return;
       this.io = new IntersectionObserver(
         (entries) => {
-          for (const e of entries) if (e.isIntersecting) this.active.set(Number((e.target as HTMLElement).dataset['i']));
+          for (const e of entries)
+            if (e.isIntersecting) this.active.set(Number((e.target as HTMLElement).dataset['i']));
         },
         { rootMargin: '-45% 0px -45% 0px' },
       );
       this.destroyRef.onDestroy(() => this.io?.disconnect());
       this.observe();
-      if (!reducedMotion()) void this.progress();
+      // GSAP (barre de progression) n'est chargé qu'au premier défilement.
+      if (!reducedMotion()) {
+        const events = ['wheel', 'touchstart', 'keydown', 'scroll'] as const;
+        const start = () => {
+          events.forEach((t) => removeEventListener(t, start));
+          void this.progress();
+        };
+        events.forEach((t) => addEventListener(t, start, { once: true, passive: true }));
+        this.destroyRef.onDestroy(() => events.forEach((t) => removeEventListener(t, start)));
+      }
     });
     // Nouveau parcours : on observe les nouvelles étapes.
     effect(() => {
@@ -101,13 +136,25 @@ export class HowItWorksPage {
       gsap.fromTo(
         rail.querySelector('.fill'),
         { scaleY: 0 },
-        { scaleY: 1, ease: 'none', scrollTrigger: { trigger: rail.parentElement, start: 'top 55%', end: 'bottom 55%', scrub: 0.3 } },
+        {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: rail.parentElement,
+            start: 'top 55%',
+            end: 'bottom 55%',
+            scrub: 0.3,
+          },
+        },
       );
     });
     this.destroyRef.onDestroy(() => ctx.revert());
   }
 
   protected go(i: number): void {
-    this.items()[i]?.nativeElement.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+    this.items()[i]?.nativeElement.scrollIntoView({
+      behavior: reducedMotion() ? 'auto' : 'smooth',
+      block: 'center',
+    });
   }
 }

@@ -16,7 +16,15 @@ import { RevealDirective } from '../../../directives/reveal.directive';
 /** Sessions d'examen en groupe : un tuteur, plusieurs étudiants, un prix par place plus bas. */
 @Component({
   selector: 'app-sessions',
-  imports: [RouterLink, TranslocoPipe, PageHeaderComponent, SessionCardComponent, EmptyStateComponent, RevealDirective, ...UI],
+  imports: [
+    RouterLink,
+    TranslocoPipe,
+    PageHeaderComponent,
+    SessionCardComponent,
+    EmptyStateComponent,
+    RevealDirective,
+    ...UI,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sessions.page.html',
   styleUrl: './sessions.page.scss',
@@ -27,7 +35,8 @@ export class SessionsPage {
   protected readonly subject = signal<string>('');
   protected readonly data = rxResource({
     params: () => this.auth.role(),
-    stream: ({ params }) => (params === 'etudiant' ? this.api.myExamSessions() : this.api.examSessions()),
+    stream: ({ params }) =>
+      params === 'etudiant' ? this.api.myExamSessions() : this.api.examSessions(),
   });
   private readonly all = computed<ExamSession[]>(() => this.data.value() ?? []);
   /** Matières pour lesquelles une session est prévue (filtres). */
@@ -36,8 +45,12 @@ export class SessionsPage {
     for (const s of this.all()) seen.set(s.subject.code, s.subject);
     return [...seen.values()];
   });
-  protected readonly list = computed(() => this.all().filter((s) => !this.subject() || s.subject.code === this.subject()));
-  protected readonly allSubjects = toSignal(this.api.subjects().pipe(catchError(() => of([]))), { initialValue: [] });
+  protected readonly list = computed(() =>
+    this.all().filter((s) => !this.subject() || s.subject.code === this.subject()),
+  );
+  protected readonly allSubjects = toSignal(this.api.subjects().pipe(catchError(() => of([]))), {
+    initialValue: [],
+  });
 
   constructor() {
     inject(LangService).setTitle('sessions.title');

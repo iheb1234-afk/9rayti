@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
+  signal,
+  viewChildren,
+} from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UI } from '../../../components';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
@@ -17,7 +26,23 @@ import { reducedMotion } from '../../../core/motion/motion';
   styleUrl: './terms.page.scss',
 })
 export class TermsPage {
-  protected readonly sections = ['objet', 'comptes', 'role', 'reservation', 'reponse', 'annulation', 'remboursement', 'versement', 'signalement', 'sessions', 'messages', 'conduite', 'donnees', 'contenus', 'modif'];
+  protected readonly sections = [
+    'objet',
+    'comptes',
+    'role',
+    'reservation',
+    'reponse',
+    'annulation',
+    'remboursement',
+    'versement',
+    'signalement',
+    'sessions',
+    'messages',
+    'conduite',
+    'donnees',
+    'contenus',
+    'modif',
+  ];
   protected readonly current = signal('objet');
   private readonly els = viewChildren<ElementRef<HTMLElement>>('sec');
 
@@ -28,7 +53,8 @@ export class TermsPage {
       if (typeof IntersectionObserver === 'undefined') return;
       const io = new IntersectionObserver(
         (entries) => {
-          for (const e of entries) if (e.isIntersecting) this.current.set(e.target.id.replace('cgu-', ''));
+          for (const e of entries)
+            if (e.isIntersecting) this.current.set(e.target.id.replace('cgu-', ''));
         },
         { rootMargin: '-20% 0px -70% 0px' },
       );
