@@ -18,8 +18,10 @@ test.describe('Accueil', () => {
     await page.goto('');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('réussi');
     await expect(page.getByRole('link', { name: /Je cherche un tuteur/ }).first()).toBeVisible();
-    // La démo de messagerie finit par masquer le numéro de téléphone.
-    await page.getByRole('img', { name: /numéro de téléphone/ }).scrollIntoViewIfNeeded();
+    // La démo de messagerie (bloc @defer) se charge à l'approche, puis masque le numéro.
+    await page.locator('.ph-leak').scrollIntoViewIfNeeded();
+    const chat = page.getByRole('figure', { name: /numéro de téléphone/ });
+    await chat.scrollIntoViewIfNeeded();
     await expect(page.locator('.num.done')).toHaveText('•••', { timeout: 10_000 });
   });
 
@@ -63,7 +65,9 @@ test.describe('Étudiant', () => {
     await login(page, 'yasmine@9rayti.tn');
     await page.goto('messages');
     await page.locator('a.th').first().click();
-    await page.getByRole('textbox', { name: 'Écris ton message…' }).fill('Mon numéro : 22 345 678, écris-moi sur WhatsApp');
+    await page
+      .getByRole('textbox', { name: 'Écris ton message…' })
+      .fill('Mon numéro : 22 345 678, écris-moi sur WhatsApp');
     await page.keyboard.press('Enter');
     const last = page.locator('.bubble.me').last();
     await expect(last).toContainText('•••');
@@ -77,7 +81,9 @@ test.describe('Étudiant', () => {
     await expect(page.getByText('Indique ton nom')).toBeVisible();
     await page.getByLabel('Nom complet').fill('Test Playwright');
     await page.getByLabel('Adresse e-mail').fill('test@exemple.tn');
-    await page.getByLabel('Message', { exact: true }).fill('Bonjour, une question sur les sessions de groupe.');
+    await page
+      .getByLabel('Message', { exact: true })
+      .fill('Bonjour, une question sur les sessions de groupe.');
     await page.getByRole('button', { name: 'Envoyer le message' }).click();
     await expect(page.getByRole('status')).toContainText('Message envoyé');
   });
@@ -90,14 +96,18 @@ test.describe('Tuteur et administration', () => {
     await page.getByRole('button', { name: 'Accepter' }).first().click();
     await expect(page.getByText(/salle de cours est ouverte/)).toBeVisible();
     await page.getByRole('tab', { name: 'Revenus' }).click();
-    await expect(page.getByRole('heading', { name: /Revenus des 12 dernières semaines/ })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /Revenus des 12 dernières semaines/ }),
+    ).toBeVisible();
   });
 
   test("l'admin rembourse un cours signalé", async ({ page }) => {
     await login(page, 'admin@9rayti.tn');
     await page.getByRole('tab', { name: /Signalements/ }).click();
     await page.getByRole('button', { name: 'Trancher' }).first().click();
-    await page.getByLabel('Note de décision').fill('Le tuteur est arrivé avec 25 minutes de retard.');
+    await page
+      .getByLabel('Note de décision')
+      .fill('Le tuteur est arrivé avec 25 minutes de retard.');
     await page.getByRole('button', { name: 'Confirmer la décision' }).click();
     await expect(page.getByText('Étudiant remboursé.')).toBeVisible();
     await expect(page.getByText('Aucun signalement en attente')).toBeVisible();

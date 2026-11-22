@@ -6,7 +6,17 @@ import { extname, join, normalize } from 'node:path';
 
 const root = normalize(process.argv[2] ?? 'dist/frontend/browser');
 const port = Number(process.argv[3] ?? 4300);
-const types = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html; charset=utf-8', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2' };
+const types = {
+  '.js': 'text/javascript',
+  '.css': 'text/css',
+  '.html': 'text/html; charset=utf-8',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json',
+  '.woff2': 'font/woff2',
+};
 
 createServer((req, res) => {
   const url = decodeURIComponent((req.url ?? '/').split('?')[0]);
