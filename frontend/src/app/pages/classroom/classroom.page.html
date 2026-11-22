@@ -42,6 +42,7 @@
                     ? r.student.firstName
                     : r.tutor.firstName + ' ' + r.tutor.lastInitial
                 "
+                [photo]="api.asset(r.role === 'tuteur' ? r.student.avatarUrl : r.tutor.avatarUrl)"
                 [size]="120"
               />
               <p>{{ 'room.ready' | transloco }}</p>
@@ -55,7 +56,7 @@
         @if (r.role === 'tuteur' && r.state === 'acceptee') {
           <div class="row endbar">
             <span class="small muted">{{ 'room.endHint' | transloco }}</span>
-            <button type="button" class="btn danger" [disabled]="busy()" (click)="complete(r.id)">
+            <button type="button" class="btn danger" [disabled]="busy()" (click)="endModal.open()">
               <app-icon name="phone-off" /> {{ 'room.end' | transloco }}
             </button>
           </div>
@@ -63,6 +64,12 @@
       </div>
 
       <aside class="card side">
+        @if (r.recap) {
+          <div class="recap">
+            <h2 class="h3"><app-icon name="notebook-pen" /> {{ 'room.recap' | transloco }}</h2>
+            <p class="small">{{ r.recap }}</p>
+          </div>
+        }
         <h2 class="h3"><app-icon name="file-text" /> {{ 'room.docs' | transloco }}</h2>
         @for (d of r.documents; track d.id) {
           <a class="fl" [href]="d.url" target="_blank" rel="noopener"
@@ -110,6 +117,16 @@
             </div>
           </form>
         }
+        <a
+          class="btn sm ghost block"
+          [routerLink]="['/messages', r.role === 'tuteur' ? r.student.id : r.tutor.id]"
+          style="margin-top: 14px"
+          ><app-icon name="message-square" />
+          {{
+            'msg.writeTo'
+              | transloco: { name: r.role === 'tuteur' ? r.student.firstName : r.tutor.firstName }
+          }}</a
+        >
         <div class="rules small muted">
           <p>
             <app-icon name="message-square" /><span>{{ 'room.chatRule' | transloco }}</span>
@@ -136,3 +153,27 @@
     <div class="skeleton" style="height: 470px; margin-top: 22px"></div>
   }
 </div>
+
+<app-modal #endModal [title]="'tspace.completeT' | transloco">
+  <form (submit)="$event.preventDefault(); complete(id(), endModal)">
+    <div class="fld">
+      <label for="recap">{{ 'tspace.recap' | transloco }}</label>
+      <textarea
+        id="recap"
+        [(ngModel)]="recap"
+        name="recap"
+        maxlength="1000"
+        [placeholder]="'tspace.recapPh' | transloco"
+      ></textarea>
+      <div class="hint">{{ 'tspace.recapHint' | transloco }}</div>
+    </div>
+    <div class="row" style="justify-content: flex-end; margin-top: 8px">
+      <button type="button" class="btn ghost sm" (click)="endModal.close()">
+        {{ 'common.close' | transloco }}
+      </button>
+      <button type="submit" class="btn sm danger" [disabled]="busy()">
+        <app-icon name="phone-off" /> {{ 'room.end' | transloco }}
+      </button>
+    </div>
+  </form>
+</app-modal>

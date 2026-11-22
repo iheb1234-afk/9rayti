@@ -38,6 +38,12 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    rules: {},
+    rules: {
+      // Les titres animés reçoivent leur texte de la directive appSplit (voir split-text.directive.ts).
+      "@angular-eslint/template/elements-content": [
+        "error",
+        { allowList: ["aria-label", "innerHtml", "innerHTML", "innerText", "outerHTML", "title", "appSplit"] },
+      ],
+    },
   }
 );

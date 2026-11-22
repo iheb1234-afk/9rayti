@@ -1,37 +1,137 @@
 .e404 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 60px 32px;
+  justify-content: center;
+  text-align: center;
+  padding-block: 40px 64px;
 }
 .num {
-  font-size: 120px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  direction: ltr;
+  margin-bottom: 18px;
+}
+.d {
+  font-size: clamp(110px, 18vw, 200px);
+  line-height: 0.8;
   font-weight: 700;
-  color: var(--bleu);
-  line-height: 1;
+  color: var(--bleu-nuit);
+  animation: drop 0.8s var(--ease-spring) both;
+}
+.d2 {
+  animation-delay: 0.25s;
+}
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-60px) rotate(-8deg);
+  }
 }
 .door {
-  height: 360px;
-  border-radius: 200px 200px 22px 22px;
-  background-color: var(--bleu);
   position: relative;
+  width: clamp(90px, 14vw, 150px);
+  height: clamp(130px, 20vw, 210px);
+  padding: 0;
+  border: 0;
+  border-radius: 999px 999px 10px 10px;
+  background: var(--chaux);
+  cursor: pointer;
+  perspective: 600px;
+  animation: drop 0.8s 0.12s var(--ease-spring) both;
 }
-.door .in {
+.in {
   position: absolute;
-  inset: 24px;
-  border-radius: 180px 180px 14px 14px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  inset: 8px;
+  border-radius: 999px 999px 6px 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fbe3a8, #f2a65e);
 }
-@media (max-width: 760px) {
-  .e404 {
-    grid-template-columns: 1fr;
-    padding: 30px 18px;
+.in .sun {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  width: 40%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--soleil);
+  box-shadow: 0 0 30px 8px color-mix(in srgb, var(--soleil) 60%, transparent);
+}
+.leaf {
+  position: absolute;
+  inset: 8px;
+  border-radius: 999px 999px 6px 6px;
+  background-color: var(--bleu);
+  transform-origin: left center;
+  transition: transform 0.9s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.ring {
+  position: absolute;
+  right: 16%;
+  top: 52%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #d9a441;
+}
+.knock .leaf,
+.knock2 .leaf {
+  animation: knock 0.45s;
+}
+.knock2 .leaf {
+  animation-name: knock-b;
+}
+@keyframes knock {
+  20%,
+  60% {
+    transform: translateX(-3px) rotate(-1deg);
   }
-  .num {
-    font-size: 80px;
+  40%,
+  80% {
+    transform: translateX(3px) rotate(1deg);
   }
-  .door {
-    display: none;
+}
+@keyframes knock-b {
+  20%,
+  60% {
+    transform: translateX(3px) rotate(1deg);
   }
+  40%,
+  80% {
+    transform: translateX(-3px) rotate(-1deg);
+  }
+}
+.ajar .leaf {
+  animation: none;
+  transform: rotateY(-62deg);
+}
+h1 {
+  font-size: clamp(26px, 3.4vw, 38px);
+}
+.lead {
+  max-width: 520px;
+  margin: 10px auto 6px;
+}
+.hint {
+  min-height: 1.5em;
+  color: var(--lien);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.center {
+  justify-content: center;
+}
+.links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 22px;
+}
+.path {
+  margin-top: 16px;
+  word-break: break-all;
 }

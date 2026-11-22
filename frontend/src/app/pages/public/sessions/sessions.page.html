@@ -1,71 +1,64 @@
 <div class="wrap">
-  <h1 class="page-h">{{ 'sessions.title' | transloco }}</h1>
-  <p class="muted lead">{{ 'sessions.lead' | transloco }}</p>
+  <app-page-header
+    [title]="'sessions.title' | transloco"
+    [subtitle]="'sessions.lead' | transloco"
+    [kicker]="'sessions.kicker' | transloco"
+  >
+    @if (auth.role() === 'tuteur') {
+      <a class="btn" routerLink="/espace-tuteur" [queryParams]="{ onglet: 'sessions' }"
+        ><app-icon name="calendar-plus" /> {{ 'sessions.create' | transloco }}</a
+      >
+    }
+  </app-page-header>
 
-  <div class="grid">
-    @for (s of list(); track s.id) {
-      <article class="card sc">
-        <div class="between">
-          <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
-          <span class="badge" [class.sun]="!s.confirmed">{{
-            (s.confirmed ? 'sessions.confirmed' : 'sessions.waiting') | transloco
-          }}</span>
-        </div>
-        <h2 class="h3">{{ s.subject | subject }}</h2>
-        <div class="small muted">
-          <app-icon name="calendar" /> {{ s.startsAt | when }} · {{ s.durationMin / 60 }}
-          {{ 'common.h' | transloco }}
-        </div>
-        <div class="small muted">
-          <app-icon name="user" /> <bdi>{{ s.tutor.firstName }} {{ s.tutor.lastInitial }}</bdi>
-        </div>
-        <div
-          class="bar"
-          role="progressbar"
-          [attr.aria-valuenow]="s.placesTaken"
-          aria-valuemin="0"
-          [attr.aria-valuemax]="s.placesMax"
-          [attr.aria-label]="'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax }"
+  @if (subjects().length > 1) {
+    <div class="chips filters" role="group" [attr.aria-label]="'search.subject' | transloco">
+      <button type="button" class="chip" [attr.aria-pressed]="!subject()" (click)="subject.set('')">
+        {{ 'search.allSubjects' | transloco }}
+      </button>
+      @for (s of subjects(); track s.code) {
+        <button
+          type="button"
+          class="chip"
+          [attr.aria-pressed]="subject() === s.code"
+          (click)="subject.set(s.code)"
         >
-          <i [style.width.%]="(s.placesTaken / s.placesMax) * 100"></i>
-        </div>
-        <div class="small between">
-          <span>{{ 'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax } }}</span>
-          <span class="muted">{{ 'sessions.min' | transloco: { n: s.placesMin } }}</span>
-        </div>
-        <div class="between foot">
-          <div class="price">
-            {{ s.pricePerPlaceMillimes | dt }} <small>{{ 'sessions.perPlace' | transloco }}</small>
-          </div>
-          @if (s.booked) {
-            <span class="badge"
-              ><app-icon name="circle-check" />{{ 'sessions.booked' | transloco }}</span
-            >
-          } @else if (s.placesTaken >= s.placesMax) {
-            <span class="badge grey">{{ 'sessions.full' | transloco }}</span>
-          } @else if (!auth.loggedIn()) {
-            <a class="btn sm" routerLink="/connexion" [queryParams]="{ next: '/sessions' }">{{
-              'sessions.book' | transloco
-            }}</a>
-          } @else if (auth.role() === 'etudiant') {
-            <button type="button" class="btn sm" [disabled]="busy() === s.id" (click)="book(s)">
-              {{ 'sessions.book' | transloco }}
-            </button>
-          }
-        </div>
-      </article>
+          {{ s | subject }}
+        </button>
+      }
+    </div>
+  }
+
+  <h2 class="sr-only">{{ 'sessions.listT' | transloco }}</h2>
+  <div class="grid">
+    @for (s of list(); track s.id; let i = $index) {
+      <div [appReveal]="i * 70 + 'ms'"><app-session-card [session]="s" /></div>
     } @empty {
       @if (data.isLoading()) {
         @for (i of [1, 2, 3]; track i) {
-          <div class="skeleton" style="height: 240px"></div>
+          <div class="skeleton" style="height: 200px"></div>
         }
       } @else {
-        <p class="muted">{{ 'sessions.none' | transloco }}</p>
+        <div class="full">
+          <app-empty-state
+            icon="calendar"
+            [title]="'sessions.none' | transloco"
+            [text]="'sessions.noneD' | transloco"
+          >
+            <a class="btn alt" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
+          </app-empty-state>
+        </div>
       }
     }
   </div>
-  <div class="banner">
-    <app-icon name="info" />
-    <div class="small">{{ 'sessions.rule' | transloco }}</div>
-  </div>
+
+  <section class="how card" appReveal>
+    <h2 class="h3">{{ 'sessions.howT' | transloco }}</h2>
+    <ol>
+      <li><span class="n">1</span>{{ 'sessions.how1' | transloco }}</li>
+      <li><span class="n">2</span>{{ 'sessions.how2' | transloco }}</li>
+      <li><span class="n">3</span>{{ 'sessions.how3' | transloco }}</li>
+    </ol>
+    <p class="small muted"><app-icon name="info" /> {{ 'sessions.rule' | transloco }}</p>
+  </section>
 </div>

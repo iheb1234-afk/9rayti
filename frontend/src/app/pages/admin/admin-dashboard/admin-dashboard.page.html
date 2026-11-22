@@ -1,49 +1,375 @@
+@let o = overview.value();
 <div class="wrap">
-  <h1 class="page-h">{{ 'admin.title' | transloco }}</h1>
-  @if (overview.value(); as o) {
-    <div class="tiles" style="margin-top: 18px">
-      <div class="card tile main">
-        <h3>{{ 'admin.tutors' | transloco }}</h3>
-        <div class="big w">{{ o.tutors.validated }}</div>
-        <div class="muted">{{ 'admin.pendingN' | transloco: { n: o.tutors.pending } }}</div>
-      </div>
-      <div class="card tile">
-        <h3 class="muted small">{{ 'admin.requests' | transloco }}</h3>
-        <div class="big">{{ total(o) }}</div>
-      </div>
-      <div class="card tile">
-        <h3 class="muted small">{{ 'admin.volume' | transloco }}</h3>
-        <div class="big">{{ volume(o) | dt }}</div>
-      </div>
-    </div>
-    <div class="card box">
-      <h2 class="h3">{{ 'admin.byState' | transloco }}</h2>
-      @for (r of o.requests; track r.state) {
-        <div class="tline">
-          <app-state-badge [state]="r.state" /><span
-            >{{ r.count }} · {{ r.volumeMillimes | dt }}</span
-          >
+  <app-page-header
+    [title]="'admin.title' | transloco"
+    [subtitle]="'admin.sub' | transloco"
+    [kicker]="'admin.kicker' | transloco"
+  />
+
+  <div class="tiles">
+    <app-stat-tile
+      [label]="'admin.tutors' | transloco"
+      [value]="o?.tutors?.validated"
+      [main]="true"
+    >
+      <span class="small">{{ 'admin.pendingN' | transloco: { n: o?.tutors?.pending ?? 0 } }}</span>
+    </app-stat-tile>
+    <app-stat-tile [label]="'admin.requests' | transloco" [value]="total()" />
+    <app-stat-tile [label]="'admin.volume' | transloco" [value]="volume()" [format]="money" />
+  </div>
+
+  <app-tabs [tabs]="tabs()" [(active)]="tab" [label]="'admin.title' | transloco" />
+
+  <section role="tabpanel" [id]="'panel-' + tab()" [attr.aria-labelledby]="'tab-' + tab()">
+    @switch (tab()) {
+      @case ('apercu') {
+        <div class="card box">
+          <h2 class="h3">{{ 'admin.byState' | transloco }}</h2>
+          <ul class="bars">
+            @for (r of o?.requests ?? []; track r.state; let i = $index) {
+              <li>
+                <app-state-badge [state]="r.state" />
+                <span class="bar" aria-hidden="true"
+                  ><span
+                    [style.width.%]="(r.count / maxCount()) * 100"
+                    [style.animation-delay.ms]="i * 60"
+                  ></span
+                ></span>
+                <span class="small"
+                  ><b>{{ r.count }}</b> · {{ r.volumeMillimes | dt }}</span
+                >
+              </li>
+            }
+          </ul>
+        </div>
+        <div class="shortcuts">
+          <button type="button" class="card sc" (click)="tab.set('validation')">
+            <app-icon name="badge-check" /><b>{{ o?.tutors?.pending ?? 0 }}</b
+            ><span>{{ 'admin.tab.validation' | transloco }}</span>
+          </button>
+          <button type="button" class="card sc" (click)="tab.set('signalements')">
+            <app-icon name="flag" /><b>{{ o?.reports ?? 0 }}</b
+            ><span>{{ 'admin.tab.signalements' | transloco }}</span>
+          </button>
+          <button type="button" class="card sc" (click)="tab.set('contact')">
+            <app-icon name="mail" /><b>{{ o?.contacts ?? 0 }}</b
+            ><span>{{ 'admin.tab.contact' | transloco }}</span>
+          </button>
         </div>
       }
-    </div>
-  }
-  <div class="card box">
-    <h2 class="h3">{{ 'admin.toValidate' | transloco }}</h2>
-    @for (t of pending.value() ?? []; track t.id) {
-      <div class="tline">
-        <div>
-          <b>{{ t.name }}</b> · <span class="muted">{{ t.school }}, {{ t.year }}</span>
-          <div class="small muted">
-            {{ t.email }} · {{ 'admin.average' | transloco }} {{ t.declaredAverage ?? '—' }} ·
-            {{ t.subjects.join(', ') }}
+      @case ('validation') {
+        <div class="card box">
+          <p class="small muted">{{ 'admin.validationD' | transloco }}</p>
+          @for (t of pending.value() ?? []; track t.id) {
+            <div class="tline">
+              <div>
+                <b>{{ t.name }}</b> · <span class="muted">{{ t.school }}, {{ t.year }}</span>
+                <div class="small muted">
+                  {{ t.email }} · {{ 'admin.average' | transloco }} {{ t.declaredAverage ?? '—' }} ·
+                  {{ t.subjects.join(', ') }}
+                </div>
+                <div class="small muted">
+                  {{ 'admin.since' | transloco: { when: (t.createdAt | when: 'relative') } }}
+                </div>
+              </div>
+              <button type="button" class="btn sm ok" [disabled]="busy()" (click)="validate(t.id)">
+                <app-icon name="badge-check" /> {{ 'admin.validate' | transloco }}
+              </button>
+            </div>
+          } @empty {
+            <app-empty-state icon="badge-check" [title]="'admin.none' | transloco" />
+          }
+        </div>
+      }
+      @case ('signalements') {
+        @for (r of reports.value() ?? []; track r.id) {
+          <article class="card lrow">
+            <div class="mid">
+              <div class="row">
+                <b>{{ r.subject | subject }}</b> · <bdi>{{ r.student.firstName }}</bdi> →
+                <bdi>{{ r.tutor.firstName }} {{ r.tutor.lastInitial }}</bdi>
+              </div>
+              <div class="small muted">{{ r.startsAt | when }} · {{ r.totalMillimes | dt }}</div>
+              <p class="small note"><app-icon name="flag" /> {{ r.reportReason }}</p>
+            </div>
+            <div class="acts">
+              <button type="button" class="btn sm" [disabled]="busy()" (click)="openResolve(r)">
+                <app-icon name="gavel" /> {{ 'admin.resolve' | transloco }}
+              </button>
+            </div>
+          </article>
+        } @empty {
+          <app-empty-state
+            icon="shield-check"
+            [title]="'admin.noReports' | transloco"
+            [text]="'admin.noReportsD' | transloco"
+          />
+        }
+      }
+      @case ('cours') {
+        <div class="filters">
+          <div class="fld search">
+            <label class="sr-only" for="a-q">{{ 'admin.search' | transloco }}</label>
+            <app-icon name="search" />
+            <input
+              id="a-q"
+              type="search"
+              [ngModel]="search()"
+              (ngModelChange)="onSearch($event)"
+              [placeholder]="'admin.search' | transloco"
+            />
+          </div>
+          <div class="chips" role="group" [attr.aria-label]="'admin.filterState' | transloco">
+            <button
+              type="button"
+              class="chip"
+              [class.on]="!filterState()"
+              [attr.aria-pressed]="!filterState()"
+              (click)="setFilter('')"
+            >
+              {{ 'common.all' | transloco }}
+            </button>
+            @for (s of states; track s) {
+              <button
+                type="button"
+                class="chip"
+                [class.on]="filterState() === s"
+                [attr.aria-pressed]="filterState() === s"
+                (click)="setFilter(s)"
+              >
+                {{ 'state.' + s | transloco }}
+              </button>
+            }
           </div>
         </div>
-        <button type="button" class="btn sm ok" [disabled]="busy()" (click)="validate(t.id)">
-          <app-icon name="badge-check" /> {{ 'admin.validate' | transloco }}
+        <div class="card table-wrap" [class.loading]="list.isLoading()">
+          <table>
+            <caption class="sr-only">
+              {{
+                'admin.tab.cours' | transloco
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'admin.col.date' | transloco }}</th>
+                <th scope="col">{{ 'search.subject' | transloco }}</th>
+                <th scope="col">{{ 'admin.col.student' | transloco }}</th>
+                <th scope="col">{{ 'admin.col.tutor' | transloco }}</th>
+                <th scope="col">{{ 'admin.col.state' | transloco }}</th>
+                <th scope="col" class="num">{{ 'admin.col.amount' | transloco }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of list.value()?.items ?? []; track r.id) {
+                <tr>
+                  <td>{{ r.startsAt | when: 'short' }}</td>
+                  <td>{{ r.subject | subject }}</td>
+                  <td>
+                    <bdi>{{ r.student.firstName }}</bdi>
+                  </td>
+                  <td>
+                    <bdi>{{ r.tutor.firstName }} {{ r.tutor.lastInitial }}</bdi>
+                  </td>
+                  <td><app-state-badge [state]="r.state" /></td>
+                  <td class="num">{{ r.totalMillimes | dt }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="muted">{{ 'admin.noResult' | transloco }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (list.value(); as l) {
+          <nav class="pager" [attr.aria-label]="'admin.pages' | transloco">
+            <button
+              type="button"
+              class="btn ghost sm"
+              [disabled]="l.page <= 1"
+              (click)="page.set(l.page - 1)"
+            >
+              <app-icon name="chevron-left" [flip]="true" /> {{ 'common.prev' | transloco }}
+            </button>
+            <span class="small muted">{{
+              'admin.pageOf' | transloco: { page: l.page, pages: l.pages, total: l.total }
+            }}</span>
+            <button
+              type="button"
+              class="btn ghost sm"
+              [disabled]="l.page >= l.pages"
+              (click)="page.set(l.page + 1)"
+            >
+              {{ 'common.next' | transloco }} <app-icon name="chevron-right" [flip]="true" />
+            </button>
+          </nav>
+        }
+      }
+      @case ('matieres') {
+        <form class="card box" (ngSubmit)="addSubject()">
+          <h2 class="h3">{{ 'admin.addSubject' | transloco }}</h2>
+          <div class="grid4">
+            <div class="fld">
+              <label for="n-code">{{ 'admin.code' | transloco }}</label
+              ><input
+                id="n-code"
+                [(ngModel)]="newSubject.code"
+                name="code"
+                required
+                placeholder="analyse-numerique"
+              />
+            </div>
+            <div class="fld">
+              <label for="n-fr">Français</label
+              ><input id="n-fr" [(ngModel)]="newSubject.nameFr" name="nameFr" required lang="fr" />
+            </div>
+            <div class="fld">
+              <label for="n-ar">العربية</label
+              ><input id="n-ar" [(ngModel)]="newSubject.nameAr" name="nameAr" dir="rtl" lang="ar" />
+            </div>
+            <div class="fld">
+              <label for="n-en">English</label
+              ><input id="n-en" [(ngModel)]="newSubject.nameEn" name="nameEn" lang="en" />
+            </div>
+          </div>
+          <button class="btn" type="submit" [disabled]="busy()">
+            <app-icon name="plus" /> {{ 'common.add' | transloco }}
+          </button>
+        </form>
+        <div class="card box">
+          @for (s of subjects.value() ?? []; track s.id) {
+            <div class="tline">
+              <div>
+                <b>{{ s | subject }}</b
+                ><span class="small muted"> · {{ s.code }}</span>
+                <div class="small muted">
+                  <span lang="fr">{{ s.nameFr }}</span> ·
+                  <span lang="ar" dir="rtl">{{ s.nameAr }}</span> ·
+                  <span lang="en">{{ s.nameEn }}</span>
+                </div>
+              </div>
+              <span class="row">
+                <span class="badge">{{ 'admin.tutorsN' | transloco: { n: s.tutors } }}</span>
+                <button
+                  type="button"
+                  class="btn ghost sm"
+                  (click)="openEdit(s)"
+                  [attr.aria-label]="('common.edit' | transloco) + ' ' + s.nameFr"
+                >
+                  <app-icon name="pencil" />
+                </button>
+              </span>
+            </div>
+          }
+        </div>
+      }
+      @case ('contact') {
+        @for (c of contacts.value() ?? []; track c.id) {
+          <article class="card lrow" [class.done]="c.status === 'traite'">
+            <div class="mid">
+              <div class="row">
+                <b>{{ c.name }}</b> <span class="small muted">{{ c.email }}</span>
+                <span class="badge">{{ 'contact.topic.' + c.topic | transloco }}</span>
+              </div>
+              <p class="small msg">{{ c.message }}</p>
+              <div class="small muted">{{ c.createdAt | when: 'relative' }}</div>
+            </div>
+            <div class="acts">
+              <a class="btn ghost sm" [href]="'mailto:' + c.email"
+                ><app-icon name="reply" /> {{ 'admin.reply' | transloco }}</a
+              >
+              <button
+                type="button"
+                class="btn sm"
+                [class.ok]="c.status === 'nouveau'"
+                [class.ghost]="c.status === 'traite'"
+                [disabled]="busy()"
+                (click)="toggleContact(c.id, c.status)"
+              >
+                <app-icon [name]="c.status === 'nouveau' ? 'check' : 'rotate-ccw'" />
+                {{ (c.status === 'nouveau' ? 'admin.markDone' : 'admin.markNew') | transloco }}
+              </button>
+            </div>
+          </article>
+        } @empty {
+          <app-empty-state icon="mail" [title]="'admin.noContact' | transloco" />
+        }
+      }
+    }
+  </section>
+</div>
+
+<app-modal #resolveModal [title]="'admin.resolveT' | transloco" (closed)="resolving.set(null)">
+  @if (resolving(); as r) {
+    <form (submit)="$event.preventDefault(); resolve()">
+      <p class="small muted">
+        {{ r.subject | subject }} · <bdi>{{ r.student.firstName }}</bdi> →
+        <bdi>{{ r.tutor.firstName }}</bdi> · {{ r.totalMillimes | dt }}
+      </p>
+      <p class="small note"><app-icon name="flag" /> {{ r.reportReason }}</p>
+      <fieldset class="choice">
+        <legend class="small">{{ 'admin.decision' | transloco }}</legend>
+        <label [class.on]="decision === 'rembourser'"
+          ><input type="radio" name="decision" value="rembourser" [(ngModel)]="decision" />
+          <span
+            ><b>{{ 'admin.refund' | transloco }}</b
+            ><span class="small muted">{{ 'admin.refundD' | transloco }}</span></span
+          ></label
+        >
+        <label [class.on]="decision === 'verser'"
+          ><input type="radio" name="decision" value="verser" [(ngModel)]="decision" />
+          <span
+            ><b>{{ 'admin.pay' | transloco }}</b
+            ><span class="small muted">{{ 'admin.payD' | transloco }}</span></span
+          ></label
+        >
+      </fieldset>
+      <div class="fld">
+        <label for="r-note">{{ 'admin.note' | transloco }}</label>
+        <textarea
+          id="r-note"
+          [(ngModel)]="note"
+          name="note"
+          minlength="3"
+          maxlength="500"
+          required
+          [placeholder]="'admin.notePh' | transloco"
+        ></textarea>
+        <div class="hint">{{ 'admin.noteHint' | transloco }}</div>
+      </div>
+      <div class="row end">
+        <button type="button" class="btn ghost sm" (click)="resolveModal.close()">
+          {{ 'common.close' | transloco }}
+        </button>
+        <button type="submit" class="btn sm" [disabled]="busy() || note.trim().length < 3">
+          {{ 'admin.confirm' | transloco }}
         </button>
       </div>
-    } @empty {
-      <p class="small muted">{{ 'admin.none' | transloco }}</p>
-    }
-  </div>
-</div>
+    </form>
+  }
+</app-modal>
+
+<app-modal #subjectModal [title]="'admin.editSubject' | transloco" (closed)="editing.set(null)">
+  <form (submit)="$event.preventDefault(); saveSubject()">
+    <div class="fld">
+      <label for="e-fr">Français</label
+      ><input id="e-fr" [(ngModel)]="edit.nameFr" name="efr" lang="fr" required />
+    </div>
+    <div class="fld">
+      <label for="e-ar">العربية</label
+      ><input id="e-ar" [(ngModel)]="edit.nameAr" name="ear" dir="rtl" lang="ar" required />
+    </div>
+    <div class="fld">
+      <label for="e-en">English</label
+      ><input id="e-en" [(ngModel)]="edit.nameEn" name="een" lang="en" required />
+    </div>
+    <div class="row end">
+      <button type="button" class="btn ghost sm" (click)="subjectModal.close()">
+        {{ 'common.close' | transloco }}
+      </button>
+      <button type="submit" class="btn sm" [disabled]="busy()">
+        {{ 'common.save' | transloco }}
+      </button>
+    </div>
+  </form>
+</app-modal>

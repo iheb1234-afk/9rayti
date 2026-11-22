@@ -27,8 +27,13 @@ jobs:
         run: npx ng build --configuration demo
       - name: Repli SPA pour les liens directs
         run: |
-          cp dist/frontend/browser/index.html dist/frontend/browser/404.html
-          touch dist/frontend/browser/.nojekyll
+          cd dist/frontend/browser
+          cp index.html 404.html
+          # Une copie de index.html par page fixe : les liens directs répondent 200 (et non 404).
+          for r in recherche sessions comment-ca-marche devenir-tuteur a-propos contact cgu connexion inscription mon-espace espace-tuteur messages profil notifications admin; do
+            mkdir -p "$r" && cp index.html "$r/index.html"
+          done
+          touch .nojekyll
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

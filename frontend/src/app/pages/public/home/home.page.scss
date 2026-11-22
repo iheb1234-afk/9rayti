@@ -1,60 +1,175 @@
+// Accueil — « la porte bleue de Sidi Bou Saïd s'ouvre sur la plateforme ».
+// Toutes les animations du premier écran sont en CSS (transform / opacity seulement).
+
+:host {
+  display: block;
+  --bougain: #c2357e;
+}
+
+// ---------------------------------------------------------------- 1. héros
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      60% 60% at 85% 10%,
+      color-mix(in srgb, var(--soleil) 22%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(180deg, var(--fond), var(--blanc));
+}
 .hero {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1.05fr 0.95fr;
   gap: 48px;
   align-items: center;
-  padding: 56px 0 40px;
+  padding-block: 44px 64px;
+  min-height: 600px;
 }
-h1 {
-  margin-top: 14px;
+.copy {
+  // Sans cela, la largeur minimale du menu déroulant des matières élargit la colonne sur mobile.
+  min-width: 0;
+}
+.kick {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--bleu-clair);
+  color: var(--lien);
+  font-weight: 600;
+  font-size: 14px;
+  animation: rise 0.6s var(--ease-out) both;
+}
+.pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--olivier);
+}
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.h1 {
+  margin: 18px 0 0;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--bleu-nuit);
+}
+.w {
+  display: inline-block;
+  animation: word-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(80ms + var(--d, 0) * 55ms);
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(4deg);
+  }
+}
+.hl {
+  position: relative;
+  color: var(--lien);
+}
+.hl svg {
+  position: absolute;
+  inset-inline: -2%;
+  bottom: -0.12em;
+  width: 104%;
+  height: 0.32em;
+  overflow: visible;
+}
+.hl path {
+  fill: none;
+  stroke: var(--soleil);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: draw 0.9s 0.9s var(--ease-out) forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 .lead {
   font-size: 19px;
   color: var(--gris);
   max-width: 520px;
-  margin: 16px 0 24px;
+  margin: 18px 0 22px;
+  animation: rise 0.7s 0.45s var(--ease-out) both;
 }
 .q {
-  display: flex;
-  gap: 10px;
-  max-width: 520px;
-  margin-bottom: 18px;
+  max-width: 540px;
+  animation: rise 0.7s 0.55s var(--ease-out) both;
 }
 .field {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: 10px;
   background: var(--blanc);
   border: 1.5px solid var(--bleu);
   border-radius: 999px;
-  padding: 4px 6px 4px 18px;
-  color: var(--bleu);
+  padding: 5px;
+  padding-inline-start: 18px;
+  color: var(--lien);
+  box-shadow: 0 10px 30px var(--ombre);
+  transition: box-shadow 0.25s;
 }
-:host-context([dir='rtl']) .field {
-  padding: 4px 18px 4px 6px;
+.field:focus-within {
+  box-shadow:
+    0 0 0 4px var(--bleu-clair),
+    0 10px 30px var(--ombre);
 }
 .field select {
   flex: 1;
+  min-width: 0;
   border: 0;
   background: transparent;
   font: inherit;
   font-size: 16px;
   padding: 9px 0;
   color: var(--texte);
-  min-width: 0;
 }
 .field select:focus {
   outline: none;
 }
-.field:focus-within {
-  box-shadow: 0 0 0 3px var(--bleu-clair);
+.popular {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 14px 0 22px;
+  animation: rise 0.7s 0.65s var(--ease-out) both;
+}
+.popular .chip {
+  padding: 5px 12px;
+  font-size: 13px;
 }
 .duo {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  max-width: 520px;
+  max-width: 540px;
+  animation: rise 0.7s 0.75s var(--ease-out) both;
 }
 .duo .btn {
   flex-direction: column;
@@ -65,159 +180,1180 @@ h1 {
   white-space: normal;
   text-align: start;
 }
+.duo .btn > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 .duo .btn small {
   font-weight: 400;
   font-size: 13px;
   opacity: 0.85;
 }
-.door {
-  position: relative;
-  height: 420px;
-  border-radius: 220px 220px 22px 22px;
-  background-color: var(--bleu);
+.btn ::ng-deep .ic {
+  transition: translate 0.3s var(--ease-spring);
 }
-.door .in {
+.btn:hover ::ng-deep .ic {
+  translate: 4px 0;
+}
+:host-context([dir='rtl']) .btn:hover ::ng-deep .ic {
+  translate: -4px 0;
+}
+.proof {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  animation: rise 0.7s 0.85s var(--ease-out) both;
+}
+.faces {
+  display: inline-flex;
+}
+.faces ::ng-deep .arc {
+  border: 2px solid var(--blanc);
+  margin-inline-start: -10px;
+  box-shadow: 0 2px 8px var(--ombre);
+}
+.faces ::ng-deep .arc:first-child {
+  margin-inline-start: 0;
+}
+
+// Pétales de bougainvillier qui tombent sur tout le héros.
+.petals {
   position: absolute;
-  inset: 26px;
-  border-radius: 200px 200px 14px 14px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
 }
-.mini {
+.petals i {
+  position: absolute;
+  top: -24px;
+  left: calc(var(--i) * 7.2%);
+  width: 11px;
+  height: 13px;
+  border-radius: 70% 0 70% 0;
+  background: linear-gradient(135deg, #e05aa5, var(--bougain));
+  opacity: 0.75;
+  animation: fall calc(9s + var(--i) * 0.55s) linear infinite;
+  animation-delay: calc(var(--i) * -1.7s);
+}
+.petals i:nth-child(3n) {
+  width: 8px;
+  height: 10px;
+  opacity: 0.55;
+}
+.petals i:nth-child(4n) {
+  background: linear-gradient(135deg, #f3a6cf, #d0518f);
+}
+@keyframes fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(28px, 190px, 0) rotate(120deg);
+  }
+  50% {
+    transform: translate3d(-12px, 380px, 0) rotate(250deg);
+  }
+  75% {
+    transform: translate3d(36px, 570px, 0) rotate(380deg);
+  }
+  100% {
+    transform: translate3d(6px, 780px, 0) rotate(520deg);
+  }
+}
+
+// La scène : une arche, deux battants qui s'ouvrent, la mer et le soleil derrière.
+.scene {
+  --px: 0;
+  --py: 0;
+  --w: 330px;
+  --h: 440px;
+  position: relative;
+  height: 520px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  will-change: transform;
+}
+.arch {
+  position: relative;
+  width: calc(var(--w) + 36px);
+  height: calc(var(--h) + 30px);
+  border-radius: calc(var(--w) / 2 + 18px) calc(var(--w) / 2 + 18px) 16px 16px;
+  background: var(--blanc);
+  box-shadow:
+    0 30px 60px -20px var(--ombre),
+    inset 0 0 0 1px var(--trait);
+  perspective: 1100px;
+  animation: rise 0.9s 0.1s var(--ease-out) both;
+}
+.court,
+.leaf {
+  position: absolute;
+  top: 18px;
+  height: var(--h);
+}
+.court {
+  inset-inline: 18px;
+  overflow: hidden;
+  border-radius: calc(var(--w) / 2) calc(var(--w) / 2) 6px 6px;
+  isolation: isolate;
+}
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #fbe3a8 0%, #f6c26a 42%, #f2a65e 66%);
+}
+.astre {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
+  top: 34%;
+  width: 96px;
+  height: 96px;
+  margin-left: -48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #fff6cf, var(--soleil) 60%, #e49b22);
+  box-shadow: 0 0 60px 20px color-mix(in srgb, var(--soleil) 55%, transparent);
+  animation: sunrise 2.2s 1.2s var(--ease-out) both;
 }
-.mini.c1 {
-  top: 150px;
+@keyframes sunrise {
+  from {
+    transform: translateY(90px) scale(0.85);
+    opacity: 0.3;
+  }
 }
-.mini.c2 {
-  top: 262px;
-  width: 68%;
+.sea {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 36%;
+  background: linear-gradient(180deg, #2b84d6, #0d4f9c 70%);
+  overflow: hidden;
 }
-.mini .card {
-  padding: 12px 14px;
+.sea i {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.55) 0 22px,
+    transparent 22px 54px
+  );
+  animation: tide 6s linear infinite;
+}
+.sea i:first-child {
+  top: 22%;
+}
+.sea i:last-child {
+  top: 52%;
+  opacity: 0.6;
+  animation-duration: 9s;
+  animation-direction: reverse;
+}
+@keyframes tide {
+  to {
+    transform: translateX(54px);
+  }
+}
+.village {
+  position: absolute;
+  bottom: 18%;
+  inset-inline-start: 8%;
   display: flex;
-  gap: 12px;
-  align-items: center;
-  box-shadow: 0 10px 30px rgba(11, 60, 120, 0.25);
+  align-items: flex-end;
+  gap: 4px;
 }
+.house {
+  position: relative;
+  display: block;
+  background: #fbfaf6;
+  box-shadow: inset -6px 0 0 rgba(0, 0, 0, 0.06);
+}
+.house::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  width: 7px;
+  height: 11px;
+  border-radius: 4px 4px 0 0;
+  background: var(--bleu);
+}
+.house b {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+  border-radius: 22px 22px 0 0;
+  background: #1a63b5;
+}
+.ha {
+  width: 30px;
+  height: 26px;
+}
+.hb {
+  width: 38px;
+  height: 40px;
+}
+.hc {
+  width: 26px;
+  height: 30px;
+}
+.hd {
+  width: 34px;
+  height: 22px;
+}
+// Battants : bleu de Sidi Bou Saïd, clous noirs, heurtoir en laiton.
+.leaf {
+  width: calc(var(--w) / 2);
+  background-color: var(--bleu);
+  background-image:
+    radial-gradient(circle, rgba(5, 25, 50, 0.55) 1.7px, transparent 2.2px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 40%, rgba(0, 0, 0, 0.12));
+  background-size:
+    15px 15px,
+    100% 100%;
+  box-shadow: inset 0 0 0 7px rgba(0, 0, 0, 0.12);
+  backface-visibility: visible;
+  transform-style: preserve-3d;
+  z-index: 2;
+}
+.leaf.l {
+  left: 18px;
+  border-top-left-radius: calc(var(--w) / 2);
+  transform-origin: left center;
+  animation: open-l 1.9s 0.55s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+.leaf.r {
+  right: 18px;
+  border-top-right-radius: calc(var(--w) / 2);
+  transform-origin: right center;
+  animation: open-r 1.9s 0.55s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+@keyframes open-l {
+  0%,
+  12% {
+    transform: rotateY(0deg);
+  }
+  20% {
+    transform: rotateY(-6deg);
+  }
+  to {
+    transform: rotateY(-104deg);
+  }
+}
+@keyframes open-r {
+  0%,
+  12% {
+    transform: rotateY(0deg);
+  }
+  20% {
+    transform: rotateY(6deg);
+  }
+  to {
+    transform: rotateY(104deg);
+  }
+}
+.knock {
+  position: absolute;
+  right: 14px;
+  top: 52%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid #d9a441;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+// Bougainvillier en haut de l'arche, qui se balance doucement.
+.bougain {
+  position: absolute;
+  top: 46px;
+  inset-inline-end: calc(50% - var(--w) / 2 - 46px);
+  width: 120px;
+  height: 90px;
+  z-index: 3;
+  transform-origin: top right;
+  animation: sway 5s ease-in-out infinite alternate;
+}
+.bougain i {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f7d3e6 12%, #e05aa5 14%, var(--bougain) 70%);
+  box-shadow: 0 2px 6px rgba(120, 20, 70, 0.25);
+}
+.bougain i:nth-child(1) {
+  top: 0;
+  right: 10px;
+}
+.bougain i:nth-child(2) {
+  top: 14px;
+  right: 30px;
+  transform: scale(0.8);
+}
+.bougain i:nth-child(3) {
+  top: 30px;
+  right: 6px;
+}
+.bougain i:nth-child(4) {
+  top: 8px;
+  right: 54px;
+  transform: scale(0.7);
+}
+.bougain i:nth-child(5) {
+  top: 44px;
+  right: 28px;
+  transform: scale(0.9);
+}
+.bougain i:nth-child(6) {
+  top: 28px;
+  right: 76px;
+  transform: scale(0.6);
+}
+.bougain i:nth-child(7) {
+  top: 62px;
+  right: 8px;
+  transform: scale(0.75);
+}
+@keyframes sway {
+  to {
+    transform: rotate(-4deg);
+  }
+}
+// Cartes flottantes : apparaissent quand la porte est ouverte, puis suivent la souris.
+.float,
 .sunbadge {
   position: absolute;
-  top: 70px;
-  inset-inline-end: -14px;
-  background: var(--soleil);
-  color: #3a2a05;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 14px;
-  transform: rotate(6deg);
+  z-index: 4;
+  translate: calc(var(--px) * var(--z) * 26px) calc(var(--py) * var(--z) * 22px);
+  transition: translate 0.4s var(--ease-out);
 }
-:host-context([dir='rtl']) .sunbadge {
-  transform: rotate(-6deg);
+.float .card {
+  animation:
+    card-in 0.7s var(--ease-spring) both,
+    float 6s ease-in-out infinite;
 }
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
+.mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px -12px var(--ombre);
+  white-space: nowrap;
 }
-.step {
-  padding: 22px;
+.mini .who {
+  min-width: 0;
 }
-.step .n {
+.mini .price {
+  font-size: 16px;
+}
+.c1 {
+  top: 26%;
+  inset-inline-start: -2%;
+}
+.c1 .card {
+  animation-delay: 1.6s, 2.3s;
+}
+.c2 {
+  bottom: 9%;
+  inset-inline-end: -4%;
+}
+.c2 .card {
+  animation-delay: 1.9s, 2.6s;
+}
+.c3 {
+  bottom: 30%;
+  inset-inline-end: -10%;
+}
+.c3 .card {
+  animation-delay: 2.2s, 2.9s;
+  animation-duration: 0.7s, 7s;
+}
+.ok {
+  color: var(--olivier);
+  display: inline-flex;
+}
+.play {
+  display: inline-flex;
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: var(--bleu-clair);
-  color: var(--bleu);
+  align-items: center;
+  justify-content: center;
+  background: var(--brique);
+  color: #fff;
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.85);
+  }
+}
+.sunbadge {
+  top: 4%;
+  inset-inline-start: 8%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: var(--soleil);
+  color: #3a2a00;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 12px 30px -10px rgba(180, 120, 0, 0.6);
+  animation: card-in 0.7s 2.4s var(--ease-spring) both;
+}
+// Mode sombre : la porte s'ouvre sur une nuit étoilée et la lune.
+:host-context([data-theme='dark']) {
+  .sky {
+    background:
+      radial-gradient(1.5px 1.5px at 20% 20%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 12%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 82% 34%, #fff, transparent),
+      radial-gradient(1px 1px at 38% 40%, #fff, transparent),
+      radial-gradient(1px 1px at 55% 25%, #cfe0ff, transparent),
+      linear-gradient(180deg, #08142b 0%, #13264d 60%, #1d3566 100%);
+  }
+  .astre {
+    background: radial-gradient(circle at 38% 38%, #fffdf0, #e9e2c4 65%, #cfc7a6);
+    box-shadow: 0 0 50px 14px rgba(255, 250, 220, 0.25);
+  }
+  .sea {
+    background: linear-gradient(180deg, #123a72, #081c3b 70%);
+  }
+  .house {
+    background: #d9dde6;
+  }
+  .arch {
+    background: var(--nuit);
+  }
+}
+
+// ---------------------------------------------------------------- 2. bandeau des matières
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 16px 0;
+  display: grid;
+  gap: 10px;
+  border-block: 1px solid var(--trait);
+  background: var(--blanc);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.track {
   display: flex;
+  width: max-content;
+  animation: marq 48s linear infinite;
+}
+.track.rev {
+  animation-direction: reverse;
+  animation-duration: 56s;
+}
+.marquee:hover .track,
+.marquee:focus-within .track {
+  animation-play-state: paused;
+}
+:host-context([dir='rtl']) .track {
+  animation-name: marq-rtl;
+}
+.lane {
+  display: flex;
+  gap: 10px;
+  padding-inline-end: 10px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--trait);
+  background: var(--fond);
+  color: var(--texte);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.25s var(--ease-spring);
+}
+.pill ::ng-deep .ic {
+  width: 16px;
+  height: 16px;
+  color: var(--lien);
+}
+.pill:hover {
+  background: var(--bleu);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.pill:hover ::ng-deep .ic {
+  color: #fff;
+}
+@keyframes marq {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marq-rtl {
+  to {
+    transform: translateX(50%);
+  }
+}
+
+// ---------------------------------------------------------------- 3. chiffres
+.numbers {
+  position: relative;
+  overflow: hidden;
+  background: var(--nuit);
+  color: #fff;
+  padding: 56px 0;
+}
+.zellige {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  top: -340px;
+  inset-inline-end: -260px;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23E9B23A' stroke-width='1.4'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: radial-gradient(circle, #000 20%, transparent 65%);
+}
+.grid4 {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.grid4 > div {
+  display: grid;
+  gap: 4px;
+  padding-inline-start: 18px;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.14);
+}
+.grid4 b {
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 700;
+  color: var(--soleil);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.grid4 span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+// ---------------------------------------------------------------- 4. comment ça marche
+.sec-h {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sec-h h2 {
+  font-size: clamp(26px, 3.2vw, 36px);
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+.path-box {
+  position: relative;
+  margin-top: 26px;
+}
+// Rail horizontal qui se remplit au défilement (GSAP) et relie les trois étapes.
+.rail {
+  position: absolute;
+  top: 21px;
+  inset-inline: 16.6%;
+  height: 4px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, var(--trait-fort) 0 6px, transparent 6px 14px);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--bleu), var(--soleil));
+  transform-origin: left center;
+}
+:host-context([dir='rtl']) .fill {
+  transform-origin: right center;
+  background: linear-gradient(270deg, var(--bleu), var(--soleil));
+}
+.steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.step {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+.dot {
+  position: relative;
+  z-index: 1;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 18px;
+  color: #fff;
+  background: var(--bleu);
+  box-shadow:
+    0 0 0 6px var(--blanc),
+    0 0 0 7px var(--trait);
+  transition:
+    transform 0.4s var(--ease-spring),
+    background 0.3s;
 }
-.step p {
+.step.lit .dot {
+  background: var(--soleil);
+  color: #3a2a00;
+  transform: scale(1.12);
+}
+.body {
+  width: 100%;
+  padding: 26px 24px;
+  text-align: center;
+}
+.ill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 66px;
+  border-radius: var(--r-arc);
+  background: var(--bleu-clair);
+  color: var(--lien);
+  margin-bottom: 14px;
+}
+.step h3 {
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+
+// ---------------------------------------------------------------- 5. anti-fuite
+.leak {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.leak h2 {
+  font-size: clamp(26px, 3.2vw, 36px);
+  margin: 14px 0 10px;
+}
+.guar {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 14px;
+}
+.guar li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.guar li > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+.gi {
+  flex: none;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  background: var(--olivier-clair);
+  color: var(--olivier-texte);
+}
+.chat {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 460px;
+  justify-self: end;
+  box-shadow: 0 30px 60px -25px var(--ombre);
+}
+.chat-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--trait);
+}
+.lock {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.chat-b {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 318px;
+  padding: 18px 16px 64px;
+  background:
+    radial-gradient(circle at 1px 1px, var(--trait) 1px, transparent 1.5px) 0 0 / 18px 18px,
+    var(--fond);
+}
+.bub {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(12px) scale(0.95);
+  transition:
+    opacity 0.4s,
+    transform 0.5s var(--ease-spring);
+}
+.bub.in,
+.typing {
+  opacity: 1;
+  transform: none;
+}
+.me {
+  align-self: flex-end;
+  background: var(--bleu);
+  color: #fff;
+  border-end-end-radius: 4px;
+}
+.them {
+  align-self: flex-start;
+  background: var(--blanc);
+  border: 1px solid var(--trait);
+  border-end-start-radius: 4px;
+}
+.typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 12px 14px;
+}
+.typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gris);
+  animation: bounce 1s infinite;
+}
+.typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+.num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.num.done {
+  display: inline-block;
+  padding: 0 7px;
+  border-radius: 7px;
+  background: var(--soleil-clair);
+  color: var(--soleil-texte);
+  letter-spacing: 2px;
+  animation: pop 0.45s var(--ease-spring);
+}
+.flag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--soleil-texte);
 }
+.flag ::ng-deep .ic {
+  width: 13px;
+  height: 13px;
+}
+.sys {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--olivier-clair);
+  color: var(--olivier-texte);
+  text-align: center;
+}
+.sys ::ng-deep .ic {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+.replay {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-end: 12px;
+  background: var(--blanc);
+}
+
+// ---------------------------------------------------------------- 6. sessions
 .sess {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
-  margin-top: 22px;
+  margin-top: 18px;
 }
-.sc {
-  padding: 18px;
-  color: inherit;
-  text-decoration: none !important;
-  transition:
-    border-color 0.15s,
-    transform 0.15s;
+
+// ---------------------------------------------------------------- 7. avis
+.reviews {
+  overflow: hidden;
 }
-.sc:hover {
-  border-color: var(--bleu);
-  transform: translateY(-2px);
-}
-.sc h3 {
-  margin-top: 10px;
-}
-.trust {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-.trust > div {
+.rtrack {
   display: flex;
+  width: max-content;
+  margin-top: 18px;
+  animation: marq 70s linear infinite;
+}
+.rtrack:hover,
+.rtrack:focus-within {
+  animation-play-state: paused;
+}
+:host-context([dir='rtl']) .rtrack {
+  animation-name: marq-rtl;
+}
+.rlane {
+  display: flex;
+  gap: 16px;
+  padding: 10px 8px 24px;
+  padding-inline-end: 16px;
+  margin: 0;
+  list-style: none;
+}
+.rcard {
+  position: relative;
+  width: 330px;
+  flex: none;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s;
+}
+.rcard:hover {
+  transform: translateY(-4px) rotate(-0.6deg);
+  box-shadow: 0 20px 40px -18px var(--ombre);
+}
+.q-ic {
+  position: absolute;
+  top: 16px;
+  inset-inline-end: 16px;
+  color: var(--soleil);
+  opacity: 0.5;
+}
+.rcard p {
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rby {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+// ---------------------------------------------------------------- 8. devenir tuteur
+.teach {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 36px;
+  align-items: center;
+  padding: 36px;
+  background: linear-gradient(135deg, var(--soleil-clair), var(--blanc) 70%);
+  border-color: var(--soleil-trait);
+}
+.teach h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  margin: 14px 0 8px;
+}
+.teach .btn {
+  margin-top: 16px;
+}
+.sim {
+  display: grid;
+  gap: 8px;
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--blanc);
+  box-shadow: 0 20px 40px -22px var(--ombre);
+}
+.sim label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.sim input[type='range'] {
+  width: 100%;
+  accent-color: var(--bleu);
+  margin-bottom: 8px;
+}
+.result {
+  display: grid;
+  gap: 2px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--trait-fort);
+}
+.result b {
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--bleu-nuit);
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------------------------------------------------------------- 9. dernier appel
+.final {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin-bottom: 56px;
+  padding: 80px 24px;
+  border-radius: 28px;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(50% 80% at 50% 100%, rgba(233, 178, 58, 0.35), transparent 70%),
+    linear-gradient(160deg, #0d4f9c, #0b3c78);
+}
+.final-arch {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 36px;
+  width: 380px;
+  height: 520px;
+  margin-left: -190px;
+  border-radius: 190px 190px 0 0;
+  background-color: rgba(255, 255, 255, 0.06);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.16) 1.5px, transparent 2px);
+  background-size: 18px 18px;
+}
+.final h2 {
+  color: #fff;
+  font-size: clamp(28px, 4vw, 44px);
+}
+.final p {
+  max-width: 560px;
+  margin: 12px auto 26px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.center {
+  justify-content: center;
   gap: 12px;
-  align-items: flex-start;
-  padding: 18px;
-  border-radius: var(--r-card);
-  background: var(--chaux);
 }
-.trust app-icon ::ng-deep .ic {
-  width: 24px;
-  height: 24px;
-  color: var(--bleu);
+.btn.light {
+  background: #fff;
+  color: #0b3c78;
 }
-@media (max-width: 760px) {
+.btn.light:hover:not(:disabled) {
+  background: var(--soleil);
+  color: #3a2a00;
+}
+.btn.outline {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.7);
+}
+.btn.outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+// ---------------------------------------------------------------- écrans moyens et petits
+@media (max-width: 960px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 28px;
-    padding: 30px 0 10px;
-  }
-  .lead {
-    font-size: 16.5px;
-    margin: 12px 0 18px;
-  }
-  .duo,
-  .steps,
-  .sess,
-  .trust {
-    grid-template-columns: 1fr;
     gap: 12px;
+    padding-top: 28px;
+    min-height: 0;
   }
-  .door {
-    height: 320px;
-    border-radius: 160px 160px 18px 18px;
-    margin: 0 10px;
+  .scene {
+    --w: 250px;
+    --h: 330px;
+    height: 400px;
   }
-  .door .in {
-    inset: 18px;
-    border-radius: 150px 150px 10px 10px;
+  .c1 {
+    inset-inline-start: 0;
+    top: 22%;
   }
-  .mini.c1 {
-    top: 100px;
-    width: 86%;
+  .c3 {
+    display: none;
   }
-  .mini.c2 {
-    top: 206px;
-    width: 76%;
-  }
-  .sunbadge {
-    top: 40px;
+  .c2 {
     inset-inline-end: 0;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .rail {
+    display: none;
+  }
+  .leak,
+  .teach {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .chat {
+    justify-self: stretch;
+    max-width: none;
+  }
+  .sess {
+    grid-template-columns: 1fr;
+  }
+  .grid4 {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 16px;
+  }
+}
+@media (max-width: 560px) {
+  .petals i:nth-child(n + 8) {
+    display: none;
+  }
+  .duo {
+    grid-template-columns: 1fr;
+  }
+  .field .btn {
+    padding-inline: 16px;
+  }
+  .mini {
+    padding: 10px 12px;
+    gap: 8px;
+    scale: 0.88;
+  }
+  .c1 .badge {
+    display: none;
+  }
+  .rcard {
+    width: 280px;
+  }
+  .teach {
+    padding: 24px;
+  }
+  .final {
+    padding: 56px 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
+  }
+  .track,
+  .rtrack {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .lane[aria-hidden='true'],
+  .rlane[aria-hidden='true'] {
+    display: none;
+  }
+  .lane,
+  .rlane {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+// ---------------------------------------------------------------- blocs différés (@defer)
+// Les sections sous la ligne de flottaison sont rendues à l'approche de l'écran ; en attendant,
+// un espace réservé de même hauteur évite tout décalage de mise en page.
+.ph {
+  display: block;
+}
+.ph-marquee {
+  min-height: 134px;
+}
+.ph-numbers {
+  min-height: 191px;
+  background: var(--nuit);
+}
+.ph-how {
+  min-height: 344px;
+}
+.ph-leak {
+  min-height: 363px;
+}
+.ph-sessions {
+  min-height: 240px;
+}
+.ph-reviews {
+  min-height: 300px;
+}
+.ph-teach {
+  min-height: 350px;
+}
+.ph-final {
+  min-height: 365px;
+}
+@media (max-width: 960px) {
+  .ph-numbers {
+    min-height: 293px;
+  }
+  .ph-how {
+    min-height: 914px;
+  }
+  .ph-leak {
+    min-height: 776px;
+  }
+  .ph-sessions {
+    min-height: 660px;
+  }
+  .ph-reviews {
+    min-height: 313px;
+  }
+  .ph-teach {
+    min-height: 598px;
+  }
+  .ph-final {
+    min-height: 356px;
   }
 }

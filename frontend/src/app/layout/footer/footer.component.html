@@ -1,25 +1,34 @@
 <footer class="ft">
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0 30 C 240 0 480 60 720 30 S 1200 0 1440 30 V60 H0 Z" />
+    </svg>
+  </div>
   <div class="wrap">
-    <div class="col">
+    <div class="col brand">
       <app-logo [light]="true" />
       <p class="tag">{{ 'footer.tag' | transloco }}</p>
     </div>
-    <div class="col">
+    <nav class="col" [attr.aria-label]="'footer.students' | transloco">
       <b>{{ 'footer.students' | transloco }}</b>
       <a routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
       <a routerLink="/sessions">{{ 'nav.sessions' | transloco }}</a>
-    </div>
-    <div class="col">
+      <a routerLink="/comment-ca-marche">{{ 'nav.how' | transloco }}</a>
+    </nav>
+    <nav class="col" [attr.aria-label]="'footer.tutors' | transloco">
       <b>{{ 'footer.tutors' | transloco }}</b>
-      <a routerLink="/inscription" [queryParams]="{ role: 'tuteur' }">{{
-        'nav.teach' | transloco
-      }}</a>
+      <a routerLink="/devenir-tuteur">{{ 'nav.teach' | transloco }}</a>
       <a routerLink="/espace-tuteur">{{ 'footer.space' | transloco }}</a>
-    </div>
-    <div class="col">
+    </nav>
+    <nav class="col" aria-label="9rayti">
       <b>9rayti</b>
-      <span>{{ 'footer.rules' | transloco }}</span>
-      <span>© {{ year }} · Groupe 9rayti · SUP'COM</span>
-    </div>
+      <a routerLink="/a-propos">{{ 'nav.about' | transloco }}</a>
+      <a routerLink="/contact">{{ 'nav.contact' | transloco }}</a>
+      <a routerLink="/cgu">{{ 'nav.terms' | transloco }}</a>
+    </nav>
+  </div>
+  <div class="wrap legal small">
+    <span>{{ 'footer.rules' | transloco }}</span>
+    <span>© {{ year }} · Groupe 9rayti · SUP'COM</span>
   </div>
 </footer>

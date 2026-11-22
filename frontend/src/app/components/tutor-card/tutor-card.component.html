@@ -1,6 +1,11 @@
 @let t = tutor();
-<article class="card tut">
-  <app-avatar [name]="t.firstName + ' ' + t.lastInitial" [size]="64" />
+<article class="card tut" appTilt="3">
+  <app-avatar
+    [name]="t.firstName + ' ' + t.lastInitial"
+    [photo]="api.asset(t.avatarUrl)"
+    [size]="64"
+    [transitionName]="shared.tutorId() === t.id ? 'tutor-avatar' : null"
+  />
   <div class="mid">
     <div class="row1">
       <h3>
@@ -8,6 +13,7 @@
           [routerLink]="['/tuteurs', t.id]"
           [queryParams]="subject() ? { matiere: subject() } : {}"
           class="stretch"
+          (click)="open($event)"
           ><bdi>{{ t.firstName }} {{ t.lastInitial }}</bdi></a
         >
       </h3>
@@ -40,6 +46,7 @@
     </div>
   </div>
   <div class="end">
+    <app-favorite-button [tutorId]="t.id" />
     <div class="price">
       {{ t.pricePerHourMillimes | dt }} <small>{{ 'common.perHour' | transloco }}</small>
     </div>

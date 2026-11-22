@@ -37,7 +37,7 @@ fieldset {
 }
 input[type='range'] {
   width: 100%;
-  accent-color: var(--bleu);
+  accent-color: var(--lien);
   padding: 0;
   background: none;
   border: 0;
@@ -70,7 +70,7 @@ input[type='range'] {
   padding: 16px 18px;
   margin-bottom: 14px;
   background: var(--soleil-clair);
-  border: 1px solid #f1d99a;
+  border: 1px solid var(--soleil-trait);
   border-radius: var(--r-card);
   color: inherit;
 }

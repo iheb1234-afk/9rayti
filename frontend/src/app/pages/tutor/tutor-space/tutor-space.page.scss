@@ -14,13 +14,20 @@
   font-style: italic;
   margin-top: 2px;
 }
-.box {
-  padding: 22px;
-  margin-top: 16px;
+.note {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--fond);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
 }
-.h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
+.lrow {
+  animation: rise 0.45s var(--ease-out) both;
+}
+.icon-only {
+  padding: 7px 10px;
 }
 .slotform {
   display: flex;
@@ -29,18 +36,12 @@
   flex-wrap: wrap;
 }
 .slotform .fld {
-  margin: 0;
-  min-width: 150px;
+  margin: 0 0 12px;
+  min-width: 140px;
   flex: 1;
 }
 .slotform .btn {
-  margin-bottom: 1px;
-}
-.tline {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--trait);
+  margin-bottom: 13px;
 }
 .week {
   display: grid;
@@ -50,11 +51,12 @@
 }
 .day {
   border: 1px solid var(--trait);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 8px;
-  min-height: 110px;
+  min-height: 120px;
   font-size: 12.5px;
   background: var(--blanc);
+  animation: rise 0.45s var(--ease-out) both;
 }
 .day > b {
   display: block;
@@ -70,10 +72,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 4px;
+  animation: pop 0.35s var(--ease-spring) both;
 }
 .ev.free {
   background: var(--olivier-clair);
-  color: var(--olivier);
+  color: var(--olivier-texte);
 }
 .ev.cours {
   background: var(--bleu);
@@ -86,12 +89,49 @@
   padding: 0;
   display: inline-flex;
 }
-.x app-icon ::ng-deep .ic {
+.x ::ng-deep .ic {
   width: 14px;
   height: 14px;
 }
-@media (max-width: 760px) {
+.estimate {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.sessions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.reg {
+  margin-top: 6px;
+}
+.rev-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.end {
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+@media (max-width: 860px) {
   .week {
     grid-template-columns: repeat(2, 1fr);
   }
+  .sessions,
+  .rev-tiles {
+    grid-template-columns: 1fr;
+  }
+}
+
+.slotform :is(input, select) {
+  height: 44px;
+}
+
+.more {
+  margin-top: 10px;
 }

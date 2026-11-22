@@ -1,0 +1,187 @@
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap grid">
+    <div>
+      <span class="badge sun"
+        ><app-icon name="graduation-cap" /> {{ 'become.kicker' | transloco }}</span
+      >
+      <h1 class="rise">{{ 'become.h1' | transloco }}</h1>
+      <p class="lead">{{ 'become.lead' | transloco }}</p>
+      <div class="row">
+        <a class="btn big" routerLink="/inscription" [queryParams]="{ role: 'tuteur' }" appMagnetic
+          >{{ 'become.cta' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
+        <a
+          class="btn big ghost"
+          routerLink="/comment-ca-marche"
+          [queryParams]="{ pour: 'tuteur' }"
+          >{{ 'nav.how' | transloco }}</a
+        >
+      </div>
+      <ul class="ticks small">
+        @for (t of [1, 2, 3]; track t) {
+          <li><app-icon name="check" /> {{ 'become.tick' + t | transloco }}</li>
+        }
+      </ul>
+    </div>
+
+    <!-- Simulateur de gains -->
+    <form class="card sim" aria-labelledby="sim-t" (submit)="$event.preventDefault()">
+      <h2 id="sim-t" class="h3"><app-icon name="calculator" /> {{ 'become.simT' | transloco }}</h2>
+      <fieldset>
+        <legend class="small">{{ 'become.lessons' | transloco }}</legend>
+        <label for="s-price"
+          >{{ 'become.price' | transloco }} <b>{{ price() }} DT</b></label
+        >
+        <input
+          id="s-price"
+          type="range"
+          min="10"
+          max="40"
+          [ngModel]="price()"
+          (ngModelChange)="price.set(+$event)"
+          name="price"
+        />
+        <label for="s-hours"
+          >{{ 'become.hours' | transloco }} <b>{{ hours() }} h</b></label
+        >
+        <input
+          id="s-hours"
+          type="range"
+          min="1"
+          max="20"
+          [ngModel]="hours()"
+          (ngModelChange)="hours.set(+$event)"
+          name="hours"
+        />
+      </fieldset>
+      <fieldset>
+        <legend class="small">{{ 'become.groups' | transloco }}</legend>
+        <label for="s-sess"
+          >{{ 'become.sessions' | transloco }} <b>{{ sessions() }}</b></label
+        >
+        <input
+          id="s-sess"
+          type="range"
+          min="0"
+          max="8"
+          [ngModel]="sessions()"
+          (ngModelChange)="sessions.set(+$event)"
+          name="sessions"
+        />
+        <div class="two">
+          <div>
+            <label for="s-places"
+              >{{ 'become.places' | transloco }} <b>{{ places() }}</b></label
+            >
+            <input
+              id="s-places"
+              type="range"
+              min="2"
+              max="15"
+              [ngModel]="places()"
+              (ngModelChange)="places.set(+$event)"
+              name="places"
+              [disabled]="!sessions()"
+            />
+          </div>
+          <div>
+            <label for="s-pp"
+              >{{ 'become.placePrice' | transloco }} <b>{{ placePrice() }} DT</b></label
+            >
+            <input
+              id="s-pp"
+              type="range"
+              min="5"
+              max="30"
+              [ngModel]="placePrice()"
+              (ngModelChange)="placePrice.set(+$event)"
+              name="placePrice"
+              [disabled]="!sessions()"
+            />
+          </div>
+        </div>
+      </fieldset>
+      <div class="out" aria-live="polite">
+        <span class="small muted">{{ 'become.perMonth' | transloco }}</span>
+        <b class="total" [appCountUp]="total()" [format]="money" [duration]="600"></b>
+        <div class="split" aria-hidden="true">
+          <span class="a" [style.width.%]="lessonsPct()"></span
+          ><span class="b" [style.width.%]="100 - lessonsPct()"></span>
+        </div>
+        <div class="legend small">
+          <span
+            ><i class="a"></i> {{ 'become.fromLessons' | transloco }} · {{ lessons() | dt }}</span
+          >
+          <span><i class="b"></i> {{ 'become.fromGroups' | transloco }} · {{ group() | dt }}</span>
+        </div>
+        <p class="small muted sem">
+          <span class="medal" [attr.data-tier]="tier()" aria-hidden="true"
+            ><app-icon name="trophy"
+          /></span>
+          {{ 'become.semester' | transloco: { amount: (semester() | dt) } }}
+        </p>
+        <p class="small muted note">{{ 'become.note' | transloco }}</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="sec" aria-labelledby="perks-t">
+    <h2 id="perks-t" [appSplit]="'become.perksT' | transloco"></h2>
+    <div class="perks">
+      @for (p of perks; track p.key; let i = $index) {
+        <article class="card perk" [appReveal]="i * 70 + 'ms'" appTilt="5">
+          <span class="pi"><app-icon [name]="p.icon" /></span>
+          <h3>{{ 'become.perk.' + p.key + '.t' | transloco }}</h3>
+          <p class="small muted">{{ 'become.perk.' + p.key + '.d' | transloco }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="sec steps-sec" aria-labelledby="steps-t">
+    <h2 id="steps-t" [appSplit]="'become.stepsT' | transloco"></h2>
+    <ol class="steps">
+      @for (n of [1, 2, 3]; track n) {
+        <li [appReveal]="n * 100 + 'ms'">
+          <span class="n">{{ n }}</span>
+          <div>
+            <h3>{{ 'become.step' + n + '.t' | transloco }}</h3>
+            <p class="small muted">{{ 'become.step' + n + '.d' | transloco }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section class="sec faq" aria-labelledby="bfaq">
+    <h2 id="bfaq" [appSplit]="'how.faqT' | transloco"></h2>
+    <div class="qs">
+      @for (q of faq; track q; let i = $index) {
+        <details class="card" [appReveal]="i * 60 + 'ms'">
+          <summary>
+            {{ 'become.faq.' + q + '.q' | transloco }}<app-icon name="chevron-down" />
+          </summary>
+          <div class="ans">
+            <p class="muted">{{ 'become.faq.' + q + '.a' | transloco }}</p>
+          </div>
+        </details>
+      }
+    </div>
+  </section>
+
+  <section class="sec final">
+    <h2>{{ 'become.finalT' | transloco }}</h2>
+    <p>{{ 'become.finalD' | transloco }}</p>
+    <a
+      class="btn big light"
+      routerLink="/inscription"
+      [queryParams]="{ role: 'tuteur' }"
+      appMagnetic
+      (click)="cheer($event)"
+      >{{ 'become.cta' | transloco }}</a
+    >
+  </section>
+</div>

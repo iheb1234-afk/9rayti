@@ -18,8 +18,13 @@
     <div class="prof">
       <div>
         <div class="phead">
-          <app-avatar [name]="t.firstName + ' ' + t.lastInitial" [size]="110" />
-          <div>
+          <app-avatar
+            [name]="t.firstName + ' ' + t.lastInitial"
+            [photo]="api.asset(t.avatarUrl)"
+            [size]="110"
+            transitionName="tutor-avatar"
+          />
+          <div class="who">
             <div class="row">
               <h1>
                 <bdi>{{ t.firstName }} {{ t.lastInitial }}</bdi>
@@ -55,17 +60,35 @@
               <span
                 ><app-icon name="languages" />
                 @for (l of t.languages; track l; let last = $last) {
-                  {{ 'langs.' + l | transloco }}
-                  @if (!last) {
-                    ,
-                  }
+                  {{ 'langs.' + l | transloco }}{{ last ? '' : ', ' }}
                 }
               </span>
+            </div>
+            <div class="row tools">
+              <app-favorite-button [tutorId]="t.id" />
+              @if (auth.role() === 'etudiant') {
+                <a class="btn sm ghost" [routerLink]="['/messages', t.id]"
+                  ><app-icon name="message-square" />
+                  {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+                >
+              } @else if (!auth.loggedIn()) {
+                <a
+                  class="btn sm ghost"
+                  routerLink="/connexion"
+                  [queryParams]="{ next: '/messages/' + t.id }"
+                  ><app-icon name="message-square" />
+                  {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+                >
+              }
+              <app-share-profile
+                [name]="t.firstName + ' ' + t.lastInitial"
+                [path]="'/tuteurs/' + t.id"
+              />
             </div>
           </div>
         </div>
 
-        <section class="card box">
+        <section class="card box" appReveal>
           <h2 class="h3">{{ 'tutor.about' | transloco }}</h2>
           <p class="bio">{{ t.bio }}</p>
           @if (t.declaredAverageVerified) {
@@ -75,7 +98,7 @@
           }
         </section>
 
-        <section class="card box">
+        <section class="card box" appReveal="80">
           <h2 class="h3">{{ 'tutor.subjects' | transloco }}</h2>
           @for (s of t.subjects; track s.code) {
             <div class="tline">
@@ -85,22 +108,23 @@
           }
         </section>
 
-        <section class="card box">
+        <section class="card box" appReveal="120">
           <h2 class="h3">{{ 'tutor.reviews' | transloco }} ({{ t.ratingCount }})</h2>
           @for (r of t.reviews; track $index) {
             <div class="rev">
-              <div class="between">
-                <b
-                  >{{ r.author }} · <span class="muted small">{{ r.subject | subject }}</span></b
-                >
-                <span class="star" [attr.aria-label]="r.rating + ' / 5'">{{
-                  '★'.repeat(r.rating)
-                }}</span>
+              <app-avatar [name]="r.author" [photo]="api.asset(r.authorAvatarUrl)" [size]="38" />
+              <div class="rbody">
+                <div class="between">
+                  <b
+                    >{{ r.author }} · <span class="muted small">{{ r.subject | subject }}</span></b
+                  >
+                  <app-rating-stars [value]="r.rating" />
+                </div>
+                @if (r.comment) {
+                  <p class="small" style="margin-top: 4px">{{ r.comment }}</p>
+                }
+                <div class="small muted">{{ r.date | when: 'short' }}</div>
               </div>
-              @if (r.comment) {
-                <p class="small" style="margin-top: 4px">{{ r.comment }}</p>
-              }
-              <div class="small muted">{{ r.date | when: 'short' }}</div>
             </div>
           } @empty {
             <p class="muted small">{{ 'tutor.noReviews' | transloco }}</p>
@@ -117,6 +141,10 @@
               {{ 'book.sentD' | transloco: { name: t.firstName, when: (r.expiresAt | when) } }}
             </p>
             <a class="btn block" routerLink="/mon-espace">{{ 'book.track' | transloco }}</a>
+            <a class="btn block ghost" [routerLink]="['/messages', t.id]" style="margin-top: 8px"
+              ><app-icon name="message-square" />
+              {{ 'msg.writeTo' | transloco: { name: t.firstName } }}</a
+            >
           </div>
         } @else {
           <h2 id="book-h" class="h3">{{ 'book.title' | transloco }}</h2>
@@ -126,7 +154,12 @@
 
           <div class="fld">
             <label for="b-subject">{{ 'search.subject' | transloco }}</label>
-            <select id="b-subject" [(ngModel)]="subjectCode" name="subject">
+            <select
+              id="b-subject"
+              [ngModel]="subjectCode()"
+              (ngModelChange)="subjectCode.set($event)"
+              name="subject"
+            >
               @for (s of t.subjects; track s.code) {
                 <option [value]="s.code">{{ s | subject }}</option>
               }
@@ -134,20 +167,26 @@
           </div>
 
           <div class="lbl" id="slots-l">{{ 'book.slot' | transloco }}</div>
-          @if (freeSlots().length) {
-            <div class="slots" role="radiogroup" aria-labelledby="slots-l">
-              @for (s of freeSlots(); track s.id) {
-                <button
-                  type="button"
-                  role="radio"
-                  class="slot"
-                  [attr.aria-checked]="slotId() === s.id"
-                  [class.on]="slotId() === s.id"
-                  (click)="slotId.set(s.id)"
-                >
-                  <b>{{ s.startsAt | when: 'day' }}</b
-                  >{{ s.startsAt | when: 'time' }}
-                </button>
+          @if (days().length) {
+            <div class="days" role="radiogroup" aria-labelledby="slots-l">
+              @for (d of days(); track d.key) {
+                <div class="dgrp">
+                  <span class="dname">{{ d.first | when: 'day' }}</span>
+                  <div class="slots">
+                    @for (s of d.slots; track s.id) {
+                      <button
+                        type="button"
+                        role="radio"
+                        class="slot"
+                        [attr.aria-checked]="slotId() === s.id"
+                        [class.on]="slotId() === s.id"
+                        (click)="slotId.set(s.id)"
+                      >
+                        {{ s.startsAt | when: 'time' }}
+                      </button>
+                    }
+                  </div>
+                </div>
               }
             </div>
           } @else {
@@ -202,6 +241,14 @@
               <app-icon name="credit-card" /> {{ 'book.card' | transloco }}
             </button>
           </div>
+          @if (balanceShort()) {
+            <p class="alert info small">
+              <app-icon name="info" /> {{ 'book.lowBalance' | transloco }}
+              <a routerLink="/mon-espace" [queryParams]="{ onglet: 'credits' }">{{
+                'student.recharge' | transloco
+              }}</a>
+            </p>
+          }
 
           <div class="sum">
             <div>
@@ -235,7 +282,7 @@
               type="button"
               class="btn block"
               [disabled]="!slotId() || busy()"
-              (click)="send(t.id)"
+              (click)="send(t.id, $event)"
             >
               @if (busy()) {
                 <app-icon name="loader-circle" />
@@ -248,6 +295,17 @@
       </aside>
     </div>
   } @else {
-    <div class="skeleton" style="height: 340px; margin-top: 28px"></div>
+    <div class="phead sk">
+      <div
+        class="skeleton"
+        style="width: 110px; height: 131px; border-radius: 55px 55px 14px 14px"
+      ></div>
+      <div style="flex: 1">
+        <div class="skeleton" style="height: 34px; width: 50%"></div>
+        <div class="skeleton" style="height: 16px; width: 30%; margin-top: 10px"></div>
+        <div class="skeleton" style="height: 16px; width: 70%; margin-top: 14px"></div>
+      </div>
+    </div>
+    <div class="skeleton" style="height: 240px; margin-top: 22px"></div>
   }
 </div>

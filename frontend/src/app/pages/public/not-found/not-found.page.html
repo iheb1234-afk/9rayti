@@ -1,12 +1,46 @@
 <div class="wrap e404">
-  <div>
-    <div class="num" aria-hidden="true">404</div>
-    <h1>{{ 'e404.title' | transloco }}</h1>
-    <p class="muted" style="margin: 10px 0 22px">{{ 'e404.text' | transloco }}</p>
-    <div class="row">
-      <a class="btn" routerLink="/">{{ 'e404.home' | transloco }}</a
-      ><a class="btn alt" routerLink="/recherche">{{ 'nav.find' | transloco }}</a>
-    </div>
+  <div class="num" aria-hidden="true">
+    <span class="d d1">4</span>
+    <button
+      type="button"
+      class="door"
+      [class.knock]="knocks() % 2 === 1"
+      [class.knock2]="knocks() % 2 === 0 && knocks() > 0"
+      [class.ajar]="knocks() >= 3"
+      (click)="knock()"
+      tabindex="-1"
+    >
+      <span class="in"><span class="sun"></span></span>
+      <span class="leaf studs"><span class="ring"></span></span>
+    </button>
+    <span class="d d2">4</span>
   </div>
-  <div class="door studs" aria-hidden="true"><div class="in"></div></div>
+  <h1>{{ 'e404.title' | transloco }}</h1>
+  <p class="muted lead">{{ 'e404.text' | transloco }}</p>
+  <p class="small hint" aria-live="polite">
+    @if (knocks() >= 3) {
+      {{ 'e404.open' | transloco }}
+    } @else if (knocks() > 0) {
+      {{ 'e404.knock' | transloco: { n: knocks() } }}
+    } @else {
+      {{ 'e404.try' | transloco }}
+    }
+  </p>
+  <div class="row center">
+    <a class="btn" routerLink="/" appMagnetic
+      ><app-icon name="house" /> {{ 'e404.home' | transloco }}</a
+    >
+    <a class="btn alt" routerLink="/recherche" appMagnetic
+      ><app-icon name="search" /> {{ 'nav.find' | transloco }}</a
+    >
+  </div>
+  <nav class="links small" [attr.aria-label]="'e404.more' | transloco">
+    <a routerLink="/sessions">{{ 'nav.sessions' | transloco }}</a>
+    <a routerLink="/comment-ca-marche">{{ 'nav.how' | transloco }}</a>
+    <a routerLink="/devenir-tuteur">{{ 'nav.teach' | transloco }}</a>
+    <a routerLink="/contact">{{ 'nav.contact' | transloco }}</a>
+  </nav>
+  <p class="small muted path">
+    <code dir="ltr">{{ router.url }}</code>
+  </p>
 </div>

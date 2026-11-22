@@ -1,0 +1,109 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  margin: 18px 0 56px;
+  align-items: start;
+}
+.main {
+  padding: 26px;
+  animation: rise 0.6s 0.1s var(--ease-out) both;
+}
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.topics {
+  border: 0;
+  padding: 0;
+  margin: 0 0 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topics legend {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.topics .chip {
+  cursor: pointer;
+}
+.topics .chip:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.warn {
+  color: var(--brique-texte);
+  font-weight: 600;
+}
+.side {
+  display: grid;
+  gap: 14px;
+}
+.side .box {
+  padding: 18px;
+  margin: 0;
+}
+.side .h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+.lnk {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--trait);
+  font-size: 14.5px;
+}
+.lnk:last-child {
+  border-bottom: 0;
+}
+.done {
+  text-align: center;
+  padding: 30px 10px;
+}
+.done .h3 {
+  margin-top: 14px;
+}
+.center {
+  justify-content: center;
+  margin-top: 18px;
+}
+.check {
+  width: 84px;
+  height: 84px;
+}
+.check circle {
+  fill: none;
+  stroke: var(--olivier);
+  stroke-width: 3;
+  stroke-dasharray: 152;
+  stroke-dashoffset: 152;
+  animation: draw-c 0.7s var(--ease-out) forwards;
+}
+.check path {
+  fill: none;
+  stroke: var(--olivier);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: draw-c 0.45s 0.6s var(--ease-out) forwards;
+}
+@keyframes draw-c {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (max-width: 860px) {
+  .grid,
+  .two {
+    grid-template-columns: 1fr;
+  }
+}

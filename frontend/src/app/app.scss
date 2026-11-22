@@ -1,8 +1,8 @@
 .demo-bar {
   background: var(--soleil-clair);
-  color: #5c4005;
+  color: var(--soleil-texte);
   font-size: 13.5px;
   text-align: center;
   padding: 6px 16px;
-  border-bottom: 1px solid #f1d99a;
+  border-bottom: 1px solid var(--soleil-trait);
 }

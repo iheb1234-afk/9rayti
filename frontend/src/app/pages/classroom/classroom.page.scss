@@ -18,7 +18,7 @@
   align-items: start;
 }
 .vid {
-  background-color: var(--bleu-nuit);
+  background-color: var(--nuit);
   border-radius: 18px;
   height: 520px;
   position: relative;
@@ -51,7 +51,7 @@
 }
 .join {
   background: #fff;
-  color: var(--bleu);
+  color: var(--lien);
   border-color: #fff;
 }
 .join:hover {
@@ -110,4 +110,20 @@
   .head h1 {
     font-size: 24px;
   }
+}
+
+.recap {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--olivier-clair);
+  color: var(--olivier-texte);
+  margin-bottom: 16px;
+  animation: rise 0.5s var(--ease-out) both;
+}
+.recap .h3 {
+  color: inherit;
+  margin-bottom: 4px;
+}
+.recap p {
+  white-space: pre-line;
 }

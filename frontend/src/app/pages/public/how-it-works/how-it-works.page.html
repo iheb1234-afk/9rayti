@@ -1,0 +1,199 @@
+@let list = steps();
+<div class="wrap">
+  <app-page-header
+    [kicker]="'how.kicker' | transloco"
+    [title]="'how.h1' | transloco"
+    [subtitle]="'how.sub' | transloco"
+  />
+  <app-tabs [tabs]="tabs()" [(active)]="who" [label]="'how.h1' | transloco" />
+
+  <section
+    class="story"
+    role="tabpanel"
+    [id]="'panel-' + who()"
+    [attr.aria-labelledby]="'tab-' + who()"
+  >
+    <div class="rail" #rail aria-hidden="true"><span class="fill"></span></div>
+    <ol class="list">
+      @for (s of list; track who() + s.key; let i = $index) {
+        <li #step class="item" [attr.data-i]="i" [class.on]="active() === i">
+          <button
+            type="button"
+            class="dot"
+            (click)="go(i)"
+            [attr.aria-label]="('how.goto' | transloco) + ' ' + (i + 1)"
+            [attr.aria-current]="active() === i ? 'step' : null"
+          >
+            <app-icon [name]="s.icon" />
+          </button>
+          <div class="txt">
+            <span class="small muted">{{
+              'how.step' | transloco: { n: i + 1, total: list.length }
+            }}</span>
+            <h2>{{ 'how.' + who() + '.' + s.key + '.t' | transloco }}</h2>
+            <p class="muted">{{ 'how.' + who() + '.' + s.key + '.d' | transloco }}</p>
+            <p class="small rule">
+              <app-icon name="info" /> {{ 'how.' + who() + '.' + s.key + '.r' | transloco }}
+            </p>
+          </div>
+        </li>
+      }
+    </ol>
+
+    <div class="phone-col" aria-hidden="true">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          @let k = list[active()]?.key;
+          @for (x of [who() + k]; track x) {
+            <div class="scr">
+              <div class="topbar"><span class="arc mini-logo">9</span><b>9rayti</b></div>
+              @switch (k) {
+                @case ('search') {
+                  <div class="ui-search">
+                    <app-icon name="search" /><span>{{ 'how.mock.subject' | transloco }}</span>
+                  </div>
+                  <div class="ui-chips"><i class="on"></i><i></i><i></i></div>
+                  @for (c of [1, 2, 3]; track c) {
+                    <div class="ui-card" [style.--d]="c">
+                      <span class="arc"></span><span class="lines"><i></i><i class="s"></i></span
+                      ><b>{{ 15 + c * 3 }} DT</b>
+                    </div>
+                  }
+                }
+                @case ('request') {
+                  <div class="ui-slots">
+                    @for (c of [1, 2, 3, 4, 5, 6]; track c) {
+                      <i [class.on]="c === 4"></i>
+                    }
+                  </div>
+                  <div class="ui-file"><app-icon name="paperclip" /> cours-proba.pdf</div>
+                  <div class="ui-sum">
+                    <span>{{ 'book.total' | transloco }}</span
+                    ><b>23 DT</b>
+                  </div>
+                  <div class="ui-btn">{{ 'book.send' | transloco }}</div>
+                }
+                @case ('wait') {
+                  <div class="ui-timer">
+                    <svg viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" class="bg" />
+                      <circle cx="60" cy="60" r="52" class="fg" /></svg
+                    ><b>11:42</b>
+                  </div>
+                  <div class="ui-note ok">
+                    <app-icon name="circle-check" /> {{ 'home.accepted' | transloco }}
+                  </div>
+                  <div class="ui-note">
+                    <app-icon name="wallet" /> {{ 'how.mock.refund' | transloco }}
+                  </div>
+                }
+                @case ('live') {
+                  <div class="ui-video">
+                    <span class="arc"></span><span class="me"></span><span class="rec"></span>
+                  </div>
+                  <div class="ui-ctrl"><i></i><i></i><i class="red"></i></div>
+                  <div class="ui-note"><app-icon name="lock" /> {{ 'msg.masked' | transloco }}</div>
+                }
+                @case ('replay') {
+                  <div class="ui-doc"><app-icon name="play" /> Replay · 58 min</div>
+                  <div class="ui-doc">
+                    <app-icon name="file-text" /> {{ 'how.mock.notes' | transloco }}.pdf
+                  </div>
+                  <div class="ui-doc">
+                    <app-icon name="file-text" /> {{ 'how.mock.exercises' | transloco }}.pdf
+                  </div>
+                }
+                @case ('review') {
+                  <div class="ui-stars">★★★★★</div>
+                  <div class="ui-lines"><i></i><i></i><i class="s"></i></div>
+                  <div class="ui-btn">{{ 'student.reviewSend' | transloco }}</div>
+                }
+                @case ('signup') {
+                  <div class="ui-verif">
+                    @for (c of [1, 2, 3]; track c) {
+                      <div [style.--d]="c">
+                        <app-icon name="circle-check" /> {{ 'how.mock.verif' + c | transloco }}
+                      </div>
+                    }
+                  </div>
+                  <div class="ui-note ok">
+                    <app-icon name="badge-check" /> {{ 'common.verified' | transloco }}
+                  </div>
+                }
+                @case ('agenda') {
+                  <div class="ui-week">
+                    @for (c of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; track c) {
+                      <i [class.free]="c % 3 === 0" [class.busy]="c % 5 === 0"></i>
+                    }
+                  </div>
+                  <div class="ui-sum">
+                    <span>{{ 'how.mock.price' | transloco }}</span
+                    ><b>20 DT</b>
+                  </div>
+                }
+                @case ('accept') {
+                  <div class="ui-card">
+                    <span class="arc"></span><span class="lines"><i></i><i class="s"></i></span>
+                  </div>
+                  <div class="ui-row">
+                    <span class="ui-btn ok">{{ 'tspace.accept' | transloco }}</span
+                    ><span class="ui-btn ghost">{{ 'tspace.refuse' | transloco }}</span>
+                  </div>
+                  <div class="ui-note">
+                    <app-icon name="hourglass" /> {{ 'how.mock.within' | transloco }}
+                  </div>
+                }
+                @case ('teach') {
+                  <div class="ui-video">
+                    <span class="arc"></span><span class="me"></span><span class="rec"></span>
+                  </div>
+                  <div class="ui-lines"><i></i><i class="s"></i></div>
+                  <div class="ui-note ok">
+                    <app-icon name="notebook-pen" /> {{ 'room.recap' | transloco }}
+                  </div>
+                }
+                @case ('paid') {
+                  <div class="ui-bars">
+                    @for (h of [30, 55, 40, 70, 62, 90]; track $index) {
+                      <i [style.height.%]="h" [style.--d]="$index"></i>
+                    }
+                  </div>
+                  <div class="ui-sum">
+                    <span>{{ 'revenue.total' | transloco }}</span
+                    ><b>486 DT</b>
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec faq" aria-labelledby="faq-h">
+    <h2 id="faq-h" [appSplit]="'how.faqT' | transloco"></h2>
+    <div class="qs">
+      @for (q of faq; track q; let i = $index) {
+        <details class="card" [appReveal]="i * 60 + 'ms'">
+          <summary>{{ 'how.faq.' + q + '.q' | transloco }}<app-icon name="chevron-down" /></summary>
+          <div class="ans">
+            <p class="muted">{{ 'how.faq.' + q + '.a' | transloco }}</p>
+          </div>
+        </details>
+      }
+    </div>
+  </section>
+
+  <section class="sec cta card" appReveal>
+    <div>
+      <h2>{{ 'how.ctaT' | transloco }}</h2>
+      <p class="muted">{{ 'how.ctaD' | transloco }}</p>
+    </div>
+    <div class="row">
+      <a class="btn" routerLink="/recherche">{{ 'home.cta1' | transloco }}</a>
+      <a class="btn alt" routerLink="/devenir-tuteur">{{ 'home.cta2' | transloco }}</a>
+    </div>
+  </section>
+</div>

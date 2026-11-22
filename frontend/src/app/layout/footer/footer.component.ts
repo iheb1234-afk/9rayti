@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UI } from '../../components';
 
-/** Pied de page : liens des trois espaces et rappel de la règle de remboursement. */
+/** Pied de page : liens des espaces, pages À propos / Contact / CGU, rappel de la règle de remboursement. */
 @Component({
   selector: 'app-footer',
   imports: [RouterLink, TranslocoPipe, ...UI],

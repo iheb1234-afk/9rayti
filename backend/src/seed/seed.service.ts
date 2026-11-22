@@ -415,6 +415,30 @@ export class SeedService implements OnApplicationBootstrap {
       });
     }
 
+    // Historique de cours payés sur 11 semaines (graphique des revenus, pagination de l'admin).
+    // Créneaux à 9 h, 11 h, 13 h, 15 h ou 21 h : jamais en conflit avec les cours ci-dessus (18 h, 20 h…).
+    const history: Array<[TutorProfile, string[], number[]]> = [
+      [sarra, ['probabilites', 'statistique', 'analyse-2'], [1, 2, 1, 2, 3, 2, 3, 4, 2, 3, 4]],
+      [youssef, ['reseaux', 'transmissions', 'probabilites'], [0, 1, 1, 2, 1, 2, 2, 1, 3, 2, 2]],
+      [amira, ['analyse-2', 'algebre', 'probabilites'], [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1]],
+      [mehdi, ['signal', 'transmissions'], [0, 1, 0, 1, 1, 2, 1, 1, 2, 1, 2]],
+    ];
+    const hours = [9, 11, 13, 15, 21];
+    for (const [t, codes, perWeek] of history) {
+      for (const [w, n] of perWeek.entries()) {
+        const weeksAgo = perWeek.length - w;
+        for (let k = 0; k < n; k++) {
+          const startsAt = tunisAt(-(weeksAgo * 7) + k + 1, hours[(w + k) % hours.length]);
+          const doneAgoH = (Date.now() - startsAt.getTime()) / H - 1;
+          await request(fillers[(w + k) % fillers.length], t, codes[(w + k) % codes.length], startsAt, 'versee', {
+            createdAgoH: doneAgoH + 30,
+            doneAgoH,
+            payWith: 'carte',
+          });
+        }
+      }
+    }
+
     // --- Objectif 4 : signalement à trancher, comptes rendus, messages, favoris, notifications, contact
     const reported = await request(omar, mehdi, 'transmissions', tunisAt(-1, 15), 'faite', {
       createdAgoH: 40,

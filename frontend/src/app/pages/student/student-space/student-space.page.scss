@@ -3,35 +3,81 @@
   font-size: 24px !important;
   margin-top: 4px;
 }
-.box {
-  padding: 22px;
-  margin-top: 16px;
+.next {
+  position: relative;
+  overflow: hidden;
 }
-.h3 {
-  font-size: 18px;
-  margin-bottom: 6px;
+.next::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -40px;
+  bottom: -60px;
+  width: 160px;
+  height: 190px;
+  border-radius: 999px 999px 20px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
 }
-.tline {
+.countdown {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--trait);
+  gap: 10px;
+  margin-top: 10px;
 }
-.tline:last-child {
-  border-bottom: 0;
+.countdown span {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.countdown b {
+  font-size: 20px;
+  line-height: 1.1;
+}
+.lrow {
+  animation: rise 0.45s var(--ease-out) both;
+}
+.mv {
+  animation: rise 0.4s var(--ease-out) both;
 }
 .plus {
-  color: var(--olivier);
+  color: var(--olivier-texte);
 }
 .refund {
-  color: var(--olivier);
+  color: var(--olivier-texte);
   display: inline-flex;
   gap: 5px;
   align-items: center;
 }
+.recap,
+.note {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--fond);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
 .end {
   justify-content: flex-end;
   margin-top: 8px;
+}
+.icon-only {
+  padding: 7px 10px;
+}
+.favs {
+  margin-top: 16px;
+}
+.sessions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+@media (max-width: 860px) {
+  .sessions {
+    grid-template-columns: 1fr;
+  }
 }

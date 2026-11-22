@@ -27,7 +27,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       gap: 6px;
       font-weight: 700;
       font-size: 24px;
-      color: var(--bleu);
+      color: var(--lien);
       letter-spacing: -0.02em;
     }
     .ar {

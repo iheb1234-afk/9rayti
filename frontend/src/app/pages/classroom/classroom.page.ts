@@ -19,6 +19,8 @@ import { LangService } from '../../core/i18n/lang.service';
 import { StateBadgeComponent } from '../../components/state-badge/state-badge.component';
 import { ToastService } from '../../core/ui/toast.service';
 import { UI } from '../../components/index';
+import { ModalComponent } from '../../components/modal/modal.component';
+import { celebrate } from '../../core/motion/motion';
 
 /**
  * Salle de cours : la plateforme EST la classe (visio, PDF, replay au même endroit),
@@ -26,14 +28,14 @@ import { UI } from '../../components/index';
  */
 @Component({
   selector: 'app-classroom',
-  imports: [RouterLink, FormsModule, TranslocoPipe, StateBadgeComponent, ...UI],
+  imports: [RouterLink, FormsModule, TranslocoPipe, StateBadgeComponent, ModalComponent, ...UI],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './classroom.page.html',
   styleUrl: './classroom.page.scss',
 })
 export class ClassroomPage {
   readonly id = input.required<string>();
-  private readonly api = inject(ApiService);
+  protected readonly api = inject(ApiService);
   protected readonly auth = inject(AuthService);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly toast = inject(ToastService);
@@ -48,6 +50,8 @@ export class ClassroomPage {
   protected docName = '';
   protected docUrl = '';
   protected docKind: 'pdf' | 'replay' = 'pdf';
+  /** Compte rendu facultatif laissé par le tuteur à la fin du cours. */
+  protected recap = '';
 
   /** URL Jitsi construite côté serveur (salle privée par cours), avec le nom affiché et la langue. */
   protected readonly src = computed<SafeResourceUrl>(() => {
@@ -70,14 +74,16 @@ export class ClassroomPage {
     return errorMessage(e);
   }
 
-  complete(id: string): void {
+  complete(id: string, modal: ModalComponent): void {
     this.busy.set(true);
-    this.api.act(id, 'complete').subscribe({
+    this.api.act(id, 'complete', { recap: this.recap.trim() || undefined }).subscribe({
       next: () => {
         this.busy.set(false);
         this.joined.set(false);
+        modal.close();
         this.room.reload();
         this.toast.show(this.i18n.translate('tspace.done.complete'));
+        void celebrate();
       },
       error: (e) => {
         this.busy.set(false);

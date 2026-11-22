@@ -1,0 +1,142 @@
+<div class="wrap">
+  <app-page-header
+    [kicker]="'contact.kicker' | transloco"
+    [title]="'contact.h1' | transloco"
+    [subtitle]="'contact.sub' | transloco"
+  />
+  <div class="grid">
+    <div class="card box main">
+      @if (sent()) {
+        <div class="done" role="status">
+          <svg class="check" viewBox="0 0 52 52" aria-hidden="true">
+            <circle cx="26" cy="26" r="24" />
+            <path d="M15 27 l7 7 l15 -16" />
+          </svg>
+          <h2 class="h3">{{ 'contact.sentT' | transloco }}</h2>
+          <p class="muted">{{ 'contact.sentD' | transloco: { email: form.email } }}</p>
+          <div class="row center">
+            <a class="btn" routerLink="/">{{ 'e404.home' | transloco }}</a>
+            <button type="button" class="btn ghost" (click)="again()">
+              {{ 'contact.again' | transloco }}
+            </button>
+          </div>
+        </div>
+      } @else {
+        <form #f="ngForm" (ngSubmit)="send(f, $event)" novalidate>
+          <div class="two">
+            <div class="fld">
+              <label for="c-name">{{ 'contact.name' | transloco }}</label>
+              <input
+                id="c-name"
+                name="name"
+                [(ngModel)]="form.name"
+                required
+                minlength="2"
+                maxlength="80"
+                autocomplete="name"
+                #name="ngModel"
+                [attr.aria-invalid]="name.invalid && name.touched"
+                aria-describedby="c-name-e"
+              />
+              @if (name.invalid && name.touched) {
+                <div class="err" id="c-name-e">{{ 'contact.nameErr' | transloco }}</div>
+              }
+            </div>
+            <div class="fld">
+              <label for="c-email">{{ 'auth.email' | transloco }}</label>
+              <input
+                id="c-email"
+                name="email"
+                type="email"
+                dir="ltr"
+                [(ngModel)]="form.email"
+                required
+                email
+                maxlength="120"
+                autocomplete="email"
+                #email="ngModel"
+                [attr.aria-invalid]="email.invalid && email.touched"
+                aria-describedby="c-email-e"
+              />
+              @if (email.invalid && email.touched) {
+                <div class="err" id="c-email-e">{{ 'contact.emailErr' | transloco }}</div>
+              }
+            </div>
+          </div>
+          <fieldset class="topics">
+            <legend class="lbl">{{ 'contact.topicL' | transloco }}</legend>
+            @for (t of topics; track t) {
+              <label class="chip" [class.on]="topic() === t"
+                ><input
+                  type="radio"
+                  name="topic"
+                  [value]="t"
+                  [ngModel]="topic()"
+                  (ngModelChange)="topic.set($event)"
+                  class="sr-only"
+                />{{ 'contact.topic.' + t | transloco }}</label
+              >
+            }
+          </fieldset>
+          <div class="fld">
+            <label for="c-msg">{{ 'contact.message' | transloco }}</label>
+            <textarea
+              id="c-msg"
+              name="message"
+              rows="6"
+              [(ngModel)]="form.message"
+              required
+              minlength="10"
+              maxlength="2000"
+              #msg="ngModel"
+              [placeholder]="'contact.messagePh' | transloco"
+              [attr.aria-invalid]="msg.invalid && msg.touched"
+              aria-describedby="c-msg-h"
+            ></textarea>
+            <div class="hint between" id="c-msg-h">
+              <span>{{
+                msg.invalid && msg.touched
+                  ? ('contact.messageErr' | transloco)
+                  : ('contact.messageHint' | transloco)
+              }}</span>
+              <span [class.warn]="form.message.length > 1800"
+                >{{ form.message.length }} / 2000</span
+              >
+            </div>
+          </div>
+          @if (error()) {
+            <div class="alert err" role="alert">
+              <app-icon name="triangle-alert" /> {{ error() }}
+            </div>
+          }
+          <button class="btn" type="submit" [disabled]="busy()">
+            <app-icon [name]="busy() ? 'loader-circle' : 'send'" [class.spin]="busy()" />
+            {{ 'contact.send' | transloco }}
+          </button>
+        </form>
+      }
+    </div>
+    <aside class="side">
+      <div class="card box" appReveal>
+        <h2 class="h3"><app-icon name="clock" /> {{ 'contact.delayT' | transloco }}</h2>
+        <p class="small muted">{{ 'contact.delayD' | transloco }}</p>
+      </div>
+      <div class="card box" appReveal="80ms">
+        <h2 class="h3"><app-icon name="circle-help" /> {{ 'contact.faqT' | transloco }}</h2>
+        <a routerLink="/comment-ca-marche" class="lnk"
+          >{{ 'contact.faq1' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
+        <a routerLink="/devenir-tuteur" class="lnk"
+          >{{ 'contact.faq2' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
+        <a routerLink="/cgu" class="lnk"
+          >{{ 'contact.faq3' | transloco }} <app-icon name="arrow-right" [flip]="true"
+        /></a>
+      </div>
+      <div class="card box" appReveal="160ms">
+        <h2 class="h3"><app-icon name="map-pin" /> {{ 'contact.whereT' | transloco }}</h2>
+        <p class="small muted">{{ 'contact.whereD' | transloco }}</p>
+      </div>
+    </aside>
+  </div>
+</div>
