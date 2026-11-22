@@ -1,1 +1,0 @@
-import{Bb as t,R as i,u as n}from"./chunk-MEMO2BRV.js";var a=class e{lang=n(t);transform(r){return this.lang.subjectName(r)}static \u0275fac=function(s){return new(s||e)};static \u0275pipe=i({name:"subject",type:e,pure:!1})};export{a};

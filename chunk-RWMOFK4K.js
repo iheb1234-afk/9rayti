@@ -1,0 +1,1 @@
+import{z as a}from"./chunk-I4NCAWPR.js";import{W as n,cb as t}from"./chunk-K3VBVPR5.js";var m=class i{lang=n(a);transform(e,r=1){return e==null?"\u2014":new Intl.NumberFormat(this.lang.locale(),{maximumFractionDigits:r}).format(e)}static \u0275fac=function(r){return new(r||i)};static \u0275pipe=t({name:"num",type:i,pure:!1})};export{m as a};

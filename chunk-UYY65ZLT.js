@@ -1,0 +1,1 @@
+import{z as t}from"./chunk-I4NCAWPR.js";import{W as n,cb as i}from"./chunk-K3VBVPR5.js";var a=class e{lang=n(t);transform(r){return this.lang.subjectName(r)}static \u0275fac=function(s){return new(s||e)};static \u0275pipe=i({name:"subject",type:e,pure:!1})};export{a};
