@@ -1,0 +1,26 @@
+<div class="wrap">
+  <app-page-header [kicker]="'cgu.kicker' | transloco" [title]="'cgu.h1' | transloco" [subtitle]="'cgu.sub' | transloco" />
+  <div class="layout">
+    <nav class="toc card" [attr.aria-label]="'cgu.toc' | transloco">
+      <b class="small">{{ 'cgu.toc' | transloco }}</b>
+      <ol>
+        @for (s of sections; track s; let i = $index) {
+          <li>
+            <a [href]="'#cgu-' + s" (click)="go($event, s)" [class.on]="current() === s" [attr.aria-current]="current() === s ? 'location' : null"
+              ><span class="n">{{ i + 1 }}</span>{{ 'cgu.s.' + s + '.t' | transloco }}</a
+            >
+          </li>
+        }
+      </ol>
+    </nav>
+    <article class="card doc">
+      @for (s of sections; track s; let i = $index) {
+        <section #sec [id]="'cgu-' + s" tabindex="-1" [attr.aria-labelledby]="'cgu-h-' + s">
+          <h2 [id]="'cgu-h-' + s"><span class="n" aria-hidden="true">{{ i + 1 }}.</span> {{ 'cgu.s.' + s + '.t' | transloco }}</h2>
+          <p>{{ 'cgu.s.' + s + '.d' | transloco }}</p>
+        </section>
+      }
+      <p class="small muted upd"><app-icon name="calendar" /> {{ 'cgu.updated' | transloco }}</p>
+    </article>
+  </div>
+</div>

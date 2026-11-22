@@ -1,0 +1,89 @@
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  margin: 18px 0 56px;
+  align-items: start;
+}
+.toc {
+  position: sticky;
+  top: 88px;
+  padding: 16px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+.toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 2px;
+}
+.toc a {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 10px;
+  border-radius: 10px;
+  color: var(--texte);
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.toc a:hover {
+  background: var(--fond);
+}
+.toc a.on {
+  background: var(--bleu-clair);
+  color: var(--bleu-nuit);
+  font-weight: 600;
+}
+.toc .n {
+  color: var(--gris);
+  font-variant-numeric: tabular-nums;
+  min-width: 18px;
+}
+.doc {
+  padding: 30px 34px;
+  line-height: 1.7;
+}
+.doc section {
+  padding: 6px 0 18px;
+  scroll-margin-top: 90px;
+  outline: none;
+}
+.doc section + section {
+  border-top: 1px solid var(--trait);
+  padding-top: 20px;
+}
+.doc h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.doc h2 .n {
+  color: var(--lien);
+}
+.doc p {
+  color: var(--texte);
+  max-width: 72ch;
+}
+.upd {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .toc {
+    position: static;
+    max-height: none;
+  }
+  .doc {
+    padding: 22px;
+  }
+}

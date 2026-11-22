@@ -1,0 +1,22 @@
+.back { display: inline-flex; gap: 4px; align-items: center; margin-top: 22px; }
+.layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; margin-top: 16px; align-items: start; }
+.hero { padding: 32px; position: relative; overflow: hidden; animation: rise 0.6s var(--ease-out) both; }
+.hero::after { content: ''; position: absolute; inset-inline-end: -60px; top: -60px; width: 220px; height: 260px; border-radius: 999px 999px 30px 30px;
+  background: var(--bleu-clair); opacity: 0.7; z-index: 0; transform: rotate(12deg); }
+.hero > * { position: relative; z-index: 1; }
+h1 { margin: 14px 0 6px; font-size: 40px; }
+.when { display: flex; gap: 8px; align-items: center; color: var(--gris); }
+.desc { margin-top: 16px; font-size: 17px; max-width: 560px; }
+.tutor { display: inline-flex; gap: 12px; align-items: center; margin-top: 22px; padding: 10px 14px 10px 10px; border-radius: 16px; background: var(--fond);
+  color: var(--texte); text-decoration: none !important; border: 1px solid var(--trait); }
+.tutor:hover { border-color: var(--lien); }
+.tutor > span { display: flex; flex-direction: column; }
+.book { padding: 22px; position: sticky; top: 88px; border: 1.5px solid var(--bleu); animation: rise 0.6s 0.1s var(--ease-out) both; }
+.seats { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin: 16px 0 8px; }
+.seat { aspect-ratio: 1 / 1.15; border-radius: 999px 999px 5px 5px; background: var(--chaux); border: 1px solid var(--trait); position: relative;
+  animation: pop 0.4s var(--ease-spring) both; }
+.seat.taken { background: var(--olivier); border-color: var(--olivier); }
+.seat.min::after { content: ''; position: absolute; inset-inline-end: -4px; top: -4px; bottom: -4px; width: 2px; background: var(--soleil); border-radius: 2px; }
+.static { cursor: default; }
+.rule { display: flex; gap: 8px; font-size: 13px; color: var(--gris); margin-top: 12px; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .book { position: static; } h1 { font-size: 30px; } .hero { padding: 22px; } }

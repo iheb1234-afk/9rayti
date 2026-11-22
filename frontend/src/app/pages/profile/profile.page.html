@@ -1,0 +1,149 @@
+@let u = auth.user();
+<div class="wrap">
+  <app-page-header [title]="'nav.profile' | transloco" [subtitle]="'profile.sub' | transloco">
+    @if (u) {
+      <a class="btn alt" [routerLink]="auth.homeFor(u.role)"><app-icon name="layout-dashboard" /> {{ 'nav.mySpace' | transloco }}</a>
+    }
+  </app-page-header>
+
+  @if (u) {
+    <div class="grid">
+      <div class="col">
+        <section class="card box" appReveal aria-labelledby="p-photo">
+          <h2 class="h3" id="p-photo">{{ 'profile.photo' | transloco }}</h2>
+          <app-avatar-upload
+            [name]="u.firstName + ' ' + u.lastName"
+            [photo]="api.asset(u.avatarUrl)"
+            [busy]="busy() === 'photo'"
+            (picked)="setPhoto($event)"
+            (remove)="removePhoto()"
+          />
+        </section>
+
+        <form class="card box" appReveal="60ms" [formGroup]="info" (ngSubmit)="saveInfo()" aria-labelledby="p-info">
+          <h2 class="h3" id="p-info">{{ 'profile.info' | transloco }}</h2>
+          <div class="two">
+            <div class="fld"><label for="p-first">{{ 'auth.firstName' | transloco }}</label><input id="p-first" formControlName="firstName" autocomplete="given-name" /></div>
+            <div class="fld"><label for="p-last">{{ 'auth.lastName' | transloco }}</label><input id="p-last" formControlName="lastName" autocomplete="family-name" /></div>
+          </div>
+          <div class="two">
+            <div class="fld">
+              <label for="p-school">{{ 'auth.school' | transloco }}</label>
+              <select id="p-school" formControlName="school">
+                @for (s of schools; track s) {
+                  <option [value]="s">{{ s }}</option>
+                }
+              </select>
+            </div>
+            <div class="fld">
+              <label for="p-year">{{ 'auth.year' | transloco }}</label>
+              <select id="p-year" formControlName="year">
+                @for (y of years; track y) {
+                  <option [value]="y">{{ y }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="fld"><label for="p-email">{{ 'auth.email' | transloco }}</label><input id="p-email" [value]="u.email" disabled dir="ltr" /></div>
+          <button class="btn" type="submit" [disabled]="busy() === 'info' || info.pristine">{{ 'common.save' | transloco }}</button>
+        </form>
+
+        @if (u.role === 'tuteur' && tutor.value(); as t) {
+          <section class="card box" appReveal="120ms" aria-labelledby="p-tutor">
+            <div class="between">
+              <h2 class="h3" id="p-tutor">{{ 'profile.tutorT' | transloco }}</h2>
+              @if (t.status === 'valide') {
+                <app-share-profile [name]="t.firstName + ' ' + t.lastInitial" [path]="'/tuteurs/' + t.id" />
+              }
+            </div>
+            <div class="fld">
+              <label for="p-bio">{{ 'auth.bio' | transloco }}</label>
+              <textarea id="p-bio" [value]="bio" (input)="bio = $any($event.target).value" maxlength="600" rows="5"></textarea>
+              <div class="hint">{{ 'profile.bioHint' | transloco }}</div>
+            </div>
+            <fieldset>
+              <legend class="lbl">{{ 'search.lang' | transloco }}</legend>
+              <div class="chips">
+                @for (l of langs; track l.code) {
+                  <button type="button" class="chip" [attr.aria-pressed]="tutorLangs().includes(l.code)" (click)="toggleLang(l.code)">{{ l.name }}</button>
+                }
+              </div>
+            </fieldset>
+            <div class="row">
+              <button type="button" class="btn" (click)="saveTutor()" [disabled]="busy() === 'tutor'">{{ 'common.save' | transloco }}</button>
+              @if (t.status === 'valide') {
+                <a class="btn ghost" [routerLink]="['/tuteurs', t.id]"><app-icon name="eye" /> {{ 'tspace.publicProfile' | transloco }}</a>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      <div class="col">
+        @if (u.role === 'tuteur' && tutor.value(); as t) {
+          <section class="card box verif" appReveal aria-labelledby="p-verif">
+            <h2 class="h3" id="p-verif">{{ 'profile.verifT' | transloco }}</h2>
+            <ol class="timeline">
+              <li class="done"><span class="pt"><app-icon name="check" /></span><div><b>{{ 'profile.v1' | transloco }}</b><div class="small muted">{{ t.createdAt | when: 'short' }}</div></div></li>
+              <li [class.done]="t.status === 'valide'" [class.now]="t.status === 'en_attente'">
+                <span class="pt"><app-icon [name]="t.status === 'valide' ? 'check' : 'hourglass'" /></span>
+                <div><b>{{ 'profile.v2' | transloco }}</b><div class="small muted">{{ 'profile.v2d' | transloco: { avg: t.declaredAverage ?? '—' } }}</div></div>
+              </li>
+              <li [class.done]="t.status === 'valide'">
+                <span class="pt"><app-icon name="badge-check" /></span>
+                <div><b>{{ 'profile.v3' | transloco }}</b><div class="small muted">{{ 'profile.v3d' | transloco }}</div></div>
+              </li>
+            </ol>
+          </section>
+        }
+
+        <section class="card box" appReveal="60ms" aria-labelledby="p-prefs">
+          <h2 class="h3" id="p-prefs">{{ 'profile.prefs' | transloco }}</h2>
+          <div class="pref">
+            <span>{{ 'nav.language' | transloco }}</span>
+            <div class="chips">
+              @for (l of langs; track l.code) {
+                <button type="button" class="chip" [attr.lang]="l.code" [attr.aria-pressed]="lang.lang() === l.code" (click)="lang.use(l.code)">{{ l.name }}</button>
+              }
+            </div>
+          </div>
+          <div class="pref">
+            <span>{{ 'profile.theme' | transloco }}</span>
+            <span class="row small muted">{{ (theme.theme() === 'dark' ? 'profile.dark' : 'profile.light') | transloco }} <app-theme-toggle /></span>
+          </div>
+          <div class="pref">
+            <span>{{ 'profile.browserNotif' | transloco }}</span>
+            @switch (permission()) {
+              @case ('granted') {
+                <span class="badge"><app-icon name="check" /> {{ 'profile.notifOn' | transloco }}</span>
+              }
+              @case ('denied') {
+                <span class="small muted">{{ 'profile.notifDenied' | transloco }}</span>
+              }
+              @case ('unsupported') {
+                <span class="small muted">—</span>
+              }
+              @default {
+                <button type="button" class="btn sm alt" (click)="enableNotifications()"><app-icon name="bell" /> {{ 'profile.notifEnable' | transloco }}</button>
+              }
+            }
+          </div>
+        </section>
+
+        <form class="card box" appReveal="120ms" [formGroup]="pwd" (ngSubmit)="changePassword()" aria-labelledby="p-pwd">
+          <h2 class="h3" id="p-pwd">{{ 'profile.security' | transloco }}</h2>
+          <div class="fld"><label for="p-cur">{{ 'profile.currentPwd' | transloco }}</label><input id="p-cur" type="password" formControlName="currentPassword" autocomplete="current-password" /></div>
+          <div class="fld">
+            <label for="p-new">{{ 'profile.newPwd' | transloco }}</label>
+            <input id="p-new" type="password" formControlName="newPassword" autocomplete="new-password" aria-describedby="p-new-h" />
+            <div class="hint" id="p-new-h">{{ 'auth.passHint' | transloco }}</div>
+          </div>
+          <button class="btn" type="submit" [disabled]="busy() === 'pwd'">{{ 'profile.changePwd' | transloco }}</button>
+        </form>
+        @if (since()) {
+          <p class="small muted center">{{ 'profile.since' | transloco: { date: (since() | when: 'short') } }}</p>
+        }
+      </div>
+    </div>
+  }
+</div>

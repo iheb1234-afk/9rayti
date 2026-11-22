@@ -19,7 +19,7 @@ import { routes } from './app.routes';
 import { authInterceptor } from './core/auth/auth.interceptor';
 import { LangService } from './core/i18n/lang.service';
 import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
-import { demoInterceptor } from './demo/demo.interceptor';
+import { lazyDemoInterceptor } from './demo/lazy-demo.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors(environment.demo ? [authInterceptor, demoInterceptor] : [authInterceptor]),
+      withInterceptors(environment.demo ? [authInterceptor, lazyDemoInterceptor] : [authInterceptor]),
     ),
     provideTransloco({
       config: {

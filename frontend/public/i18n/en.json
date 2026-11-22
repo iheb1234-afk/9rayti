@@ -1,337 +1,984 @@
 {
- "a11y": {
-  "skip": "Skip to content"
- },
- "demo": {
-  "bar": "Live demo: data is simulated in your browser. Run the API for the full version (see README)."
- },
- "nav": {
-  "home": "9rayti home",
-  "main": "Main navigation",
-  "find": "Find a tutor",
-  "sessions": "Exam sessions",
-  "teach": "Become a tutor",
-  "language": "Language",
-  "login": "Log in",
-  "register": "Sign up",
-  "logout": "Log out",
-  "menu": "Menu"
- },
- "footer": {
-  "tag": "Peer tutoring between students, all over Tunisia. The platform is the classroom.",
-  "students": "Students",
-  "tutors": "Tutors",
-  "space": "Tutor space",
-  "rules": "Refunded in credits if the lesson does not happen"
- },
- "common": {
-  "verified": "Verified",
-  "new": "New",
-  "reviews": "{{ n }} reviews",
-  "hours": "{{ n }} h taught",
-  "responds": "Replies {{ n }}%",
-  "perHour": "/ h",
-  "seeAll": "See all",
-  "loading": "Loading…",
-  "cancel": "Cancel",
-  "close": "Close",
-  "send": "Send",
-  "add": "Add",
-  "remove": "Remove",
-  "save": "Save",
-  "h": "h"
- },
- "langs": {
-  "fr": "French",
-  "ar": "Arabic",
-  "en": "English"
- },
- "home": {
-  "title": "Peer tutoring",
-  "kick": "Peer tutoring between students, all over Tunisia",
-  "h1": "Study with the student who already aced your course.",
-  "lead": "Verified tutors, live lessons, and materials that stay after the session.",
-  "pick": "Which subject?",
-  "go": "Search",
-  "cta1": "I need a tutor",
-  "cta1s": "Live lessons from 15 DT",
-  "cta2": "I want to teach",
-  "cta2s": "Set your price, pick your hours",
-  "sun": "Reply within 12 h",
-  "accepted": "Request accepted",
-  "acceptedSub": "Probability · Thursday 8 pm",
-  "how": "How it works",
-  "s1": "Search your subject",
-  "s1d": "Compare tutors: rating, price, hours taught, response rate.",
-  "s2": "Send your request",
-  "s2d": "Pick a time, attach your course. The tutor accepts within 12 h, or you get refunded.",
-  "s3": "Join the live lesson",
-  "s3d": "Video, PDF and replay stay in your classroom until the exam.",
-  "sessions": "Upcoming exam sessions",
-  "t1": "Verified tutors",
-  "t1d": "School, year and grades checked before the first lesson.",
-  "t2": "Never lost",
-  "t2d": "Request refused or tutor absent: refunded in 9rayti credits.",
-  "t3": "Everything stays here",
-  "t3d": "PDF and replay of every lesson, to review the night before the exam."
- },
- "search": {
-  "title": "Find a tutor",
-  "filters": "Filters",
-  "subject": "Subject",
-  "allSubjects": "All subjects",
-  "maxPrice": "Maximum price",
-  "minRating": "Minimum rating",
-  "any": "Any",
-  "when": "Available",
-  "lang": "Lesson language",
-  "w": {
-   "semaine": "This week",
-   "soir": "Tonight",
-   "weekend": "Weekend"
+  "a11y": {
+    "skip": "Skip to content"
   },
-  "sort": "Sort by",
-  "s": {
-   "pertinence": "Relevance",
-   "prix": "Lowest price",
-   "note": "Best rating"
+  "demo": {
+    "bar": "Live demo: data is simulated in your browser. Run the API for the full version (see README)."
   },
-  "count": "{{ n }} tutor(s) available",
-  "reset": "Clear filters",
-  "noSlot": "No free time this week",
-  "sessionHint": "Group exam session in {{ subject }}",
-  "emptyT": "No tutor matches these filters",
-  "emptyD": "Raise the price or change the time, or try a group exam session."
- },
- "tutor": {
-  "title": "Tutor profile",
-  "back": "Back to results",
-  "notFound": "This tutor does not exist or is not validated yet",
-  "taught": "taught",
-  "responseRate": "response rate",
-  "newHint": "New: fewer than 5 reviews",
-  "about": "About",
-  "verifiedNote": "Grades and enrolment verified by 9rayti (the transcript is not kept).",
-  "subjects": "Subjects and prices",
-  "reviews": "Student reviews",
-  "noReviews": "No reviews yet."
- },
- "book": {
-  "title": "Request a lesson",
-  "slot": "Pick a time",
-  "attach": "Attach your course or an exercise (PDF, photo)",
-  "message": "Message to the tutor (optional)",
-  "messagePh": "e.g. chapter 4, continuous distributions",
-  "pay": "Payment",
-  "credits": "9rayti credits",
-  "card": "Bank card",
-  "lesson": "Lesson (1 h)",
-  "fee": "Booking fee",
-  "total": "Total",
-  "send": "Send request",
-  "loginFirst": "Log in to book",
-  "studentsOnly": "Only student accounts can book a lesson.",
-  "rule": "The tutor has 12 h to accept. If refused or unanswered, you are refunded in 9rayti credits.",
-  "sentT": "Request sent",
-  "sentD": "{{ name }} has until {{ when }} to reply. Otherwise you are refunded automatically.",
-  "track": "Track my request"
- },
- "auth": {
-  "loginT": "Log in",
-  "loginD": "One form for students and tutors.",
-  "expired": "Your session expired, please log in again.",
-  "email": "Email address",
-  "emailErr": "Enter a valid email address.",
-  "password": "Password",
-  "passHint": "At least 8 characters, including a digit.",
-  "loginBtn": "Log in",
-  "noAccount": "No account yet?",
-  "haveAccount": "Already have an account?",
-  "demoT": "Demo accounts",
-  "demoStudent": "Student (Yasmine)",
-  "demoTutor": "Tutor (Sarra)",
-  "demoPass": "Password:",
-  "registerT": "Create an account",
-  "iam": "I am",
-  "student": "Student",
-  "studentD": "I need help",
-  "tutor": "Tutor",
-  "tutorD": "I want to teach",
-  "firstName": "First name",
-  "lastName": "Last name",
-  "school": "School",
-  "year": "Year",
-  "average": "Last year's average (out of 20)",
-  "averageHint": "Checked once on your transcript, which is not kept.",
-  "bio": "Introduce yourself in a few lines",
-  "subjectsT": "Subjects you teach and price per hour (DT)",
-  "pricePerHour": "Price per hour (DT)",
-  "addSubject": "Add a subject",
-  "registerBtn": "Create my account",
-  "sideT": "Study with those who succeeded.",
-  "side1": "Verified tutors from your school or elsewhere",
-  "side2": "Refunded in credits if the lesson does not happen",
-  "side3": "PDF and replay kept until the exam",
-  "sideTutorT": "Teach what you master.",
-  "tside1": "You set your price for each subject",
-  "tside2": "You choose your free hours",
-  "tside3": "Paid 24 h after each lesson"
- },
- "state": {
-  "en_attente": "Pending",
-  "acceptee": "Accepted",
-  "faite": "Lesson done",
-  "versee": "Completed",
-  "signalee": "Reported",
-  "refusee": "Refused",
-  "expiree": "Expired",
-  "annulee": "Cancelled",
-  "annulee_tuteur": "Cancelled by tutor"
- },
- "credit": {
-  "recharge": "Top-up",
-  "paiement": "Payment",
-  "remboursement": "Refund"
- },
- "student": {
-  "title": "My space",
-  "hello": "Hello {{ name }}",
-  "sub": "Your lessons, credits and sessions in one place.",
-  "next": "Next lesson",
-  "noNext": "No confirmed lesson yet.",
-  "enter": "Enter the classroom",
-  "balance": "9rayti credits",
-  "recharge": "Top up",
-  "pending": "Awaiting reply",
-  "pendingHint": "Reply within 12 h at most",
-  "tabs": "Sections of my space",
-  "tab": {
-   "cours": "My lessons",
-   "historique": "History",
-   "credits": "Credits",
-   "sessions": "Exam sessions"
+  "nav": {
+    "home": "9rayti home",
+    "main": "Main navigation",
+    "find": "Find a tutor",
+    "sessions": "Exam sessions",
+    "teach": "Become a tutor",
+    "language": "Language",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "menu": "Menu",
+    "about": "About",
+    "account": "My account",
+    "contact": "Contact",
+    "credits": "My credits",
+    "how": "How it works",
+    "messages": "Messages",
+    "mySpace": "My space",
+    "profile": "My profile",
+    "terms": "Terms of use"
   },
-  "answerIn": "Reply within {{ h }} h {{ m }} min",
-  "refunded": "{{ amount }} refunded in credits",
-  "reviewed": "Review sent",
-  "room": "Classroom",
-  "rate": "Rate",
-  "report": "Report",
-  "emptyT": "No lessons yet",
-  "emptyD": "Find a tutor and send your first request.",
-  "noHistory": "Nothing in your history.",
-  "rechargeD": "Simulated top-up for the demo: no real payment.",
-  "movements": "Transactions",
-  "noMovements": "No transactions.",
-  "noSessions": "You have not booked any session.",
-  "rateT": "Rate this lesson",
-  "comment": "Comment (optional)",
-  "reportT": "Report a problem",
-  "reportD": "You have 24 h after the lesson. The tutor's payout is held while we check.",
-  "reason": "What happened?",
-  "cancelled": "Request cancelled: refunded in credits.",
-  "thanks": "Thanks for your review!",
-  "reported": "Report sent, the payout is on hold.",
-  "recharged": "Credits topped up."
- },
- "tspace": {
-  "title": "Tutor space",
-  "sub": "Your requests, free hours and earnings.",
-  "publicProfile": "View my public profile",
-  "pendingT": "Profile under review",
-  "pendingD": "The 9rayti team is checking your enrolment and grades. You will appear in search afterwards.",
-  "next": "Next lesson",
-  "noNext": "No upcoming accepted lesson.",
-  "earned": "Earned this month",
-  "pendingPayout": "{{ amount }} awaiting payout",
-  "reputation": "Reputation",
-  "rate": "Response rate: {{ n }}%",
-  "tab": {
-   "demandes": "Requests",
-   "cours": "Lessons",
-   "creneaux": "Free hours",
-   "tarifs": "Prices"
+  "footer": {
+    "tag": "Peer tutoring between students, all over Tunisia. The platform is the classroom.",
+    "students": "Students",
+    "tutors": "Tutors",
+    "space": "Tutor space",
+    "rules": "Refunded in credits if the lesson does not happen"
   },
-  "ruleHint": "Reply within 12 h. Refusing often or letting requests expire lowers your ranking.",
-  "youGet": "you receive {{ amount }}",
-  "answerWithin": "{{ h }} h {{ m }} min left to reply",
-  "accept": "Accept",
-  "refuse": "Refuse",
-  "noRequests": "No pending requests",
-  "noRequestsD": "Add free hours to receive requests.",
-  "complete": "Lesson finished",
-  "cancel": "Cancel lesson",
-  "payoutAt": "payout on {{ when }}",
-  "noCourses": "No lessons yet.",
-  "addSlot": "Add a free hour",
-  "day": "Day",
-  "time": "Time (Tunis)",
-  "duration": "Duration",
-  "booked": "booked",
-  "myRates": "My prices",
-  "ratesD": "One price per subject. It applies to new requests.",
-  "rateSaved": "Price saved.",
-  "slotAdded": "Free hour added.",
-  "slotRemoved": "Free hour removed.",
-  "done": {
-   "accept": "Request accepted: the classroom is open.",
-   "refuse": "Request refused: the student is refunded.",
-   "tutor-cancel": "Lesson cancelled: the student is refunded.",
-   "complete": "Lesson finished: payout in 24 h unless reported."
+  "common": {
+    "verified": "Verified",
+    "new": "New",
+    "reviews": "{{ n }} reviews",
+    "hours": "{{ n }} h taught",
+    "responds": "Replies {{ n }}%",
+    "perHour": "/ h",
+    "seeAll": "See all",
+    "loading": "Loading…",
+    "cancel": "Cancel",
+    "close": "Close",
+    "send": "Send",
+    "add": "Add",
+    "remove": "Remove",
+    "save": "Save",
+    "h": "h",
+    "all": "All",
+    "edit": "Edit",
+    "next": "Next",
+    "prev": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "langs": {
+    "fr": "French",
+    "ar": "Arabic",
+    "en": "English"
+  },
+  "home": {
+    "title": "Peer tutoring",
+    "kick": "Peer tutoring between students, all over Tunisia",
+    "h1": "Study with the student who already aced your course.",
+    "lead": "Verified tutors, live lessons, and materials that stay after the session.",
+    "pick": "Which subject?",
+    "go": "Search",
+    "cta1": "I need a tutor",
+    "cta1s": "Live lessons from 15 DT",
+    "cta2": "I want to teach",
+    "cta2s": "Set your price, pick your hours",
+    "sun": "Reply within 12 h",
+    "accepted": "Request accepted",
+    "acceptedSub": "Probability · Thursday 8 pm",
+    "how": "How it works",
+    "s1": "Search your subject",
+    "s1d": "Compare tutors: rating, price, hours taught, response rate.",
+    "s2": "Send your request",
+    "s2d": "Pick a time, attach your course. The tutor accepts within 12 h, or you get refunded.",
+    "s3": "Join the live lesson",
+    "s3d": "Video, PDF and replay stay in your classroom until the exam.",
+    "sessions": "Upcoming exam sessions",
+    "t1": "Verified tutors",
+    "t1d": "School, year and grades checked before the first lesson.",
+    "t2": "Never lost",
+    "t2d": "Request refused or tutor absent: refunded in 9rayti credits.",
+    "t3": "Everything stays here",
+    "t3d": "PDF and replay of every lesson, to review the night before the exam.",
+    "h1a": "Study with the student who already",
+    "h1b": "aced",
+    "h1c": "your course.",
+    "popular": "Popular:",
+    "proof": "{{ students }} students signed up · {{ courses }} lessons given",
+    "proofLoading": "Tutors from SUP'COM, ENIT, INSAT, ESPRIT…",
+    "replay": "Replay available",
+    "replaySub": "Probability · 58 min",
+    "marquee": "Available subjects",
+    "numbersL": "9rayti in numbers",
+    "n": {
+      "tutors": "verified tutors",
+      "students": "students signed up",
+      "hours": "hours of lessons given",
+      "rating": "average rating out of 5"
+    },
+    "howMore": "The full journey",
+    "leakK": "No leaks",
+    "leakT": "The classroom is 9rayti.",
+    "leakD": "Swapping numbers to carry on \"directly\" means losing every protection. On 9rayti, contact details are hidden automatically, and everything you need is in the room.",
+    "g1": "Built-in video",
+    "g1d": "A private room for every lesson, nothing to install.",
+    "g2": "PDFs and replay",
+    "g2d": "Materials stay until the exam.",
+    "g3": "Protected payment",
+    "g3d": "Paid to the tutor 24 h later, refunded otherwise.",
+    "chat": {
+      "alt": "Demo: a phone number sent in a message is replaced with dots.",
+      "status": "Tutor · replies within 1 h",
+      "q": "Thanks for the lesson! Can I have your number for next time?",
+      "a": "Sure, it's",
+      "sys": "We keep everything here: you stay protected and refunded if anything goes wrong.",
+      "replay": "Replay"
+    },
+    "reviews": "They studied with 9rayti",
+    "teachK": "Aced a subject?",
+    "teachT": "Turn your good grades into income.",
+    "teachD": "Set your price, choose your hours, teach from home. You keep 100% of your lesson price.",
+    "sim": {
+      "hours": "{{ n }} h of lessons a week",
+      "price": "at {{ n }} DT an hour",
+      "result": "What you could earn per month",
+      "note": "Estimate, before tax.",
+      "cta": "Become a tutor"
+    },
+    "finalT": "Ready to study differently?",
+    "finalD": "Find the tutor who aced your course, book in two minutes, and keep everything until the exam."
+  },
+  "search": {
+    "title": "Find a tutor",
+    "filters": "Filters",
+    "subject": "Subject",
+    "allSubjects": "All subjects",
+    "maxPrice": "Maximum price",
+    "minRating": "Minimum rating",
+    "any": "Any",
+    "when": "Available",
+    "lang": "Lesson language",
+    "w": {
+      "semaine": "This week",
+      "soir": "Tonight",
+      "weekend": "Weekend"
+    },
+    "sort": "Sort by",
+    "s": {
+      "pertinence": "Relevance",
+      "prix": "Lowest price",
+      "note": "Best rating"
+    },
+    "count": "{{ n }} tutor(s) available",
+    "reset": "Clear filters",
+    "noSlot": "No free time this week",
+    "sessionHint": "Group exam session in {{ subject }}",
+    "emptyT": "No tutor matches these filters",
+    "emptyD": "Raise the price or change the time, or try a group exam session."
+  },
+  "tutor": {
+    "title": "{{ name }} · tutor",
+    "back": "Back to results",
+    "notFound": "This tutor does not exist or is not validated yet",
+    "taught": "taught",
+    "responseRate": "response rate",
+    "newHint": "New: fewer than 5 reviews",
+    "about": "About",
+    "verifiedNote": "Grades and enrolment verified by 9rayti (the transcript is not kept).",
+    "subjects": "Subjects and prices",
+    "reviews": "Student reviews",
+    "noReviews": "No reviews yet."
+  },
+  "book": {
+    "title": "Request a lesson",
+    "slot": "Pick a time",
+    "attach": "Attach your course or an exercise (PDF, photo)",
+    "message": "Message to the tutor (optional)",
+    "messagePh": "e.g. chapter 4, continuous distributions",
+    "pay": "Payment",
+    "credits": "9rayti credits",
+    "card": "Bank card",
+    "lesson": "Lesson (1 h)",
+    "fee": "Booking fee",
+    "total": "Total",
+    "send": "Send request",
+    "loginFirst": "Log in to book",
+    "studentsOnly": "Only student accounts can book a lesson.",
+    "rule": "The tutor has 12 h to accept. If refused or unanswered, you are refunded in 9rayti credits.",
+    "sentT": "Request sent",
+    "sentD": "{{ name }} has until {{ when }} to reply. Otherwise you are refunded automatically.",
+    "track": "Track my request",
+    "lowBalance": "Your balance isn't enough for this lesson."
+  },
+  "auth": {
+    "loginT": "Log in",
+    "loginD": "One form for students and tutors.",
+    "expired": "Your session expired, please log in again.",
+    "email": "Email address",
+    "emailErr": "Enter a valid email address.",
+    "password": "Password",
+    "passHint": "At least 8 characters, including a digit.",
+    "loginBtn": "Log in",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?",
+    "demoT": "Demo accounts",
+    "demoStudent": "Student (Yasmine)",
+    "demoTutor": "Tutor (Sarra)",
+    "demoPass": "Password:",
+    "registerT": "Create an account",
+    "iam": "I am",
+    "student": "Student",
+    "studentD": "I need help",
+    "tutor": "Tutor",
+    "tutorD": "I want to teach",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "school": "School",
+    "year": "Year",
+    "average": "Last year's average (out of 20)",
+    "averageHint": "Checked once on your transcript, which is not kept.",
+    "bio": "Introduce yourself in a few lines",
+    "subjectsT": "Subjects you teach and price per hour (DT)",
+    "pricePerHour": "Price per hour (DT)",
+    "addSubject": "Add a subject",
+    "registerBtn": "Create my account",
+    "sideT": "Study with those who succeeded.",
+    "side1": "Verified tutors from your school or elsewhere",
+    "side2": "Refunded in credits if the lesson does not happen",
+    "side3": "PDF and replay kept until the exam",
+    "sideTutorT": "Teach what you master.",
+    "tside1": "You set your price for each subject",
+    "tside2": "You choose your free hours",
+    "tside3": "Paid 24 h after each lesson"
+  },
+  "state": {
+    "en_attente": "Pending",
+    "acceptee": "Accepted",
+    "faite": "Lesson done",
+    "versee": "Completed",
+    "signalee": "Reported",
+    "refusee": "Refused",
+    "expiree": "Expired",
+    "annulee": "Cancelled",
+    "annulee_tuteur": "Cancelled by tutor",
+    "remboursee": "Refunded"
+  },
+  "credit": {
+    "recharge": "Top-up",
+    "paiement": "Payment",
+    "remboursement": "Refund"
+  },
+  "student": {
+    "title": "My space",
+    "hello": "Hello {{ name }}",
+    "sub": "Your lessons, credits and sessions in one place.",
+    "next": "Next lesson",
+    "noNext": "No confirmed lesson yet.",
+    "enter": "Enter the classroom",
+    "balance": "9rayti credits",
+    "recharge": "Top up",
+    "pending": "Awaiting reply",
+    "pendingHint": "Reply within 12 h at most",
+    "tabs": "Sections of my space",
+    "tab": {
+      "cours": "My lessons",
+      "historique": "History",
+      "credits": "Credits",
+      "sessions": "Exam sessions",
+      "favoris": "Favourites"
+    },
+    "answerIn": "Reply within {{ h }} h {{ m }} min",
+    "refunded": "{{ amount }} refunded in credits",
+    "reviewed": "Review sent",
+    "room": "Classroom",
+    "rate": "Rate",
+    "report": "Report",
+    "emptyT": "No lessons yet",
+    "emptyD": "Find a tutor and send your first request.",
+    "noHistory": "Nothing in your history.",
+    "rechargeD": "Simulated top-up for the demo: no real payment.",
+    "movements": "Transactions",
+    "noMovements": "No transactions.",
+    "noSessions": "You have not booked any session.",
+    "rateT": "Rate this lesson",
+    "comment": "Comment (optional)",
+    "reportT": "Report a problem",
+    "reportD": "You have 24 h after the lesson. The tutor's payout is held while we check.",
+    "reason": "What happened?",
+    "cancelled": "Request cancelled: refunded in credits.",
+    "thanks": "Thanks for your review!",
+    "reported": "Report sent, the payout is on hold.",
+    "recharged": "Credits topped up.",
+    "days": " d",
+    "hours": " h",
+    "learned": "Hours of lessons taken",
+    "pendingN": "{{ n }} pending request(s)",
+    "rebook": "Book again",
+    "reviewSend": "Send my review",
+    "decision": "9rayti's decision"
+  },
+  "tspace": {
+    "title": "Tutor space",
+    "sub": "Your requests, free hours and earnings.",
+    "publicProfile": "View my public profile",
+    "pendingT": "Profile under review",
+    "pendingD": "The 9rayti team is checking your enrolment and grades. You will appear in search afterwards.",
+    "next": "Next lesson",
+    "noNext": "No upcoming accepted lesson.",
+    "earned": "Earned this month",
+    "pendingPayout": "{{ amount }} awaiting payout",
+    "reputation": "Reputation",
+    "rate": "Response rate: {{ n }}%",
+    "tab": {
+      "demandes": "Requests",
+      "cours": "Lessons",
+      "creneaux": "Free hours",
+      "tarifs": "Prices",
+      "sessions": "Sessions",
+      "revenus": "Earnings"
+    },
+    "ruleHint": "Reply within 12 h. Refusing often or letting requests expire lowers your ranking.",
+    "youGet": "you receive {{ amount }}",
+    "answerWithin": "{{ h }} h {{ m }} min left to reply",
+    "accept": "Accept",
+    "refuse": "Refuse",
+    "noRequests": "No pending requests",
+    "noRequestsD": "Add free hours to receive requests.",
+    "complete": "Lesson finished",
+    "cancel": "Cancel lesson",
+    "payoutAt": "payout on {{ when }}",
+    "noCourses": "No lessons yet.",
+    "addSlot": "Add a free hour",
+    "day": "Day",
+    "time": "Time (Tunis)",
+    "duration": "Duration",
+    "booked": "booked",
+    "myRates": "My prices",
+    "ratesD": "One price per subject. It applies to new requests.",
+    "rateSaved": "Price saved.",
+    "slotAdded": "Free hour added.",
+    "slotRemoved": "Free hour removed.",
+    "done": {
+      "accept": "Request accepted: the classroom is open.",
+      "refuse": "Request refused: the student is refunded.",
+      "tutor-cancel": "Lesson cancelled: the student is refunded.",
+      "complete": "Lesson finished: payout in 24 h unless reported."
+    },
+    "sessionCreated": "Session published!",
+    "completeT": "End the lesson",
+    "recap": "Summary for the student (optional)",
+    "recapPh": "What we covered, what to review, exercises to do…",
+    "recapHint": "The student finds it in their classroom.",
+    "newSession": "New exam session",
+    "newSessionD": "A group lesson the day before an exam. 9rayti keeps 20%, you get the rest.",
+    "placesMin": "Minimum students",
+    "placesMax": "Maximum seats",
+    "pricePerPlace": "Price per seat (DT)",
+    "sessionDesc": "Programme (optional)",
+    "sessionDescPh": "E.g. past papers 2023-2025, chapters 3 to 6",
+    "estimate": "You'll receive between {{ min }} and {{ max }} depending on sign-ups.",
+    "createSession": "Publish the session",
+    "noSessions": "No sessions published."
+  },
+  "room": {
+    "title": "Classroom",
+    "back": "Back to my space",
+    "closedT": "Classroom closed",
+    "newTab": "Open video in a new tab",
+    "video": "Lesson video call",
+    "ready": "Camera and mic ready? The video call opens here, nothing to install.",
+    "join": "Join the video call",
+    "jitsi": "Encrypted Jitsi Meet call, private room for this lesson",
+    "end": "End the lesson",
+    "endHint": "When the lesson is over, end it to trigger the payout.",
+    "docs": "Lesson documents",
+    "noDocs": "The tutor will share the PDF and the replay here.",
+    "docName": "Document name",
+    "docUrl": "Link (PDF or video)",
+    "docAdded": "Document added to the classroom.",
+    "chatRule": "The session chat is erased when the lesson ends.",
+    "stayRule": "Stay on 9rayti: if anything goes wrong, you are protected and refunded.",
+    "attached": "Student's attachment:",
+    "recap": "Tutor's summary"
+  },
+  "sessions": {
+    "title": "Group exam sessions",
+    "lead": "One tutor, several students, the day before an exam: cheaper per person, just as effective.",
+    "group": "Group",
+    "places": "{{ n }}/{{ max }} seats",
+    "min": "minimum {{ n }}",
+    "perPlace": "/ seat",
+    "confirmed": "Confirmed",
+    "waiting": "Waiting for minimum",
+    "book": "Book my seat",
+    "booked": "Booked",
+    "full": "Full",
+    "bookedToast": "Seat booked!",
+    "none": "No sessions planned yet.",
+    "rule": "If the minimum number of students is not reached, the session is cancelled and everyone is refunded in credits.",
+    "kicker": "In a group, for less",
+    "create": "Create a session",
+    "noneD": "Tutors publish them before every exam period.",
+    "detailTitle": "Exam session",
+    "back": "All sessions",
+    "notFound": "This session doesn't exist or was cancelled.",
+    "cancelled": "Session cancelled",
+    "confirmedD": "The minimum is reached: the session will take place.",
+    "waitingD": "{{ n }} more sign-up(s) to confirm the session.",
+    "startsIn": "In {{ d }} d {{ h }} h",
+    "registered": "Signed up",
+    "registeredList": "Signed up: {{ names }}",
+    "seeTutor": "View the tutor's profile",
+    "howT": "How does it work?",
+    "how1": "Book your seat: you pay in credits.",
+    "how2": "The session is confirmed as soon as the minimum number of students is reached.",
+    "how3": "Otherwise it's cancelled and you're refunded automatically."
+  },
+  "admin": {
+    "title": "Administration",
+    "tutors": "Validated tutors",
+    "pendingN": "{{ n }} awaiting review",
+    "requests": "Lesson requests",
+    "volume": "Total volume",
+    "byState": "Requests by state",
+    "toValidate": "Tutors to review",
+    "average": "average",
+    "validate": "Validate",
+    "none": "No tutor waiting.",
+    "validated": "Tutor validated.",
+    "sub": "Approve tutors, settle reports and track payments.",
+    "kicker": "9rayti team",
+    "tab": {
+      "apercu": "Overview",
+      "validation": "Approvals",
+      "signalements": "Reports",
+      "cours": "Lessons & payments",
+      "matieres": "Subjects",
+      "contact": "Contact"
+    },
+    "validationD": "Check the school, year and average on the transcript, then approve. The transcript isn't kept.",
+    "since": "Signed up {{ when }}",
+    "resolve": "Decide",
+    "resolveT": "Handle the report",
+    "decision": "Decision",
+    "refund": "Refund the student",
+    "refundD": "The full amount goes back as 9rayti credits.",
+    "pay": "Pay the tutor",
+    "payD": "The report isn't justified: the lesson is paid.",
+    "note": "Decision note",
+    "notePh": "E.g. the tutor never joined, confirmed by the room logs.",
+    "noteHint": "Visible to the student and the tutor.",
+    "confirm": "Confirm the decision",
+    "resolved": {
+      "rembourser": "Student refunded.",
+      "verser": "Payment sent to the tutor."
+    },
+    "noReports": "No pending reports",
+    "noReportsD": "All good: no disputed lessons.",
+    "search": "Search a student, a tutor, a subject",
+    "filterState": "Filter by status",
+    "noResult": "No lessons match.",
+    "pages": "Pagination",
+    "pageOf": "Page {{ page }} of {{ pages }} · {{ total }} lessons",
+    "col": {
+      "date": "Date",
+      "student": "Student",
+      "tutor": "Tutor",
+      "state": "Status",
+      "amount": "Amount"
+    },
+    "addSubject": "Add a subject",
+    "code": "Code (used in the URL)",
+    "editSubject": "Edit subject",
+    "tutorsN": "{{ n }} tutor(s)",
+    "subjectAdded": "Subject added.",
+    "subjectSaved": "Subject saved.",
+    "noContact": "No messages received.",
+    "reply": "Reply",
+    "markDone": "Mark as handled",
+    "markNew": "Reopen",
+    "contactSaved": "Message updated."
+  },
+  "e404": {
+    "title": "This page does not exist",
+    "text": "The link may be old, or the page has moved.",
+    "home": "Back to home",
+    "try": "Knock on the door, you never know…",
+    "knock": "Knock knock ({{ n }})… anyone?",
+    "open": "The door creaks open, but the page isn't there. Try one of these:",
+    "more": "Other pages"
+  },
+  "theme": {
+    "toDark": "Switch to dark mode",
+    "toLight": "Switch to light mode"
+  },
+  "palette": {
+    "title": "Quick search",
+    "placeholder": "A page, a subject, a tutor…",
+    "none": "No results",
+    "page": "Page",
+    "subject": "Subject",
+    "open": "open",
+    "move": "navigate",
+    "short": "Search"
+  },
+  "fav": {
+    "add": "Add to favourites",
+    "remove": "Remove from favourites",
+    "emptyT": "No favourites yet",
+    "emptyD": "Tap the heart on a tutor's card to find them here."
+  },
+  "share": {
+    "button": "Share",
+    "title": "Share {{ name }}'s profile",
+    "link": "Profile link",
+    "copy": "Copy",
+    "copied": "Copied",
+    "qr": "Profile QR code, to scan with a phone"
+  },
+  "msg": {
+    "lead": "Ask your questions before booking. Phone numbers, emails and links are hidden: everything stays on 9rayti.",
+    "conversations": "Conversations",
+    "conversation": "Conversation",
+    "noThreads": "No conversations yet.",
+    "pickT": "Pick a conversation",
+    "pickD": "Or message a tutor from their profile.",
+    "back": "Back to conversations",
+    "seeProfile": "View profile",
+    "first": "Send the first message to {{ name }}.",
+    "placeholder": "Write your message…",
+    "write": "Send",
+    "readOnly": "Tutors can only reply to students who wrote to them or booked a lesson.",
+    "masked": "Contact details hidden",
+    "maskedT": "Part of this message was hidden (phone number, email, link or social network).",
+    "maskedToast": "Message sent, but contact details were hidden: stay on 9rayti to stay protected.",
+    "notFound": "Conversation not found.",
+    "you": "You",
+    "writeTo": "Message {{ name }}"
+  },
+  "notif": {
+    "title": "Notifications",
+    "sub": "Requests, lessons, messages and payouts.",
+    "new": "New",
+    "none": "Nothing new",
+    "noneD": "You'll be notified here at every step of your lessons.",
+    "readAll": "Mark all as read",
+    "seeAll": "See all notifications",
+    "unread": "{{ n }} unread",
+    "demande_recue": "{{ from }} is asking you for a {{ subject }} lesson.",
+    "demande_acceptee": "{{ from }} accepted your {{ subject }} lesson: the room is open.",
+    "demande_refusee": "{{ from }} declined your {{ subject }} request: you've been refunded in credits.",
+    "demande_expiree": "No answer from {{ from }} for {{ subject }}: you've been refunded in credits.",
+    "cours_annule": "The {{ subject }} lesson with {{ from }} was cancelled.",
+    "cours_termine": "Your {{ subject }} lesson with {{ from }} is over: leave a review!",
+    "avis_recu": "{{ from }} rated you {{ rating }}/5 in {{ subject }}.",
+    "versement": "{{ amount }} paid out for the {{ subject }} lesson.",
+    "signalement": "{{ from }} reported the {{ subject }} lesson: the payout is on hold.",
+    "signalement_traite_rembourser": "Report handled for {{ subject }}: the student was refunded.",
+    "signalement_traite_verser": "Report handled for {{ subject }}: the tutor was paid.",
+    "message": "New message from {{ from }}.",
+    "session_reservee": "One more seat booked in your {{ subject }} session ({{ taken }}/{{ max }}).",
+    "session_annulee": "The {{ subject }} session was cancelled (minimum not reached): you've been refunded.",
+    "tuteur_valide": "Your tutor profile is approved: you now appear in search!",
+    "contact": "New contact message from {{ from }}."
+  },
+  "profile": {
+    "sub": "Your photo, your details and your preferences.",
+    "since": "Member since {{ date }}",
+    "photo": "Profile photo",
+    "photoChange": "Change photo",
+    "photoRemove": "Remove",
+    "photoHint": "JPG, PNG or WebP. It's cropped and compressed before upload.",
+    "info": "My details",
+    "tutorT": "My tutor profile",
+    "bioHint": "Your introduction, shown on your public profile.",
+    "verifT": "Verification",
+    "v1": "Sign-up sent",
+    "v2": "Declared average",
+    "v2d": "{{ avg }} / 20, checked on your transcript (not kept)",
+    "v3": "Profile approved",
+    "v3d": "You appear in search.",
+    "prefs": "Preferences",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "browserNotif": "Browser notifications",
+    "notifEnable": "Turn on",
+    "notifOn": "On",
+    "notifDenied": "Blocked in the browser",
+    "security": "Security",
+    "changePwd": "Change password",
+    "currentPwd": "Current password",
+    "newPwd": "New password",
+    "saved": {
+      "info": "Details saved.",
+      "photo": "Photo updated.",
+      "tutor": "Tutor profile saved.",
+      "pwd": "Password changed."
+    }
+  },
+  "revenue": {
+    "title": "Earnings over the last 12 weeks",
+    "chartLabel": "Earnings per week",
+    "total": "Total paid",
+    "pending": "Pending",
+    "paid": "Paid",
+    "week": "Week",
+    "courses": "{{ n }} lesson(s)",
+    "next": "Next payout on {{ when }}",
+    "history": "Payment history",
+    "none": "No payments yet."
+  },
+  "how": {
+    "title": "How it works",
+    "kicker": "Step by step",
+    "h1": "How it works",
+    "sub": "From the first click to the payout: everything happens on 9rayti, with a clear rule at every step.",
+    "forStudent": "I'm a student",
+    "forTutor": "I'm a tutor",
+    "step": "Step {{ n }} of {{ total }}",
+    "goto": "Go to step",
+    "etudiant": {
+      "search": {
+        "t": "Search for your subject",
+        "d": "Filter by price, rating, availability and lesson language. Each card shows hours taught and response rate.",
+        "r": "Tutors who reply fast and are well rated come first."
+      },
+      "request": {
+        "t": "Send your request",
+        "d": "Pick a free slot, attach your course or an exercise, and pay with credits or by card.",
+        "r": "A 3 DT booking fee, shown before you pay."
+      },
+      "wait": {
+        "t": "The tutor replies within 12 h",
+        "d": "Follow your request live and get notified as soon as it's accepted. Until then, you can cancel.",
+        "r": "Declined or no answer: refunded in credits, automatically."
+      },
+      "live": {
+        "t": "Join the live lesson",
+        "d": "The room opens at lesson time: built-in video, documents, and messaging where contact details are hidden.",
+        "r": "Once accepted, the lesson can't be cancelled, except by the tutor."
+      },
+      "replay": {
+        "t": "Keep the replay and PDFs",
+        "d": "The tutor uploads materials and a summary to your room. You'll find them the night before the exam.",
+        "r": "Everything stays in your space, even months later."
+      },
+      "review": {
+        "t": "Rate your tutor",
+        "d": "Your review helps other students. A problem? You have 24 h to report it.",
+        "r": "The tutor is only paid after those 24 h: your money is protected."
+      }
+    },
+    "tuteur": {
+      "signup": {
+        "t": "Sign up and get verified",
+        "d": "School, year and last year's average: the team checks once, then you choose your subjects.",
+        "r": "Your transcript is never kept."
+      },
+      "agenda": {
+        "t": "Set your prices and hours",
+        "d": "One price per subject, free slots whenever suits you. You can also publish group exam sessions.",
+        "r": "You keep 100% of your private lesson price."
+      },
+      "accept": {
+        "t": "Accept requests",
+        "d": "You see the subject, the time and the attached course. You have 12 h to reply.",
+        "r": "Declining often or letting requests expire lowers your ranking."
+      },
+      "teach": {
+        "t": "Teach the lesson",
+        "d": "In the 9rayti room: video, documents to share, and a summary to leave for the student.",
+        "r": "Stay on 9rayti: that's what guarantees your payment."
+      },
+      "paid": {
+        "t": "Get paid 24 h later",
+        "d": "Without a report, the payment goes out automatically. Track your earnings week by week.",
+        "r": "Group sessions: you get 80% of the seats sold."
+      }
+    },
+    "mock": {
+      "subject": "Probability",
+      "refund": "Otherwise, refunded in credits",
+      "notes": "Lesson summary",
+      "exercises": "Solved exercises",
+      "verif1": "School: SUP'COM",
+      "verif2": "Year: 3rd year",
+      "verif3": "Average: 15.2 / 20",
+      "price": "Probability, per hour",
+      "within": "Reply within 12 h"
+    },
+    "faqT": "Frequently asked questions",
+    "faq": {
+      "money": {
+        "q": "What if the tutor declines?",
+        "a": "You're refunded immediately in 9rayti credits, usable for another lesson. A cash refund is still possible as a last resort by writing to support."
+      },
+      "absent": {
+        "q": "What if the tutor doesn't show up?",
+        "a": "Report it within 24 h after the lesson. The payout is blocked, the team checks, and you're refunded if the lesson didn't happen."
+      },
+      "contact": {
+        "q": "Why is my number hidden in messages?",
+        "a": "So that everything happens on 9rayti: that's how we can protect and refund you. Phone numbers, emails, links and social network names are replaced with \"•••\"."
+      },
+      "verify": {
+        "q": "How are tutors verified?",
+        "a": "The team checks the school, year and last year's average on the transcript, once. The transcript isn't kept: only the \"verified\" badge remains."
+      },
+      "price": {
+        "q": "How much does a lesson cost?",
+        "a": "Each tutor sets a price per subject, often between 15 and 30 DT an hour. A 3 DT booking fee is added, shown before you pay."
+      },
+      "lang": {
+        "q": "What language are lessons in?",
+        "a": "French, Arabic or English, depending on the tutor: their card shows the languages they speak, and you can filter the search."
+      }
+    },
+    "ctaT": "Shall we start?",
+    "ctaD": "Find a tutor in two minutes, or offer your own lessons."
+  },
+  "become": {
+    "title": "Become a tutor",
+    "kicker": "For students who aced it",
+    "h1": "Teach what you've mastered.",
+    "lead": "Help students from every school, at your price and on your schedule, from the 9rayti classroom.",
+    "cta": "Create my tutor account",
+    "tick1": "Verified only once",
+    "tick2": "Payment guaranteed 24 h after the lesson",
+    "tick3": "No subscription, no fees for you",
+    "simT": "How much could you earn?",
+    "lessons": "Private lessons",
+    "price": "Your price per hour",
+    "hours": "Hours per week",
+    "groups": "Group exam sessions",
+    "sessions": "Sessions per month",
+    "places": "Students per session",
+    "placePrice": "Price per seat",
+    "perMonth": "Per month, roughly",
+    "fromLessons": "Lessons",
+    "fromGroups": "Sessions",
+    "semester": "That's {{ amount }} over a 4-month semester.",
+    "note": "Estimate: you keep 100% of lessons and 80% of sessions. Before tax.",
+    "perksT": "Why teach on 9rayti",
+    "perk": {
+      "price": {
+        "t": "You set your price",
+        "d": "One rate per subject, changeable any time for new requests."
+      },
+      "hours": {
+        "t": "You choose your hours",
+        "d": "Open free slots between classes, in the evening or at weekends."
+      },
+      "paid": {
+        "t": "You always get paid",
+        "d": "The student pays when booking; you're paid 24 h after the lesson."
+      },
+      "room": {
+        "t": "The room is ready",
+        "d": "Video, documents and replay in one place: nothing to install."
+      },
+      "cv": {
+        "t": "Real experience",
+        "d": "Hours taught and reviews on your profile: a plus on your CV."
+      },
+      "groups": {
+        "t": "Group sessions",
+        "d": "The day before exams, teach several students at once."
+      }
+    },
+    "stepsT": "Three steps to get started",
+    "step1": {
+      "t": "Create your account",
+      "d": "Choose \"Tutor\", enter your school, your year and your subjects."
+    },
+    "step2": {
+      "t": "Get verified",
+      "d": "The team checks your average on your transcript, once."
+    },
+    "step3": {
+      "t": "Get your first requests",
+      "d": "Open free slots: students find you in search."
+    },
+    "faq": {
+      "who": {
+        "q": "Who can become a tutor?",
+        "a": "Any student at a Tunisian school or university who passed the subject they want to teach, with a good average last year."
+      },
+      "verify": {
+        "q": "How does verification work?",
+        "a": "You send your transcript; the team checks your school, year and average, then approves your profile. The transcript isn't kept."
+      },
+      "fee": {
+        "q": "How much does 9rayti take?",
+        "a": "Nothing on your private lessons: the student pays a 3 DT booking fee. On group exam sessions, 9rayti keeps 20%."
+      },
+      "cancel": {
+        "q": "What if I have to cancel a lesson?",
+        "a": "You can cancel an accepted lesson: the student is refunded in credits. Cancelling often lowers your ranking."
+      },
+      "tax": {
+        "q": "How do I get paid?",
+        "a": "The payment goes out 24 h after each completed lesson, with no report. Track every payout in the Earnings tab."
+      }
+    },
+    "finalT": "Your first request might already be waiting.",
+    "finalD": "Sign up in 3 minutes. Verified once. Teach whenever you want."
+  },
+  "about": {
+    "title": "About",
+    "kicker": "Our story",
+    "h1": "Students get further together.",
+    "lead": "9rayti (\"my studies\" in Tunisian Arabic) connects students stuck on a subject with those who already passed it, across every school in the country.",
+    "missionT": "Our mission",
+    "mission1": "Private lessons are expensive, and Facebook groups guarantee nothing: not the tutor's level, not a refund if the lesson doesn't happen.",
+    "mission2": "9rayti brings what was missing: verified tutors, protected payments, and a classroom where everything stays until the exam.",
+    "subjects": "subjects",
+    "courses": "lessons given",
+    "valuesT": "What guides us",
+    "value": {
+      "help": {
+        "t": "Mutual help",
+        "d": "A SUP'COM student can help an ESPRIT student: knowledge flows between every school."
+      },
+      "trust": {
+        "t": "Trust",
+        "d": "Verified tutors, real reviews, money protected until the lesson: nobody takes a risk."
+      },
+      "clear": {
+        "t": "Transparency",
+        "d": "Prices shown, fees announced, rules written down: 12 h to reply, 24 h to report."
+      }
+    },
+    "compareT": "What 9rayti changes",
+    "criterion": "Criterion",
+    "col": {
+      "group": "Facebook group",
+      "private": "Traditional private lesson"
+    },
+    "row": {
+      "verified": "Tutor's level verified",
+      "protected": "Payment protected until the lesson",
+      "refund": "Refunded if the lesson doesn't happen",
+      "replay": "PDFs and replay kept",
+      "price": "Price shown before booking",
+      "rating": "Reviews from other students"
+    },
+    "storyT": "The project, milestone by milestone",
+    "t1": {
+      "when": "Milestone 1",
+      "t": "The idea and the model",
+      "d": "Student-to-student tutoring, booking fees and exam sessions; the platform is the classroom."
+    },
+    "t2": {
+      "when": "Milestone 2",
+      "t": "The design",
+      "d": "Student survey, sitemap, mockups, the \"Sidi Bou Saïd\" brand."
+    },
+    "t3": {
+      "when": "Milestone 3",
+      "t": "The build",
+      "d": "Angular, NestJS and PostgreSQL: search, booking, classroom, three languages."
+    },
+    "t4": {
+      "when": "Milestone 4",
+      "t": "The finish",
+      "d": "Protected messaging, live notifications, full admin, animations and performance."
+    },
+    "teamT": "The team",
+    "teamRole": "design and development",
+    "teamD": "Groupe 9rayti — Web Project course, SUP'COM, 2026-2027.",
+    "code": "View the source code"
+  },
+  "contact": {
+    "title": "Contact",
+    "kicker": "We'll get back to you",
+    "h1": "Write to us",
+    "sub": "A question, a problem with a lesson, a partnership idea: the team reads every message.",
+    "name": "Full name",
+    "nameErr": "Enter your name (at least 2 characters).",
+    "emailErr": "Enter a valid email address.",
+    "topicL": "Topic",
+    "topic": {
+      "question": "Question",
+      "tuteur": "Becoming a tutor",
+      "probleme": "Problem with a lesson",
+      "partenariat": "Partnership"
+    },
+    "message": "Message",
+    "messagePh": "Tell us in a few lines…",
+    "messageHint": "At least 10 characters.",
+    "messageErr": "Your message is too short (at least 10 characters).",
+    "send": "Send message",
+    "sentT": "Message sent!",
+    "sentD": "Thanks, we'll reply to {{ email }} within 2 working days.",
+    "again": "Write another message",
+    "delayT": "Reply within 48 h",
+    "delayD": "Monday to Friday. For an ongoing lesson, report it from your space: it's handled first.",
+    "faqT": "Before you write",
+    "faq1": "How booking and refunds work",
+    "faq2": "Becoming a tutor: requirements and earnings",
+    "faq3": "Terms of use",
+    "whereT": "Where to find us",
+    "whereD": "A student project born at SUP'COM, El Ghazala, Ariana (Tunisia)."
+  },
+  "cgu": {
+    "title": "Terms of use",
+    "kicker": "The rules",
+    "h1": "Terms of use",
+    "sub": "Short, clear rules, the same for everyone. By creating an account, you accept them.",
+    "toc": "Contents",
+    "updated": "Last updated: November 2026",
+    "s": {
+      "objet": {
+        "t": "Purpose",
+        "d": "9rayti connects students (\"students\") with students who teach (\"tutors\") for online lessons. These terms govern the use of the site and its services."
+      },
+      "comptes": {
+        "t": "Accounts",
+        "d": "An account belongs to one person and one role: student, tutor or administrator. Sign-up information must be accurate. You're responsible for keeping your password confidential."
+      },
+      "role": {
+        "t": "9rayti's role",
+        "d": "9rayti provides search, booking, payment, the classroom and messaging. Lesson content is the tutor's responsibility. Tutors are verified once (school, year, average) before appearing in search."
+      },
+      "reservation": {
+        "t": "Booking and payment",
+        "d": "The student pays when sending a request, in 9rayti credits or by card. The tutor sets the lesson price; a 3 DT booking fee is added, shown before payment. 9rayti holds the money until the payout."
+      },
+      "reponse": {
+        "t": "Response time",
+        "d": "The tutor has 12 h to accept or decline a request. Without an answer, the request expires automatically. The tutor's response rate is shown on their profile and affects their ranking."
+      },
+      "annulation": {
+        "t": "Cancellation",
+        "d": "The student can cancel for free while the request is pending. Once accepted, only the tutor can cancel the lesson; the student is then refunded."
+      },
+      "remboursement": {
+        "t": "Refunds",
+        "d": "If a request is declined, expires, is cancelled by the tutor or the lesson doesn't happen, the student is refunded in 9rayti credits. A cash refund remains possible as a last resort, on request to support."
+      },
+      "versement": {
+        "t": "Tutor payout",
+        "d": "The payment goes to the tutor 24 h after the end of the lesson, if no report was made. Tutors keep 100% of their private lesson price."
+      },
+      "signalement": {
+        "t": "Reports",
+        "d": "The student has 24 h after the lesson to report a problem. The payout is then suspended; the team reviews the case and decides to refund the student or pay the tutor. The decision is explained and visible to both."
+      },
+      "sessions": {
+        "t": "Exam sessions",
+        "d": "A tutor can offer a group session with a minimum number of students. If the minimum isn't reached before it starts, the session is cancelled and everyone is refunded. 9rayti keeps 20% of the seat price."
+      },
+      "messages": {
+        "t": "Messaging",
+        "d": "Messaging is for preparing and following up lessons. To protect everyone, phone numbers, email addresses, links and social network names are hidden automatically. A tutor can't message a student first."
+      },
+      "conduite": {
+        "t": "Conduct",
+        "d": "Respect, kindness and honesty are expected from everyone. Doing a graded assignment or exam on a student's behalf, harassment, or moving exchanges off the platform is forbidden. A breach may lead to account suspension."
+      },
+      "donnees": {
+        "t": "Personal data",
+        "d": "In line with Tunisia's Organic Law No. 2004-63 on personal data protection, 9rayti only collects the data the service needs. Tutors' transcripts are never kept. You can request access to, correction or deletion of your data from the Contact page."
+      },
+      "contenus": {
+        "t": "Content and materials",
+        "d": "Materials shared in the room (PDFs, replay) remain their author's property. They're for the student's personal use and may not be resold or published."
+      },
+      "modif": {
+        "t": "Changes to these terms",
+        "d": "These terms may change. For any significant change, users are notified before it takes effect."
+      }
+    }
   }
- },
- "room": {
-  "title": "Classroom",
-  "back": "Back to my space",
-  "closedT": "Classroom closed",
-  "newTab": "Open video in a new tab",
-  "video": "Lesson video call",
-  "ready": "Camera and mic ready? The video call opens here, nothing to install.",
-  "join": "Join the video call",
-  "jitsi": "Encrypted Jitsi Meet call, private room for this lesson",
-  "end": "End the lesson",
-  "endHint": "When the lesson is over, end it to trigger the payout.",
-  "docs": "Lesson documents",
-  "noDocs": "The tutor will share the PDF and the replay here.",
-  "docName": "Document name",
-  "docUrl": "Link (PDF or video)",
-  "docAdded": "Document added to the classroom.",
-  "chatRule": "The session chat is erased when the lesson ends.",
-  "stayRule": "Stay on 9rayti: if anything goes wrong, you are protected and refunded.",
-  "attached": "Student's attachment:"
- },
- "sessions": {
-  "title": "Group exam sessions",
-  "lead": "One tutor, several students, the day before an exam: cheaper per person, just as effective.",
-  "group": "Group",
-  "places": "{{ n }}/{{ max }} seats",
-  "min": "minimum {{ n }}",
-  "perPlace": "/ seat",
-  "confirmed": "Confirmed",
-  "waiting": "Waiting for minimum",
-  "book": "Book my seat",
-  "booked": "Booked",
-  "full": "Full",
-  "bookedToast": "Seat booked!",
-  "none": "No sessions planned yet.",
-  "rule": "If the minimum number of students is not reached, the session is cancelled and everyone is refunded in credits."
- },
- "admin": {
-  "title": "Administration",
-  "tutors": "Validated tutors",
-  "pendingN": "{{ n }} awaiting review",
-  "requests": "Lesson requests",
-  "volume": "Total volume",
-  "byState": "Requests by state",
-  "toValidate": "Tutors to review",
-  "average": "average",
-  "validate": "Validate",
-  "none": "No tutor waiting.",
-  "validated": "Tutor validated."
- },
- "e404": {
-  "title": "This page does not exist",
-  "text": "The link may be old, or the page has moved.",
-  "home": "Back to home"
- }
 }

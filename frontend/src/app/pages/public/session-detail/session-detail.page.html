@@ -1,0 +1,72 @@
+<div class="wrap">
+  <a routerLink="/sessions" class="back small"><app-icon name="chevron-left" [flip]="true" /> {{ 'sessions.back' | transloco }}</a>
+  @if (session.error()) {
+    <app-empty-state icon="search-x" [title]="'sessions.notFound' | transloco"><a class="btn" routerLink="/sessions">{{ 'nav.sessions' | transloco }}</a></app-empty-state>
+  } @else if (session.value(); as s) {
+    <div class="layout">
+      <section class="hero card studs-soft">
+        <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
+        <h1>{{ s.subject | subject }}</h1>
+        <p class="when"><app-icon name="calendar" /> {{ s.startsAt | when }} · {{ s.durationMin / 60 }} {{ 'common.h' | transloco }}</p>
+        @if (s.description) {
+          <p class="desc">{{ s.description }}</p>
+        }
+        <a class="tutor" [routerLink]="['/tuteurs', s.tutor.id]">
+          <app-avatar [name]="s.tutor.firstName + ' ' + s.tutor.lastInitial" [photo]="api.asset(s.tutor.avatarUrl)" [size]="48" />
+          <span><b>{{ s.tutor.firstName }} {{ s.tutor.lastInitial }}</b><span class="small muted">{{ s.tutor.school }} · {{ 'sessions.seeTutor' | transloco }}</span></span>
+        </a>
+      </section>
+
+      <aside class="card book">
+        <div class="price">{{ s.pricePerPlaceMillimes | dt }} <small>{{ 'sessions.perPlace' | transloco }}</small></div>
+        <div class="seats" role="img" [attr.aria-label]="'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax }">
+          @for (seat of seats(); track $index) {
+            <span class="seat" [class.taken]="seat.taken" [class.min]="seat.min" [style.animation-delay.ms]="$index * 50"></span>
+          }
+        </div>
+        <p class="small">
+          {{ 'sessions.places' | transloco: { n: s.placesTaken, max: s.placesMax } }} ·
+          <span class="muted">{{ 'sessions.min' | transloco: { n: s.placesMin } }}</span>
+        </p>
+        @if (s.status === 'annulee') {
+          <p class="alert err"><app-icon name="circle-x" /> {{ 'sessions.cancelled' | transloco }}</p>
+        } @else if (s.confirmed) {
+          <p class="alert ok"><app-icon name="circle-check" /> {{ 'sessions.confirmedD' | transloco }}</p>
+        } @else {
+          <p class="alert info"><app-icon name="hourglass" /> {{ 'sessions.waitingD' | transloco: { n: s.placesMin - s.placesTaken } }}</p>
+        }
+        @if (left(); as l) {
+          <p class="small muted"><app-icon name="timer" /> {{ 'sessions.startsIn' | transloco: { d: Math.floor(l.h / 24), h: l.h % 24 } }}</p>
+        }
+        @if (s.booked) {
+          <span class="btn block ok static"><app-icon name="circle-check" /> {{ 'sessions.booked' | transloco }}</span>
+        } @else if (s.status === 'annulee' || s.placesTaken >= s.placesMax) {
+          <span class="btn block ghost static">{{ 'sessions.full' | transloco }}</span>
+        } @else if (!auth.loggedIn()) {
+          <a class="btn block" routerLink="/connexion" [queryParams]="{ next: '/sessions/' + s.id }">{{ 'sessions.book' | transloco }}</a>
+        } @else if (auth.role() === 'etudiant') {
+          <button type="button" class="btn block" [disabled]="busy()" (click)="book($event)">
+            @if (busy()) {
+              <app-icon name="loader-circle" />
+            }
+            {{ 'sessions.book' | transloco }} · {{ s.pricePerPlaceMillimes | dt }}
+          </button>
+        }
+        <p class="rule"><app-icon name="info" /> {{ 'sessions.rule' | transloco }}</p>
+      </aside>
+    </div>
+
+    @if (s.students?.length) {
+      <section class="card box" appReveal>
+        <h2 class="h3">{{ 'sessions.registered' | transloco }}</h2>
+        <div class="row">
+          @for (st of s.students; track $index) {
+            <span class="badge blue">{{ st.firstName }} · {{ st.school }}</span>
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <div class="skeleton" style="height: 320px; margin-top: 22px"></div>
+  }
+</div>

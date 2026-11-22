@@ -1,0 +1,237 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 0 120px;
+  background: linear-gradient(180deg, var(--bleu-clair), var(--blanc));
+}
+h1 {
+  margin: 16px 0 12px;
+  max-width: 760px;
+  font-size: clamp(32px, 4.6vw, 54px);
+  line-height: 1.08;
+  color: var(--bleu-nuit);
+}
+.lead {
+  font-size: 18px;
+  color: var(--gris);
+  max-width: 640px;
+}
+// Une rangée d'arches qui montent comme une ruelle de Sidi Bou Saïd.
+.arches {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  height: 90px;
+  pointer-events: none;
+}
+.arches span {
+  width: 70px;
+  height: calc(40px + var(--i) * 10px);
+  align-self: flex-end;
+  border-radius: 35px 35px 0 0;
+  background: var(--bleu);
+  opacity: calc(0.12 + var(--i) * 0.06);
+  animation: rise-arch 0.9s var(--ease-spring) both;
+  animation-delay: calc(var(--i) * 90ms + 200ms);
+  transform-origin: bottom;
+}
+.arches span:nth-child(even) {
+  background: var(--soleil);
+}
+@keyframes rise-arch {
+  from {
+    transform: scaleY(0);
+  }
+}
+.mission {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.mission h2,
+.sec > h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  margin-bottom: 10px;
+}
+.mission p {
+  margin-bottom: 10px;
+}
+.nums {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.nums .card {
+  padding: 18px;
+  display: grid;
+  gap: 2px;
+}
+.nums b {
+  font-size: 34px;
+  color: var(--lien);
+  font-variant-numeric: tabular-nums;
+}
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.val {
+  padding: 24px;
+}
+.val h3 {
+  margin: 12px 0 4px;
+  font-size: 18px;
+}
+.vi {
+  display: inline-flex;
+  width: 50px;
+  height: 58px;
+  border-radius: var(--r-arc);
+  align-items: center;
+  justify-content: center;
+  background: var(--soleil-clair);
+  color: var(--soleil-texte);
+}
+.tablewrap {
+  margin-top: 16px;
+  overflow-x: auto;
+  padding: 6px;
+}
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+}
+th,
+td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--trait);
+}
+tbody tr:last-child > * {
+  border-bottom: 0;
+}
+th[scope='row'] {
+  text-align: start;
+  font-weight: 500;
+}
+thead th {
+  font-size: 14px;
+  color: var(--gris);
+}
+.us {
+  background: var(--bleu-clair);
+  color: var(--bleu-nuit);
+  font-weight: 700;
+}
+thead .us {
+  border-radius: 14px 14px 0 0;
+  color: var(--lien);
+}
+tbody tr:last-child .us {
+  border-radius: 0 0 14px 14px;
+}
+.yes {
+  color: var(--olivier);
+}
+.no {
+  color: var(--trait-fort);
+}
+.timeline {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  inset-inline: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--bleu), var(--soleil));
+}
+.timeline li {
+  position: relative;
+  padding-top: 32px;
+}
+.timeline li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--blanc);
+  border: 4px solid var(--bleu);
+}
+.timeline li:last-child::before {
+  border-color: var(--soleil);
+  animation: pop 0.6s 0.4s var(--ease-spring) both;
+}
+.when {
+  font-weight: 700;
+  color: var(--lien);
+}
+.timeline h3 {
+  font-size: 17px;
+  margin: 2px 0 4px;
+}
+.team {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+  margin-bottom: 56px;
+}
+.team h2 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.team p {
+  margin-bottom: 8px;
+}
+.big-arc {
+  width: 96px;
+  height: 114px;
+  font-size: 30px;
+  background: var(--bleu);
+  color: #fff;
+}
+@media (max-width: 860px) {
+  .mission,
+  .values {
+    grid-template-columns: 1fr;
+  }
+  .timeline {
+    grid-template-columns: 1fr;
+  }
+  .timeline::before {
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    inset-inline-start: 9px;
+    inset-inline-end: auto;
+    background: linear-gradient(180deg, var(--bleu), var(--soleil));
+  }
+  .timeline li {
+    padding-top: 0;
+    padding-inline-start: 36px;
+  }
+  .team {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,24 +1,73 @@
-/* Charte « Sidi Bou Saïd » (Objectif 2, piste B) — bleu des portes, chaux, olivier, soleil. */
+/*
+ * Charte « Sidi Bou Saïd » (Objectif 2, piste B) — bleu des portes, chaux, olivier, soleil.
+ * Toutes les couleurs passent par des variables : le thème sombre (« Sidi Bou Saïd la nuit »)
+ * ne fait que les redéfinir. Contrastes vérifiés (WCAG AA) dans les deux thèmes.
+ */
 :root {
-  --bleu: #0d4f9c;
-  --bleu-nuit: #0b3c78;
+  color-scheme: light;
+  --bleu: #0d4f9c; /* remplissage des boutons, éléments de marque */
+  --lien: #0d4f9c; /* texte des liens et accents */
+  --bleu-nuit: #0b3c78; /* titres */
+  --nuit: #0b3c78; /* fonds sombres fixes (pied de page, visio, bulles) */
   --bleu-clair: #e3ecf7;
   --olivier: #5b6b2e;
+  --olivier-texte: #3f4a1f;
   --olivier-clair: #eef3e1;
   --soleil: #e9b23a;
+  --soleil-texte: #6b4a06;
   --soleil-clair: #fbefd2;
+  --soleil-trait: #f1d99a;
   --chaux: #ece4d2;
   --fond: #f7f4ec;
   --blanc: #ffffff;
   --texte: #22252b;
   --gris: #5f5a4c;
   --brique: #a8382b;
+  --brique-texte: #7c2a20;
+  --brique-clair: #f7e3df;
   --trait: #e3dac5;
+  --trait-fort: #cbbf9f;
+  --champ: #d8ccb1;
+  --etoile: #b07d0e;
+  --ombre: rgba(11, 60, 120, 0.12);
   --r-btn: 999px;
   --r-card: 14px;
   --r-arc: 999px 999px 14px 14px;
-  --focus: 0 0 0 3px #fff, 0 0 0 5px var(--bleu);
+  --focus: 0 0 0 3px var(--fond), 0 0 0 5px var(--lien);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Sidi Bou Saïd la nuit : bleu profond, chaux au clair de lune, soleil devenu lanterne. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bleu: #2a6fd1;
+  --lien: #8ab9ff;
+  --bleu-nuit: #dbe7f7;
+  --nuit: #07111f;
+  --bleu-clair: #17345c;
+  --olivier: #6f8a2c;
+  --olivier-texte: #c3d98a;
+  --olivier-clair: #232d17;
+  --soleil: #f0c14b;
+  --soleil-texte: #f3d58a;
+  --soleil-clair: #3a2f12;
+  --soleil-trait: #5c4a1c;
+  --chaux: #1b2d48;
+  --fond: #0b1626;
+  --blanc: #11213a;
+  --texte: #e7edf6;
+  --gris: #a9b5c7;
+  --brique: #c4473a;
+  --brique-texte: #f3a69c;
+  --brique-clair: #3b1d1a;
+  --trait: #24395a;
+  --trait-fort: #34507a;
+  --champ: #2c4468;
+  --etoile: #f0c14b;
+  --ombre: rgba(0, 0, 0, 0.45);
+}
+
 *,
 *::before,
 *::after {
@@ -32,11 +81,20 @@ body {
   font-family: 'Readex Pro', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+html {
+  scroll-behavior: smooth;
 }
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s;
+}
+::selection {
+  background: var(--soleil);
+  color: #1b1405;
 }
 app-root {
   display: flex;
@@ -49,7 +107,7 @@ main {
   min-height: 100vh;
 }
 a {
-  color: var(--bleu);
+  color: var(--lien);
   text-decoration: none;
 }
 a:hover {
@@ -93,23 +151,14 @@ img {
   position: absolute;
   inset-inline-start: 12px;
   top: -60px;
-  z-index: 50;
-  background: var(--bleu-nuit);
+  z-index: 60;
+  background: var(--nuit);
   color: #fff;
   padding: 10px 16px;
   border-radius: 10px;
 }
 .skip:focus {
   top: 12px;
-}
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 .ic {
@@ -118,6 +167,9 @@ img {
   stroke-width: 1.75;
   vertical-align: -3px;
   flex: none;
+}
+[dir='rtl'] .ic.flip {
+  transform: scaleX(-1);
 }
 .wrap {
   max-width: 1160px;
@@ -170,8 +222,11 @@ p {
   margin-top: 12px;
 }
 
-/* Boutons */
+/* ----- Boutons ----- */
 .btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -186,16 +241,24 @@ p {
   white-space: nowrap;
   text-decoration: none !important;
   transition:
-    background 0.15s,
-    box-shadow 0.15s;
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.25s,
+    transform 0.25s var(--ease-out);
 }
 .btn:hover:not(:disabled) {
-  background: var(--bleu-nuit);
-  border-color: var(--bleu-nuit);
+  background: var(--nuit);
+  border-color: var(--nuit);
+  box-shadow: 0 10px 24px var(--ombre);
+  transform: translateY(-1px);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
 }
 .btn.alt {
   background: transparent;
-  color: var(--bleu);
+  color: var(--lien);
+  border-color: var(--lien);
 }
 .btn.alt:hover:not(:disabled) {
   background: var(--bleu-clair);
@@ -212,7 +275,7 @@ p {
 }
 .btn.ghost:hover:not(:disabled) {
   background: var(--fond);
-  border-color: #cbbf9f;
+  border-color: var(--trait-fort);
 }
 .btn.danger {
   background: var(--brique);
@@ -237,18 +300,39 @@ p {
 .btn.block {
   width: 100%;
 }
+/* Onde au clic (ajoutée par App.ripple) */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.25;
+  transform: scale(0);
+  pointer-events: none;
+  z-index: -1;
+  animation: ripple 0.6s var(--ease-out);
+}
+.magnetic {
+  transition: transform 0.25s var(--ease-out);
+}
 .linkbtn {
   border: 0;
   background: none;
-  color: var(--bleu);
+  color: var(--lien);
   padding: 0;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .card {
   background: var(--blanc);
   border: 1px solid var(--trait);
   border-radius: var(--r-card);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.3s,
+    background-color 0.3s;
 }
 .badge {
   display: inline-flex;
@@ -259,7 +343,7 @@ p {
   padding: 2px 9px;
   border-radius: 999px;
   background: var(--olivier-clair);
-  color: var(--olivier);
+  color: var(--olivier-texte);
   white-space: nowrap;
 }
 .badge .ic {
@@ -269,15 +353,15 @@ p {
 }
 .badge.sun {
   background: var(--soleil-clair);
-  color: #6b4a06;
+  color: var(--soleil-texte);
 }
 .badge.blue {
   background: var(--bleu-clair);
   color: var(--bleu-nuit);
 }
 .badge.red {
-  background: #f7e3df;
-  color: var(--brique);
+  background: var(--brique-clair);
+  color: var(--brique-texte);
 }
 .badge.grey {
   background: var(--chaux);
@@ -298,7 +382,7 @@ p {
   background-size: 18px 18px;
 }
 .star {
-  color: #b07d0e;
+  color: var(--etoile);
 }
 .price {
   font-weight: 700;
@@ -335,8 +419,27 @@ p {
   height: 100%;
   background: var(--olivier);
 }
+.h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.box {
+  padding: 22px;
+  margin-top: 16px;
+}
+.tline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--trait);
+}
+.tline:last-child {
+  border-bottom: 0;
+}
 
-/* Formulaires */
+/* ----- Formulaires ----- */
 .fld {
   margin-bottom: 14px;
 }
@@ -350,15 +453,20 @@ p {
 }
 .fld input,
 .fld select,
-.fld textarea {
+.fld textarea,
+.in {
   width: 100%;
-  border: 1px solid #d8ccb1;
+  border: 1px solid var(--champ);
   border-radius: 10px;
   padding: 11px 14px;
   background: var(--fond);
   font: inherit;
   font-size: 15px;
   color: var(--texte);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background-color 0.2s;
 }
 .fld textarea {
   min-height: 84px;
@@ -366,11 +474,12 @@ p {
 }
 .fld input:focus,
 .fld select:focus,
-.fld textarea:focus {
+.fld textarea:focus,
+.in:focus {
   outline: none;
-  border-color: var(--bleu);
+  border-color: var(--lien);
   box-shadow: 0 0 0 3px var(--bleu-clair);
-  background: #fff;
+  background: var(--blanc);
 }
 .fld input.ng-invalid.ng-touched,
 .fld select.ng-invalid.ng-touched {
@@ -383,7 +492,7 @@ p {
 }
 .fld .err {
   font-size: 13px;
-  color: var(--brique);
+  color: var(--brique-texte);
   margin-top: 4px;
 }
 .two {
@@ -403,15 +512,24 @@ p {
   font-size: 13.5px;
   background: var(--blanc);
   color: var(--texte);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.2s var(--ease-spring);
+}
+.chip:hover {
+  border-color: var(--lien);
 }
 .chip[aria-pressed='true'],
 .chip.on {
   background: var(--bleu);
   border-color: var(--bleu);
   color: #fff;
+  transform: scale(1.04);
 }
 
-/* Retours */
+/* ----- Retours ----- */
 .alert {
   display: flex;
   gap: 10px;
@@ -420,14 +538,15 @@ p {
   border-radius: 12px;
   font-size: 14.5px;
   margin: 12px 0;
+  animation: rise 0.35s var(--ease-out);
 }
 .alert.err {
-  background: #f7e3df;
-  color: #7c2a20;
+  background: var(--brique-clair);
+  color: var(--brique-texte);
 }
 .alert.ok {
   background: var(--olivier-clair);
-  color: #3f4a1f;
+  color: var(--olivier-texte);
 }
 .alert.info {
   background: var(--bleu-clair);
@@ -440,11 +559,12 @@ p {
   padding: 16px 18px;
   border-radius: 14px;
   background: var(--soleil-clair);
-  border: 1px solid #f1d99a;
+  border: 1px solid var(--soleil-trait);
   margin-top: 18px;
+  color: var(--texte);
 }
 .banner .ic {
-  color: #8a5f07;
+  color: var(--soleil-texte);
   width: 22px;
   height: 22px;
 }
@@ -463,33 +583,23 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--bleu);
+  color: var(--lien);
 }
 .empty .arcbig .ic {
   width: 44px;
   height: 44px;
 }
 .skeleton {
-  background: linear-gradient(90deg, var(--chaux), #f4eee0, var(--chaux));
+  background: linear-gradient(90deg, var(--chaux), var(--fond), var(--chaux));
   background-size: 200% 100%;
   animation: shimmer 1.2s infinite;
   border-radius: var(--r-card);
 }
-@keyframes shimmer {
-  to {
-    background-position: -200% 0;
-  }
-}
 .spin {
   animation: rot 1s linear infinite;
 }
-@keyframes rot {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-/* Onglets */
+/* ----- Onglets ----- */
 .dtabs {
   display: flex;
   gap: 22px;
@@ -497,6 +607,7 @@ p {
   margin: 28px 0 6px;
   font-size: 15px;
   overflow-x: auto;
+  scrollbar-width: none;
 }
 .dtabs button {
   border: 0;
@@ -504,11 +615,15 @@ p {
   padding: 10px 0;
   color: var(--gris);
   white-space: nowrap;
+  transition: color 0.2s;
+}
+.dtabs button:hover {
+  color: var(--texte);
 }
 .dtabs button[aria-selected='true'] {
-  color: var(--bleu);
+  color: var(--lien);
   font-weight: 600;
-  box-shadow: inset 0 -2px 0 var(--bleu);
+  box-shadow: inset 0 -2px 0 var(--lien);
 }
 .dtabs .cnt {
   background: var(--brique);
@@ -518,6 +633,9 @@ p {
   padding: 0 7px;
   margin-inline-start: 6px;
 }
+[role='tabpanel'] {
+  animation: rise 0.4s var(--ease-out);
+}
 
 .lrow {
   display: flex;
@@ -525,6 +643,10 @@ p {
   gap: 14px;
   padding: 16px 18px;
   margin-top: 12px;
+}
+.lrow:hover {
+  border-color: var(--trait-fort);
+  box-shadow: 0 8px 24px var(--ombre);
 }
 .lrow .arc {
   width: 44px;
@@ -548,7 +670,7 @@ p {
   gap: 5px;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--brique);
+  color: var(--brique-texte);
 }
 
 .tiles {
@@ -575,11 +697,12 @@ p {
 }
 .tile.main .btn {
   background: #fff;
-  color: var(--bleu);
+  color: #0d4f9c;
   border-color: #fff;
   margin-top: 12px;
 }
 
+/* ----- Fenêtres modales ----- */
 dialog.modal {
   border: 0;
   border-radius: 18px;
@@ -587,9 +710,16 @@ dialog.modal {
   max-width: 460px;
   width: calc(100% - 32px);
   color: var(--texte);
+  background: var(--blanc);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+dialog.modal[open] {
+  animation: modal-in 0.32s var(--ease-out);
 }
 dialog.modal::backdrop {
-  background: rgba(11, 60, 120, 0.45);
+  background: rgba(11, 30, 60, 0.5);
+  backdrop-filter: blur(3px);
+  animation: fade 0.25s ease;
 }
 dialog.modal .mbody {
   padding: 24px;
@@ -603,13 +733,14 @@ dialog.modal .mbody {
   background: none;
   font-size: 30px;
   line-height: 1;
-  color: #cbbf9f;
+  color: var(--trait-fort);
   padding: 2px;
 }
 .stars button.on {
   color: var(--soleil);
 }
 
+/* ----- Notifications ----- */
 .toasts {
   position: fixed;
   inset-inline-end: 20px;
@@ -617,22 +748,182 @@ dialog.modal .mbody {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 60;
-  max-width: min(380px, calc(100% - 40px));
+  z-index: 80;
+  max-width: min(400px, calc(100% - 40px));
 }
 .toast {
-  background: var(--bleu-nuit);
+  background: var(--nuit);
   color: #fff;
-  padding: 12px 16px;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(11, 60, 120, 0.3);
+  padding: 12px 12px 12px 16px;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
   display: flex;
   gap: 10px;
   align-items: flex-start;
   font-size: 14.5px;
+  animation: toast-in 0.45s var(--ease-spring);
+}
+.toast span {
+  flex: 1;
+}
+.toast .x {
+  border: 0;
+  background: none;
+  color: inherit;
+  opacity: 0.7;
+  padding: 0;
+  display: inline-flex;
 }
 .toast.err {
   background: var(--brique);
+}
+
+/* ----- Apparition au défilement (directive appReveal) ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.7s var(--ease-out) var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ----- Cartes inclinables en 3D + halo (directive appTilt) ----- */
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.5s var(--ease-out),
+    border-color 0.25s,
+    box-shadow 0.3s;
+  will-change: transform;
+}
+.tilt.tilting {
+  transition:
+    transform 0.08s linear,
+    border-color 0.25s,
+    box-shadow 0.3s;
+  box-shadow: 0 20px 50px var(--ombre);
+  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--soleil) 14%, transparent), transparent 55%);
+}
+
+/* ----- Transitions entre pages (API View Transitions) ----- */
+::view-transition-old(root) {
+  animation: vt-out 0.22s var(--ease-out) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.38s var(--ease-out) both;
+}
+/* Changement de thème : la révélation circulaire est pilotée par ThemeService. */
+html.theme-transition::view-transition-old(root),
+html.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.theme-transition::view-transition-old(root) {
+  z-index: 1;
+}
+html.theme-transition::view-transition-new(root) {
+  z-index: 2;
+}
+/* L'avatar d'un tuteur voyage de la carte de recherche jusqu'à son profil. */
+::view-transition-group(tutor-avatar) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-out);
+}
+
+/* ----- Animations réutilisables ----- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes rot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92);
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Moins d'animations si l'utilisateur l'a demandé à son système. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .tilt {
+    transform: none !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 @media (max-width: 760px) {

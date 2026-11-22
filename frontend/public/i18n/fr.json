@@ -1,337 +1,984 @@
 {
- "a11y": {
-  "skip": "Aller au contenu"
- },
- "demo": {
-  "bar": "Démo en ligne : les données sont simulées dans ton navigateur. Lance l'API pour la version complète (voir README)."
- },
- "nav": {
-  "home": "Accueil 9rayti",
-  "main": "Navigation principale",
-  "find": "Trouver un tuteur",
-  "sessions": "Sessions d'examen",
-  "teach": "Devenir tuteur",
-  "language": "Langue",
-  "login": "Se connecter",
-  "register": "Créer un compte",
-  "logout": "Déconnexion",
-  "menu": "Menu"
- },
- "footer": {
-  "tag": "Le tutorat entre étudiants, partout en Tunisie. La plateforme est la salle de cours.",
-  "students": "Étudiants",
-  "tutors": "Tuteurs",
-  "space": "Espace tuteur",
-  "rules": "Remboursé en crédits si le cours n'a pas lieu"
- },
- "common": {
-  "verified": "Vérifié",
-  "new": "Nouveau",
-  "reviews": "{{ n }} avis",
-  "hours": "{{ n }} h données",
-  "responds": "Répond à {{ n }} %",
-  "perHour": "/ h",
-  "seeAll": "Tout voir",
-  "loading": "Chargement…",
-  "cancel": "Annuler",
-  "close": "Fermer",
-  "send": "Envoyer",
-  "add": "Ajouter",
-  "remove": "Supprimer",
-  "save": "Enregistrer",
-  "h": "h"
- },
- "langs": {
-  "fr": "Français",
-  "ar": "Arabe",
-  "en": "Anglais"
- },
- "home": {
-  "title": "Tutorat entre étudiants",
-  "kick": "Tutorat entre étudiants, partout en Tunisie",
-  "h1": "Révise avec l'étudiant qui a déjà réussi ta matière.",
-  "lead": "Des tuteurs vérifiés, des cours en direct, et les supports qui restent après la séance.",
-  "pick": "Quelle matière ?",
-  "go": "Chercher",
-  "cta1": "Je cherche un tuteur",
-  "cta1s": "Cours en direct dès 15 DT",
-  "cta2": "Je veux enseigner",
-  "cta2s": "Fixe ton prix, choisis tes heures",
-  "sun": "Réponse sous 12 h",
-  "accepted": "Demande acceptée",
-  "acceptedSub": "Probabilités · jeudi 20 h",
-  "how": "Comment ça marche",
-  "s1": "Cherche ta matière",
-  "s1d": "Compare les tuteurs : note, prix, heures données, taux de réponse.",
-  "s2": "Envoie ta demande",
-  "s2d": "Choisis une heure, joins ton cours. Le tuteur accepte sous 12 h, sinon tu es remboursé.",
-  "s3": "Suis le cours en direct",
-  "s3d": "Visio, PDF et replay restent dans ta salle de cours, jusqu'à l'examen.",
-  "sessions": "Sessions d'examen à venir",
-  "t1": "Tuteurs vérifiés",
-  "t1d": "École, année et moyenne contrôlées avant le premier cours.",
-  "t2": "Jamais perdu",
-  "t2d": "Demande refusée ou tuteur absent : remboursé en crédits 9rayti.",
-  "t3": "Tout reste ici",
-  "t3d": "PDF et replay de chaque cours, à revoir la veille de l'examen."
- },
- "search": {
-  "title": "Trouver un tuteur",
-  "filters": "Filtres",
-  "subject": "Matière",
-  "allSubjects": "Toutes les matières",
-  "maxPrice": "Prix maximum",
-  "minRating": "Note minimum",
-  "any": "Toutes",
-  "when": "Disponible",
-  "lang": "Langue du cours",
-  "w": {
-   "semaine": "Cette semaine",
-   "soir": "Ce soir",
-   "weekend": "Le week-end"
+  "a11y": {
+    "skip": "Aller au contenu"
   },
-  "sort": "Trier par",
-  "s": {
-   "pertinence": "Pertinence",
-   "prix": "Prix croissant",
-   "note": "Meilleure note"
+  "demo": {
+    "bar": "Démo en ligne : les données sont simulées dans ton navigateur. Lance l'API pour la version complète (voir README)."
   },
-  "count": "{{ n }} tuteur(s) disponible(s)",
-  "reset": "Effacer les filtres",
-  "noSlot": "Pas d'heure libre cette semaine",
-  "sessionHint": "Session d'examen de {{ subject }} en groupe",
-  "emptyT": "Aucun tuteur pour ces critères",
-  "emptyD": "Élargis le prix ou le moment, ou essaie une session d'examen en groupe."
- },
- "tutor": {
-  "title": "Profil du tuteur",
-  "back": "Retour aux résultats",
-  "notFound": "Ce tuteur n'existe pas ou n'est pas encore validé",
-  "taught": "de cours",
-  "responseRate": "de réponses",
-  "newHint": "Nouveau : moins de 5 avis",
-  "about": "À propos",
-  "verifiedNote": "Moyenne et inscription vérifiées par 9rayti (le relevé n'est pas conservé).",
-  "subjects": "Matières et prix",
-  "reviews": "Avis des étudiants",
-  "noReviews": "Pas encore d'avis."
- },
- "book": {
-  "title": "Demander un cours",
-  "slot": "Choisis une heure",
-  "attach": "Joindre ton cours ou un exercice (PDF, photo)",
-  "message": "Message au tuteur (facultatif)",
-  "messagePh": "Ex. : chapitre 4, lois continues",
-  "pay": "Paiement",
-  "credits": "Crédits 9rayti",
-  "card": "Carte bancaire",
-  "lesson": "Cours (1 h)",
-  "fee": "Frais de réservation",
-  "total": "Total",
-  "send": "Envoyer la demande",
-  "loginFirst": "Se connecter pour réserver",
-  "studentsOnly": "Seuls les comptes étudiants peuvent réserver un cours.",
-  "rule": "Le tuteur a 12 h pour accepter. Sans réponse ou refus, tu es remboursé en crédits 9rayti.",
-  "sentT": "Demande envoyée",
-  "sentD": "{{ name }} a jusqu'au {{ when }} pour répondre. Tu seras remboursé automatiquement sinon.",
-  "track": "Suivre ma demande"
- },
- "auth": {
-  "loginT": "Se connecter",
-  "loginD": "Un seul formulaire pour les étudiants et les tuteurs.",
-  "expired": "Ta session a expiré, reconnecte-toi.",
-  "email": "Adresse e-mail",
-  "emailErr": "Entre une adresse e-mail valide.",
-  "password": "Mot de passe",
-  "passHint": "8 caractères minimum, dont un chiffre.",
-  "loginBtn": "Se connecter",
-  "noAccount": "Pas encore de compte ?",
-  "haveAccount": "Déjà un compte ?",
-  "demoT": "Comptes de démonstration",
-  "demoStudent": "Étudiante (Yasmine)",
-  "demoTutor": "Tutrice (Sarra)",
-  "demoPass": "Mot de passe :",
-  "registerT": "Créer un compte",
-  "iam": "Je suis",
-  "student": "Étudiant",
-  "studentD": "Je cherche de l'aide",
-  "tutor": "Tuteur",
-  "tutorD": "Je veux enseigner",
-  "firstName": "Prénom",
-  "lastName": "Nom",
-  "school": "École",
-  "year": "Année",
-  "average": "Moyenne de l'an dernier (sur 20)",
-  "averageHint": "Vérifiée une fois sur ton relevé, qui n'est pas conservé.",
-  "bio": "Présente-toi en quelques lignes",
-  "subjectsT": "Matières enseignées et prix par heure (DT)",
-  "pricePerHour": "Prix par heure (DT)",
-  "addSubject": "Ajouter une matière",
-  "registerBtn": "Créer mon compte",
-  "sideT": "Révise avec ceux qui ont réussi.",
-  "side1": "Des tuteurs vérifiés de ton école ou d'ailleurs",
-  "side2": "Remboursé en crédits si le cours n'a pas lieu",
-  "side3": "PDF et replay gardés jusqu'à l'examen",
-  "sideTutorT": "Enseigne ce que tu maîtrises.",
-  "tside1": "Tu fixes ton prix pour chaque matière",
-  "tside2": "Tu choisis tes heures libres",
-  "tside3": "Payé 24 h après chaque cours"
- },
- "state": {
-  "en_attente": "En attente",
-  "acceptee": "Acceptée",
-  "faite": "Cours fait",
-  "versee": "Terminé",
-  "signalee": "Signalé",
-  "refusee": "Refusée",
-  "expiree": "Expirée",
-  "annulee": "Annulée",
-  "annulee_tuteur": "Annulée par le tuteur"
- },
- "credit": {
-  "recharge": "Recharge",
-  "paiement": "Paiement",
-  "remboursement": "Remboursement"
- },
- "student": {
-  "title": "Mon espace",
-  "hello": "Bonjour {{ name }}",
-  "sub": "Tes cours, tes crédits et tes sessions au même endroit.",
-  "next": "Prochain cours",
-  "noNext": "Aucun cours confirmé pour l'instant.",
-  "enter": "Entrer dans la salle",
-  "balance": "Crédits 9rayti",
-  "recharge": "Recharger",
-  "pending": "En attente de réponse",
-  "pendingHint": "Réponse sous 12 h maximum",
-  "tabs": "Sections de mon espace",
-  "tab": {
-   "cours": "Mes cours",
-   "historique": "Historique",
-   "credits": "Crédits",
-   "sessions": "Sessions d'examen"
+  "nav": {
+    "home": "Accueil 9rayti",
+    "main": "Navigation principale",
+    "find": "Trouver un tuteur",
+    "sessions": "Sessions d'examen",
+    "teach": "Devenir tuteur",
+    "language": "Langue",
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "logout": "Déconnexion",
+    "menu": "Menu",
+    "about": "À propos",
+    "account": "Mon compte",
+    "contact": "Contact",
+    "credits": "Mes crédits",
+    "how": "Comment ça marche",
+    "messages": "Messages",
+    "mySpace": "Mon espace",
+    "profile": "Mon profil",
+    "terms": "Conditions d'utilisation"
   },
-  "answerIn": "Réponse sous {{ h }} h {{ m }} min",
-  "refunded": "{{ amount }} remboursés en crédits",
-  "reviewed": "Avis envoyé",
-  "room": "Salle de cours",
-  "rate": "Noter",
-  "report": "Signaler",
-  "emptyT": "Pas encore de cours",
-  "emptyD": "Trouve un tuteur et envoie ta première demande.",
-  "noHistory": "Rien dans l'historique.",
-  "rechargeD": "Recharge simulée pour la démo : aucun paiement réel.",
-  "movements": "Mouvements",
-  "noMovements": "Aucun mouvement.",
-  "noSessions": "Tu n'as réservé aucune session.",
-  "rateT": "Note ce cours",
-  "comment": "Commentaire (facultatif)",
-  "reportT": "Signaler un problème",
-  "reportD": "Tu as 24 h après le cours. Le versement au tuteur est bloqué le temps qu'on vérifie.",
-  "reason": "Que s'est-il passé ?",
-  "cancelled": "Demande annulée : remboursée en crédits.",
-  "thanks": "Merci pour ton avis !",
-  "reported": "Signalement envoyé, le versement est suspendu.",
-  "recharged": "Crédits rechargés."
- },
- "tspace": {
-  "title": "Espace tuteur",
-  "sub": "Tes demandes, tes heures libres et tes gains.",
-  "publicProfile": "Voir mon profil public",
-  "pendingT": "Profil en cours de vérification",
-  "pendingD": "L'équipe 9rayti vérifie ton inscription et ta moyenne. Tu apparaîtras dans la recherche ensuite.",
-  "next": "Prochain cours",
-  "noNext": "Aucun cours accepté à venir.",
-  "earned": "Gagné ce mois-ci",
-  "pendingPayout": "{{ amount }} en attente de versement",
-  "reputation": "Réputation",
-  "rate": "Taux de réponse : {{ n }} %",
-  "tab": {
-   "demandes": "Demandes",
-   "cours": "Cours",
-   "creneaux": "Heures libres",
-   "tarifs": "Tarifs"
+  "footer": {
+    "tag": "Le tutorat entre étudiants, partout en Tunisie. La plateforme est la salle de cours.",
+    "students": "Étudiants",
+    "tutors": "Tuteurs",
+    "space": "Espace tuteur",
+    "rules": "Remboursé en crédits si le cours n'a pas lieu"
   },
-  "ruleHint": "Réponds sous 12 h. Refuser souvent ou laisser expirer fait baisser ton classement.",
-  "youGet": "tu reçois {{ amount }}",
-  "answerWithin": "Plus que {{ h }} h {{ m }} min pour répondre",
-  "accept": "Accepter",
-  "refuse": "Refuser",
-  "noRequests": "Aucune demande en attente",
-  "noRequestsD": "Ajoute des heures libres pour recevoir des demandes.",
-  "complete": "Cours terminé",
-  "cancel": "Annuler le cours",
-  "payoutAt": "versement le {{ when }}",
-  "noCourses": "Aucun cours pour l'instant.",
-  "addSlot": "Ajouter une heure libre",
-  "day": "Jour",
-  "time": "Heure (Tunis)",
-  "duration": "Durée",
-  "booked": "réservé",
-  "myRates": "Mes tarifs",
-  "ratesD": "Un prix par matière. Il s'applique aux nouvelles demandes.",
-  "rateSaved": "Tarif enregistré.",
-  "slotAdded": "Heure libre ajoutée.",
-  "slotRemoved": "Heure libre supprimée.",
-  "done": {
-   "accept": "Demande acceptée : la salle de cours est ouverte.",
-   "refuse": "Demande refusée : l'étudiant est remboursé.",
-   "tutor-cancel": "Cours annulé : l'étudiant est remboursé.",
-   "complete": "Cours terminé : versement dans 24 h sans signalement."
+  "common": {
+    "verified": "Vérifié",
+    "new": "Nouveau",
+    "reviews": "{{ n }} avis",
+    "hours": "{{ n }} h données",
+    "responds": "Répond à {{ n }} %",
+    "perHour": "/ h",
+    "seeAll": "Tout voir",
+    "loading": "Chargement…",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "send": "Envoyer",
+    "add": "Ajouter",
+    "remove": "Supprimer",
+    "save": "Enregistrer",
+    "h": "h",
+    "all": "Tout",
+    "edit": "Modifier",
+    "next": "Suivant",
+    "prev": "Précédent",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "langs": {
+    "fr": "Français",
+    "ar": "Arabe",
+    "en": "Anglais"
+  },
+  "home": {
+    "title": "Tutorat entre étudiants",
+    "kick": "Tutorat entre étudiants, partout en Tunisie",
+    "h1": "Révise avec l'étudiant qui a déjà réussi ta matière.",
+    "lead": "Des tuteurs vérifiés, des cours en direct, et les supports qui restent après la séance.",
+    "pick": "Quelle matière ?",
+    "go": "Chercher",
+    "cta1": "Je cherche un tuteur",
+    "cta1s": "Cours en direct dès 15 DT",
+    "cta2": "Je veux enseigner",
+    "cta2s": "Fixe ton prix, choisis tes heures",
+    "sun": "Réponse sous 12 h",
+    "accepted": "Demande acceptée",
+    "acceptedSub": "Probabilités · jeudi 20 h",
+    "how": "Comment ça marche",
+    "s1": "Cherche ta matière",
+    "s1d": "Compare les tuteurs : note, prix, heures données, taux de réponse.",
+    "s2": "Envoie ta demande",
+    "s2d": "Choisis une heure, joins ton cours. Le tuteur accepte sous 12 h, sinon tu es remboursé.",
+    "s3": "Suis le cours en direct",
+    "s3d": "Visio, PDF et replay restent dans ta salle de cours, jusqu'à l'examen.",
+    "sessions": "Sessions d'examen à venir",
+    "t1": "Tuteurs vérifiés",
+    "t1d": "École, année et moyenne contrôlées avant le premier cours.",
+    "t2": "Jamais perdu",
+    "t2d": "Demande refusée ou tuteur absent : remboursé en crédits 9rayti.",
+    "t3": "Tout reste ici",
+    "t3d": "PDF et replay de chaque cours, à revoir la veille de l'examen.",
+    "h1a": "Révise avec l'étudiant qui a déjà",
+    "h1b": "réussi",
+    "h1c": "ta matière.",
+    "popular": "Populaires :",
+    "proof": "{{ students }} étudiants inscrits · {{ courses }} cours donnés",
+    "proofLoading": "Des tuteurs de SUP'COM, ENIT, INSAT, ESPRIT…",
+    "replay": "Replay disponible",
+    "replaySub": "Probabilités · 58 min",
+    "marquee": "Matières disponibles",
+    "numbersL": "9rayti en chiffres",
+    "n": {
+      "tutors": "tuteurs vérifiés",
+      "students": "étudiants inscrits",
+      "hours": "heures de cours données",
+      "rating": "note moyenne sur 5"
+    },
+    "howMore": "Le parcours en détail",
+    "leakK": "Anti-fuite",
+    "leakT": "La salle de cours, c'est 9rayti.",
+    "leakD": "Échanger son numéro pour continuer « en direct », c'est perdre toute protection. Sur 9rayti, les coordonnées sont masquées automatiquement, et tout ce dont tu as besoin est dans la salle.",
+    "g1": "Visio intégrée",
+    "g1d": "Une salle privée par cours, rien à installer.",
+    "g2": "PDF et replay",
+    "g2d": "Les supports restent jusqu'à l'examen.",
+    "g3": "Paiement protégé",
+    "g3d": "Versé au tuteur 24 h après, remboursé sinon.",
+    "chat": {
+      "alt": "Démonstration : un numéro de téléphone envoyé dans un message est remplacé par des points.",
+      "status": "Tutrice · répond en 1 h",
+      "q": "Merci pour le cours ! Tu me donnes ton numéro pour la suite ?",
+      "a": "Avec plaisir, c'est le",
+      "sys": "On garde tout ici : tu restes protégé et remboursé en cas de problème.",
+      "replay": "Rejouer"
+    },
+    "reviews": "Ils ont révisé avec 9rayti",
+    "teachK": "Tu as réussi une matière ?",
+    "teachT": "Transforme tes bonnes notes en revenus.",
+    "teachD": "Fixe ton prix, choisis tes heures, enseigne depuis chez toi. Tu gardes 100 % du prix de tes cours.",
+    "sim": {
+      "hours": "{{ n }} h de cours par semaine",
+      "price": "à {{ n }} DT de l'heure",
+      "result": "Ce que tu peux gagner par mois",
+      "note": "Estimation, avant impôts.",
+      "cta": "Devenir tuteur"
+    },
+    "finalT": "Prêt à réviser autrement ?",
+    "finalD": "Trouve le tuteur qui a réussi ta matière, réserve en deux minutes, et garde tout jusqu'à l'examen."
+  },
+  "search": {
+    "title": "Trouver un tuteur",
+    "filters": "Filtres",
+    "subject": "Matière",
+    "allSubjects": "Toutes les matières",
+    "maxPrice": "Prix maximum",
+    "minRating": "Note minimum",
+    "any": "Toutes",
+    "when": "Disponible",
+    "lang": "Langue du cours",
+    "w": {
+      "semaine": "Cette semaine",
+      "soir": "Ce soir",
+      "weekend": "Le week-end"
+    },
+    "sort": "Trier par",
+    "s": {
+      "pertinence": "Pertinence",
+      "prix": "Prix croissant",
+      "note": "Meilleure note"
+    },
+    "count": "{{ n }} tuteur(s) disponible(s)",
+    "reset": "Effacer les filtres",
+    "noSlot": "Pas d'heure libre cette semaine",
+    "sessionHint": "Session d'examen de {{ subject }} en groupe",
+    "emptyT": "Aucun tuteur pour ces critères",
+    "emptyD": "Élargis le prix ou le moment, ou essaie une session d'examen en groupe."
+  },
+  "tutor": {
+    "title": "{{ name }} · tuteur",
+    "back": "Retour aux résultats",
+    "notFound": "Ce tuteur n'existe pas ou n'est pas encore validé",
+    "taught": "de cours",
+    "responseRate": "de réponses",
+    "newHint": "Nouveau : moins de 5 avis",
+    "about": "À propos",
+    "verifiedNote": "Moyenne et inscription vérifiées par 9rayti (le relevé n'est pas conservé).",
+    "subjects": "Matières et prix",
+    "reviews": "Avis des étudiants",
+    "noReviews": "Pas encore d'avis."
+  },
+  "book": {
+    "title": "Demander un cours",
+    "slot": "Choisis une heure",
+    "attach": "Joindre ton cours ou un exercice (PDF, photo)",
+    "message": "Message au tuteur (facultatif)",
+    "messagePh": "Ex. : chapitre 4, lois continues",
+    "pay": "Paiement",
+    "credits": "Crédits 9rayti",
+    "card": "Carte bancaire",
+    "lesson": "Cours (1 h)",
+    "fee": "Frais de réservation",
+    "total": "Total",
+    "send": "Envoyer la demande",
+    "loginFirst": "Se connecter pour réserver",
+    "studentsOnly": "Seuls les comptes étudiants peuvent réserver un cours.",
+    "rule": "Le tuteur a 12 h pour accepter. Sans réponse ou refus, tu es remboursé en crédits 9rayti.",
+    "sentT": "Demande envoyée",
+    "sentD": "{{ name }} a jusqu'au {{ when }} pour répondre. Tu seras remboursé automatiquement sinon.",
+    "track": "Suivre ma demande",
+    "lowBalance": "Ton solde ne suffit pas pour ce cours."
+  },
+  "auth": {
+    "loginT": "Se connecter",
+    "loginD": "Un seul formulaire pour les étudiants et les tuteurs.",
+    "expired": "Ta session a expiré, reconnecte-toi.",
+    "email": "Adresse e-mail",
+    "emailErr": "Entre une adresse e-mail valide.",
+    "password": "Mot de passe",
+    "passHint": "8 caractères minimum, dont un chiffre.",
+    "loginBtn": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "haveAccount": "Déjà un compte ?",
+    "demoT": "Comptes de démonstration",
+    "demoStudent": "Étudiante (Yasmine)",
+    "demoTutor": "Tutrice (Sarra)",
+    "demoPass": "Mot de passe :",
+    "registerT": "Créer un compte",
+    "iam": "Je suis",
+    "student": "Étudiant",
+    "studentD": "Je cherche de l'aide",
+    "tutor": "Tuteur",
+    "tutorD": "Je veux enseigner",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "school": "École",
+    "year": "Année",
+    "average": "Moyenne de l'an dernier (sur 20)",
+    "averageHint": "Vérifiée une fois sur ton relevé, qui n'est pas conservé.",
+    "bio": "Présente-toi en quelques lignes",
+    "subjectsT": "Matières enseignées et prix par heure (DT)",
+    "pricePerHour": "Prix par heure (DT)",
+    "addSubject": "Ajouter une matière",
+    "registerBtn": "Créer mon compte",
+    "sideT": "Révise avec ceux qui ont réussi.",
+    "side1": "Des tuteurs vérifiés de ton école ou d'ailleurs",
+    "side2": "Remboursé en crédits si le cours n'a pas lieu",
+    "side3": "PDF et replay gardés jusqu'à l'examen",
+    "sideTutorT": "Enseigne ce que tu maîtrises.",
+    "tside1": "Tu fixes ton prix pour chaque matière",
+    "tside2": "Tu choisis tes heures libres",
+    "tside3": "Payé 24 h après chaque cours"
+  },
+  "state": {
+    "en_attente": "En attente",
+    "acceptee": "Acceptée",
+    "faite": "Cours fait",
+    "versee": "Terminé",
+    "signalee": "Signalé",
+    "refusee": "Refusée",
+    "expiree": "Expirée",
+    "annulee": "Annulée",
+    "annulee_tuteur": "Annulée par le tuteur",
+    "remboursee": "Remboursé"
+  },
+  "credit": {
+    "recharge": "Recharge",
+    "paiement": "Paiement",
+    "remboursement": "Remboursement"
+  },
+  "student": {
+    "title": "Mon espace",
+    "hello": "Bonjour {{ name }}",
+    "sub": "Tes cours, tes crédits et tes sessions au même endroit.",
+    "next": "Prochain cours",
+    "noNext": "Aucun cours confirmé pour l'instant.",
+    "enter": "Entrer dans la salle",
+    "balance": "Crédits 9rayti",
+    "recharge": "Recharger",
+    "pending": "En attente de réponse",
+    "pendingHint": "Réponse sous 12 h maximum",
+    "tabs": "Sections de mon espace",
+    "tab": {
+      "cours": "Mes cours",
+      "historique": "Historique",
+      "credits": "Crédits",
+      "sessions": "Sessions d'examen",
+      "favoris": "Favoris"
+    },
+    "answerIn": "Réponse sous {{ h }} h {{ m }} min",
+    "refunded": "{{ amount }} remboursés en crédits",
+    "reviewed": "Avis envoyé",
+    "room": "Salle de cours",
+    "rate": "Noter",
+    "report": "Signaler",
+    "emptyT": "Pas encore de cours",
+    "emptyD": "Trouve un tuteur et envoie ta première demande.",
+    "noHistory": "Rien dans l'historique.",
+    "rechargeD": "Recharge simulée pour la démo : aucun paiement réel.",
+    "movements": "Mouvements",
+    "noMovements": "Aucun mouvement.",
+    "noSessions": "Tu n'as réservé aucune session.",
+    "rateT": "Note ce cours",
+    "comment": "Commentaire (facultatif)",
+    "reportT": "Signaler un problème",
+    "reportD": "Tu as 24 h après le cours. Le versement au tuteur est bloqué le temps qu'on vérifie.",
+    "reason": "Que s'est-il passé ?",
+    "cancelled": "Demande annulée : remboursée en crédits.",
+    "thanks": "Merci pour ton avis !",
+    "reported": "Signalement envoyé, le versement est suspendu.",
+    "recharged": "Crédits rechargés.",
+    "days": " j",
+    "hours": " h",
+    "learned": "Heures de cours suivies",
+    "pendingN": "{{ n }} demande(s) en attente",
+    "rebook": "Réserver à nouveau",
+    "reviewSend": "Envoyer mon avis",
+    "decision": "Décision de 9rayti"
+  },
+  "tspace": {
+    "title": "Espace tuteur",
+    "sub": "Tes demandes, tes heures libres et tes gains.",
+    "publicProfile": "Voir mon profil public",
+    "pendingT": "Profil en cours de vérification",
+    "pendingD": "L'équipe 9rayti vérifie ton inscription et ta moyenne. Tu apparaîtras dans la recherche ensuite.",
+    "next": "Prochain cours",
+    "noNext": "Aucun cours accepté à venir.",
+    "earned": "Gagné ce mois-ci",
+    "pendingPayout": "{{ amount }} en attente de versement",
+    "reputation": "Réputation",
+    "rate": "Taux de réponse : {{ n }} %",
+    "tab": {
+      "demandes": "Demandes",
+      "cours": "Cours",
+      "creneaux": "Heures libres",
+      "tarifs": "Tarifs",
+      "sessions": "Sessions",
+      "revenus": "Revenus"
+    },
+    "ruleHint": "Réponds sous 12 h. Refuser souvent ou laisser expirer fait baisser ton classement.",
+    "youGet": "tu reçois {{ amount }}",
+    "answerWithin": "Plus que {{ h }} h {{ m }} min pour répondre",
+    "accept": "Accepter",
+    "refuse": "Refuser",
+    "noRequests": "Aucune demande en attente",
+    "noRequestsD": "Ajoute des heures libres pour recevoir des demandes.",
+    "complete": "Cours terminé",
+    "cancel": "Annuler le cours",
+    "payoutAt": "versement le {{ when }}",
+    "noCourses": "Aucun cours pour l'instant.",
+    "addSlot": "Ajouter une heure libre",
+    "day": "Jour",
+    "time": "Heure (Tunis)",
+    "duration": "Durée",
+    "booked": "réservé",
+    "myRates": "Mes tarifs",
+    "ratesD": "Un prix par matière. Il s'applique aux nouvelles demandes.",
+    "rateSaved": "Tarif enregistré.",
+    "slotAdded": "Heure libre ajoutée.",
+    "slotRemoved": "Heure libre supprimée.",
+    "done": {
+      "accept": "Demande acceptée : la salle de cours est ouverte.",
+      "refuse": "Demande refusée : l'étudiant est remboursé.",
+      "tutor-cancel": "Cours annulé : l'étudiant est remboursé.",
+      "complete": "Cours terminé : versement dans 24 h sans signalement."
+    },
+    "sessionCreated": "Session publiée !",
+    "completeT": "Terminer le cours",
+    "recap": "Compte rendu pour l'étudiant (facultatif)",
+    "recapPh": "Ce qu'on a vu, ce qu'il reste à revoir, les exercices à faire…",
+    "recapHint": "L'étudiant le retrouve dans sa salle de cours.",
+    "newSession": "Nouvelle session d'examen",
+    "newSessionD": "Un cours en groupe la veille d'un examen. 9rayti garde 20 %, tu reçois le reste.",
+    "placesMin": "Inscrits minimum",
+    "placesMax": "Places maximum",
+    "pricePerPlace": "Prix par place (DT)",
+    "sessionDesc": "Programme (facultatif)",
+    "sessionDescPh": "Ex. : annales 2023-2025, chapitres 3 à 6",
+    "estimate": "Tu recevras entre {{ min }} et {{ max }} selon le nombre d'inscrits.",
+    "createSession": "Publier la session",
+    "noSessions": "Aucune session publiée."
+  },
+  "room": {
+    "title": "Salle de cours",
+    "back": "Retour à mon espace",
+    "closedT": "Salle fermée",
+    "newTab": "Ouvrir la visio dans un onglet",
+    "video": "Visioconférence du cours",
+    "ready": "Caméra et micro prêts ? La visio s'ouvre ici, sans rien installer.",
+    "join": "Rejoindre la visio",
+    "jitsi": "Visio chiffrée Jitsi Meet, salle privée de ce cours",
+    "end": "Terminer le cours",
+    "endHint": "Quand le cours est fini, termine-le pour déclencher le versement.",
+    "docs": "Documents du cours",
+    "noDocs": "Le tuteur partagera ici le PDF et le replay.",
+    "docName": "Nom du document",
+    "docUrl": "Lien (PDF ou vidéo)",
+    "docAdded": "Document ajouté à la salle.",
+    "chatRule": "Le chat de la séance est effacé à la fin du cours.",
+    "stayRule": "Reste sur 9rayti : en cas de problème, tu es protégé et remboursé.",
+    "attached": "Pièce jointe de l'étudiant :",
+    "recap": "Compte rendu du tuteur"
+  },
+  "sessions": {
+    "title": "Sessions d'examen en groupe",
+    "lead": "Un tuteur, plusieurs étudiants, la veille d'un examen : moins cher par personne, aussi efficace.",
+    "group": "En groupe",
+    "places": "{{ n }}/{{ max }} places",
+    "min": "minimum {{ n }}",
+    "perPlace": "/ place",
+    "confirmed": "Confirmée",
+    "waiting": "En attente du minimum",
+    "book": "Réserver ma place",
+    "booked": "Réservée",
+    "full": "Complet",
+    "bookedToast": "Place réservée !",
+    "none": "Aucune session prévue pour l'instant.",
+    "rule": "Si le nombre minimum d'étudiants n'est pas atteint, la session est annulée et chacun est remboursé en crédits.",
+    "kicker": "En groupe, moins cher",
+    "create": "Créer une session",
+    "noneD": "Les tuteurs en publient avant chaque période d'examens.",
+    "detailTitle": "Session d'examen",
+    "back": "Toutes les sessions",
+    "notFound": "Cette session n'existe pas ou a été annulée.",
+    "cancelled": "Session annulée",
+    "confirmedD": "Le minimum est atteint : la session aura lieu.",
+    "waitingD": "Encore {{ n }} inscription(s) pour confirmer la session.",
+    "startsIn": "Dans {{ d }} j {{ h }} h",
+    "registered": "Inscrits",
+    "registeredList": "Inscrits : {{ names }}",
+    "seeTutor": "Voir le profil du tuteur",
+    "howT": "Comment ça marche ?",
+    "how1": "Réserve ta place : tu paies en crédits.",
+    "how2": "La session est confirmée dès que le minimum d'inscrits est atteint.",
+    "how3": "Sinon, elle est annulée et tu es remboursé automatiquement."
+  },
+  "admin": {
+    "title": "Administration",
+    "tutors": "Tuteurs validés",
+    "pendingN": "{{ n }} en attente de vérification",
+    "requests": "Demandes de cours",
+    "volume": "Volume total",
+    "byState": "Demandes par état",
+    "toValidate": "Tuteurs à vérifier",
+    "average": "moyenne",
+    "validate": "Valider",
+    "none": "Aucun tuteur en attente.",
+    "validated": "Tuteur validé.",
+    "sub": "Valider les tuteurs, trancher les signalements et suivre les paiements.",
+    "kicker": "Équipe 9rayti",
+    "tab": {
+      "apercu": "Aperçu",
+      "validation": "Validation",
+      "signalements": "Signalements",
+      "cours": "Cours et paiements",
+      "matieres": "Matières",
+      "contact": "Contact"
+    },
+    "validationD": "Vérifie l'école, l'année et la moyenne sur le relevé, puis valide. Le relevé n'est pas conservé.",
+    "since": "Inscrit {{ when }}",
+    "resolve": "Trancher",
+    "resolveT": "Traiter le signalement",
+    "decision": "Décision",
+    "refund": "Rembourser l'étudiant",
+    "refundD": "Le montant total revient en crédits 9rayti.",
+    "pay": "Verser au tuteur",
+    "payD": "Le signalement n'est pas fondé : le cours est payé.",
+    "note": "Note de décision",
+    "notePh": "Ex. : le tuteur ne s'est pas connecté, confirmé par les journaux de la salle.",
+    "noteHint": "Visible par l'étudiant et le tuteur.",
+    "confirm": "Confirmer la décision",
+    "resolved": {
+      "rembourser": "Étudiant remboursé.",
+      "verser": "Paiement versé au tuteur."
+    },
+    "noReports": "Aucun signalement en attente",
+    "noReportsD": "Tout va bien : aucun cours contesté.",
+    "search": "Chercher un étudiant, un tuteur, une matière",
+    "filterState": "Filtrer par état",
+    "noResult": "Aucun cours ne correspond.",
+    "pages": "Pagination",
+    "pageOf": "Page {{ page }} sur {{ pages }} · {{ total }} cours",
+    "col": {
+      "date": "Date",
+      "student": "Étudiant",
+      "tutor": "Tuteur",
+      "state": "État",
+      "amount": "Montant"
+    },
+    "addSubject": "Ajouter une matière",
+    "code": "Code (dans l'adresse)",
+    "editSubject": "Modifier la matière",
+    "tutorsN": "{{ n }} tuteur(s)",
+    "subjectAdded": "Matière ajoutée.",
+    "subjectSaved": "Matière enregistrée.",
+    "noContact": "Aucun message reçu.",
+    "reply": "Répondre",
+    "markDone": "Marquer traité",
+    "markNew": "Rouvrir",
+    "contactSaved": "Message mis à jour."
+  },
+  "e404": {
+    "title": "Cette page n'existe pas",
+    "text": "Le lien est peut-être ancien, ou la page a changé d'adresse.",
+    "home": "Retour à l'accueil",
+    "try": "Frappe à la porte, on ne sait jamais…",
+    "knock": "Toc toc ({{ n }})… personne ?",
+    "open": "La porte s'entrouvre : mais la page n'est pas là. Essaie plutôt :",
+    "more": "Autres pages"
+  },
+  "theme": {
+    "toDark": "Passer en mode sombre",
+    "toLight": "Passer en mode clair"
+  },
+  "palette": {
+    "title": "Recherche rapide",
+    "placeholder": "Une page, une matière, un tuteur…",
+    "none": "Aucun résultat",
+    "page": "Page",
+    "subject": "Matière",
+    "open": "ouvrir",
+    "move": "naviguer",
+    "short": "Rechercher"
+  },
+  "fav": {
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris",
+    "emptyT": "Aucun favori pour l'instant",
+    "emptyD": "Touche le cœur sur la carte d'un tuteur pour le retrouver ici."
+  },
+  "share": {
+    "button": "Partager",
+    "title": "Partager le profil de {{ name }}",
+    "link": "Lien du profil",
+    "copy": "Copier",
+    "copied": "Copié",
+    "qr": "QR code du profil, à scanner avec un téléphone"
+  },
+  "msg": {
+    "lead": "Pose tes questions avant de réserver. Les numéros, e-mails et liens sont masqués : tout reste sur 9rayti.",
+    "conversations": "Conversations",
+    "conversation": "Conversation",
+    "noThreads": "Aucune conversation pour l'instant.",
+    "pickT": "Choisis une conversation",
+    "pickD": "Ou écris à un tuteur depuis son profil.",
+    "back": "Retour aux conversations",
+    "seeProfile": "Voir le profil",
+    "first": "Écris le premier message à {{ name }}.",
+    "placeholder": "Écris ton message…",
+    "write": "Envoyer",
+    "readOnly": "Le tuteur ne peut répondre qu'aux étudiants qui lui ont écrit ou réservé un cours.",
+    "masked": "Coordonnées masquées",
+    "maskedT": "Une partie du message a été masquée (numéro, e-mail, lien ou réseau social).",
+    "maskedToast": "Message envoyé, mais les coordonnées ont été masquées : reste sur 9rayti pour être protégé.",
+    "notFound": "Conversation introuvable.",
+    "you": "Toi",
+    "writeTo": "Écrire à {{ name }}"
+  },
+  "notif": {
+    "title": "Notifications",
+    "sub": "Demandes, cours, messages et versements.",
+    "new": "Nouvelle",
+    "none": "Rien de nouveau",
+    "noneD": "Tu seras prévenu ici à chaque étape de tes cours.",
+    "readAll": "Tout marquer comme lu",
+    "seeAll": "Voir toutes les notifications",
+    "unread": "{{ n }} non lue(s)",
+    "demande_recue": "{{ from }} te demande un cours de {{ subject }}.",
+    "demande_acceptee": "{{ from }} a accepté ton cours de {{ subject }} : la salle est ouverte.",
+    "demande_refusee": "{{ from }} a refusé ta demande de {{ subject }} : tu es remboursé en crédits.",
+    "demande_expiree": "Pas de réponse de {{ from }} pour {{ subject }} : tu es remboursé en crédits.",
+    "cours_annule": "Le cours de {{ subject }} avec {{ from }} est annulé.",
+    "cours_termine": "Ton cours de {{ subject }} avec {{ from }} est terminé : laisse un avis !",
+    "avis_recu": "{{ from }} t'a donné {{ rating }}/5 en {{ subject }}.",
+    "versement": "{{ amount }} versés pour le cours de {{ subject }}.",
+    "signalement": "{{ from }} a signalé le cours de {{ subject }} : le versement est suspendu.",
+    "signalement_traite_rembourser": "Signalement traité pour {{ subject }} : l'étudiant est remboursé.",
+    "signalement_traite_verser": "Signalement traité pour {{ subject }} : le paiement est versé au tuteur.",
+    "message": "Nouveau message de {{ from }}.",
+    "session_reservee": "Une place de plus dans ta session de {{ subject }} ({{ taken }}/{{ max }}).",
+    "session_annulee": "La session de {{ subject }} est annulée (minimum non atteint) : tu es remboursé.",
+    "tuteur_valide": "Ton profil de tuteur est validé : tu apparais dans la recherche !",
+    "contact": "Nouveau message de contact de {{ from }}."
+  },
+  "profile": {
+    "sub": "Ta photo, tes informations et tes préférences.",
+    "since": "Membre depuis le {{ date }}",
+    "photo": "Photo de profil",
+    "photoChange": "Changer la photo",
+    "photoRemove": "Retirer",
+    "photoHint": "JPG, PNG ou WebP. Elle est recadrée et allégée avant l'envoi.",
+    "info": "Mes informations",
+    "tutorT": "Mon profil de tuteur",
+    "bioHint": "Ta présentation, visible sur ton profil public.",
+    "verifT": "Vérification",
+    "v1": "Inscription envoyée",
+    "v2": "Moyenne déclarée",
+    "v2d": "{{ avg }} / 20, contrôlée sur ton relevé (non conservé)",
+    "v3": "Profil validé",
+    "v3d": "Tu apparais dans la recherche.",
+    "prefs": "Préférences",
+    "theme": "Thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "browserNotif": "Notifications du navigateur",
+    "notifEnable": "Activer",
+    "notifOn": "Activées",
+    "notifDenied": "Bloquées dans le navigateur",
+    "security": "Sécurité",
+    "changePwd": "Changer le mot de passe",
+    "currentPwd": "Mot de passe actuel",
+    "newPwd": "Nouveau mot de passe",
+    "saved": {
+      "info": "Informations enregistrées.",
+      "photo": "Photo mise à jour.",
+      "tutor": "Profil de tuteur enregistré.",
+      "pwd": "Mot de passe changé."
+    }
+  },
+  "revenue": {
+    "title": "Revenus des 12 dernières semaines",
+    "chartLabel": "Revenus par semaine",
+    "total": "Total versé",
+    "pending": "En attente",
+    "paid": "Versé",
+    "week": "Semaine",
+    "courses": "{{ n }} cours",
+    "next": "Prochain versement le {{ when }}",
+    "history": "Historique des paiements",
+    "none": "Aucun paiement pour l'instant."
+  },
+  "how": {
+    "title": "Comment ça marche",
+    "kicker": "Étape par étape",
+    "h1": "Comment ça marche",
+    "sub": "Du premier clic au versement : tout se passe sur 9rayti, avec une règle claire à chaque étape.",
+    "forStudent": "Je suis étudiant",
+    "forTutor": "Je suis tuteur",
+    "step": "Étape {{ n }} sur {{ total }}",
+    "goto": "Aller à l'étape",
+    "etudiant": {
+      "search": {
+        "t": "Cherche ta matière",
+        "d": "Filtre par prix, note, disponibilité et langue du cours. Chaque carte montre les heures données et le taux de réponse.",
+        "r": "Les tuteurs qui répondent vite et sont bien notés passent devant."
+      },
+      "request": {
+        "t": "Envoie ta demande",
+        "d": "Choisis une heure libre, joins ton cours ou un exercice, et paie en crédits ou par carte.",
+        "r": "3 DT de frais de réservation, affichés avant de payer."
+      },
+      "wait": {
+        "t": "Le tuteur répond sous 12 h",
+        "d": "Tu suis ta demande en direct et tu es prévenu dès qu'il accepte. Tant qu'il n'a pas répondu, tu peux annuler.",
+        "r": "Refus ou pas de réponse : remboursé en crédits, automatiquement."
+      },
+      "live": {
+        "t": "Suis le cours en direct",
+        "d": "La salle s'ouvre à l'heure du cours : visio intégrée, documents, et messagerie où les coordonnées sont masquées.",
+        "r": "Une fois le cours accepté, l'annulation n'est plus possible, sauf par le tuteur."
+      },
+      "replay": {
+        "t": "Garde le replay et les PDF",
+        "d": "Le tuteur dépose les supports et un compte rendu dans ta salle. Tu les retrouves la veille de l'examen.",
+        "r": "Tout reste dans ton espace, même des mois plus tard."
+      },
+      "review": {
+        "t": "Note ton tuteur",
+        "d": "Ton avis aide les autres étudiants. Un problème ? Tu as 24 h pour le signaler.",
+        "r": "Le tuteur n'est payé qu'après ces 24 h : ton argent est protégé."
+      }
+    },
+    "tuteur": {
+      "signup": {
+        "t": "Inscris-toi et fais-toi vérifier",
+        "d": "École, année et moyenne de l'an dernier : l'équipe vérifie une seule fois, puis tu choisis tes matières.",
+        "r": "Le relevé de notes n'est jamais conservé."
+      },
+      "agenda": {
+        "t": "Fixe tes prix et tes heures",
+        "d": "Un prix par matière, des heures libres quand ça t'arrange. Tu peux aussi publier des sessions d'examen en groupe.",
+        "r": "Tu gardes 100 % du prix de tes cours particuliers."
+      },
+      "accept": {
+        "t": "Accepte les demandes",
+        "d": "Tu vois la matière, l'heure et le cours joint. Tu as 12 h pour répondre.",
+        "r": "Refuser souvent ou laisser expirer fait baisser ton classement."
+      },
+      "teach": {
+        "t": "Donne le cours",
+        "d": "Dans la salle 9rayti : visio, documents à partager, et un compte rendu à laisser à l'étudiant.",
+        "r": "Reste sur 9rayti : c'est ce qui garantit ton paiement."
+      },
+      "paid": {
+        "t": "Sois payé 24 h après",
+        "d": "Sans signalement, le paiement est versé automatiquement. Suis tes revenus semaine par semaine.",
+        "r": "Sessions en groupe : tu reçois 80 % des places vendues."
+      }
+    },
+    "mock": {
+      "subject": "Probabilités",
+      "refund": "Sinon, remboursé en crédits",
+      "notes": "Résumé du cours",
+      "exercises": "Exercices corrigés",
+      "verif1": "École : SUP'COM",
+      "verif2": "Année : 3e année",
+      "verif3": "Moyenne : 15,2 / 20",
+      "price": "Probabilités, par heure",
+      "within": "Réponds dans les 12 h"
+    },
+    "faqT": "Questions fréquentes",
+    "faq": {
+      "money": {
+        "q": "Que se passe-t-il si le tuteur refuse ?",
+        "a": "Tu es remboursé immédiatement en crédits 9rayti, utilisables pour un autre cours. Le remboursement en argent reste possible en dernier recours, en écrivant au support."
+      },
+      "absent": {
+        "q": "Et si le tuteur ne vient pas ?",
+        "a": "Signale-le dans les 24 h qui suivent le cours. Le versement est bloqué, l'équipe vérifie, et tu es remboursé si le cours n'a pas eu lieu."
+      },
+      "contact": {
+        "q": "Pourquoi mon numéro est-il masqué dans les messages ?",
+        "a": "Pour que tout se passe sur 9rayti : c'est ce qui permet de te protéger et de te rembourser. Les numéros, e-mails, liens et noms de réseaux sont remplacés par « ••• »."
+      },
+      "verify": {
+        "q": "Comment les tuteurs sont-ils vérifiés ?",
+        "a": "L'équipe contrôle l'école, l'année et la moyenne de l'an dernier sur le relevé de notes, une seule fois. Le relevé n'est pas conservé : seul le badge « vérifié » reste."
+      },
+      "price": {
+        "q": "Combien coûte un cours ?",
+        "a": "Chaque tuteur fixe son prix par matière, souvent entre 15 et 30 DT de l'heure. S'y ajoutent 3 DT de frais de réservation, affichés avant de payer."
+      },
+      "lang": {
+        "q": "Dans quelle langue se passent les cours ?",
+        "a": "En français, en arabe ou en anglais, selon le tuteur : sa carte indique les langues qu'il parle, et tu peux filtrer la recherche."
+      }
+    },
+    "ctaT": "On commence ?",
+    "ctaD": "Trouve un tuteur en deux minutes, ou propose tes propres cours."
+  },
+  "become": {
+    "title": "Devenir tuteur",
+    "kicker": "Pour les étudiants qui ont réussi",
+    "h1": "Enseigne ce que tu maîtrises.",
+    "lead": "Aide des étudiants de toutes les écoles, à ton prix et à tes heures, depuis la salle de cours 9rayti.",
+    "cta": "Créer mon compte tuteur",
+    "tick1": "Vérification une seule fois",
+    "tick2": "Paiement garanti 24 h après le cours",
+    "tick3": "Aucun abonnement, aucun frais pour toi",
+    "simT": "Combien peux-tu gagner ?",
+    "lessons": "Cours particuliers",
+    "price": "Ton prix par heure",
+    "hours": "Heures par semaine",
+    "groups": "Sessions d'examen en groupe",
+    "sessions": "Sessions par mois",
+    "places": "Inscrits par session",
+    "placePrice": "Prix par place",
+    "perMonth": "Par mois, environ",
+    "fromLessons": "Cours",
+    "fromGroups": "Sessions",
+    "semester": "Soit {{ amount }} sur un semestre de 4 mois.",
+    "note": "Estimation : tu gardes 100 % des cours et 80 % des sessions. Avant impôts.",
+    "perksT": "Pourquoi enseigner sur 9rayti",
+    "perk": {
+      "price": {
+        "t": "Tu fixes ton prix",
+        "d": "Un tarif par matière, modifiable à tout moment pour les nouvelles demandes."
+      },
+      "hours": {
+        "t": "Tu choisis tes heures",
+        "d": "Ouvre des heures libres entre deux cours, le soir ou le week-end."
+      },
+      "paid": {
+        "t": "Tu es payé à coup sûr",
+        "d": "L'étudiant paie à la réservation ; tu es versé 24 h après le cours."
+      },
+      "room": {
+        "t": "La salle est prête",
+        "d": "Visio, documents et replay au même endroit : rien à installer."
+      },
+      "cv": {
+        "t": "Une vraie expérience",
+        "d": "Heures données et avis visibles sur ton profil : un plus sur ton CV."
+      },
+      "groups": {
+        "t": "Des sessions en groupe",
+        "d": "La veille des examens, enseigne à plusieurs étudiants à la fois."
+      }
+    },
+    "stepsT": "Trois étapes pour commencer",
+    "step1": {
+      "t": "Crée ton compte",
+      "d": "Choisis « Tuteur », indique ton école, ton année et tes matières."
+    },
+    "step2": {
+      "t": "Fais-toi vérifier",
+      "d": "L'équipe contrôle ta moyenne sur ton relevé, une seule fois."
+    },
+    "step3": {
+      "t": "Reçois tes premières demandes",
+      "d": "Ouvre des heures libres : les étudiants te trouvent dans la recherche."
+    },
+    "faq": {
+      "who": {
+        "q": "Qui peut devenir tuteur ?",
+        "a": "Tout étudiant d'une école ou université tunisienne qui a réussi la matière qu'il veut enseigner, avec une bonne moyenne l'an dernier."
+      },
+      "verify": {
+        "q": "Comment se passe la vérification ?",
+        "a": "Tu envoies ton relevé de notes ; l'équipe vérifie ton école, ton année et ta moyenne, puis valide ton profil. Le relevé n'est pas conservé."
+      },
+      "fee": {
+        "q": "Combien 9rayti prend-il ?",
+        "a": "Rien sur tes cours particuliers : l'étudiant paie 3 DT de frais de réservation. Sur les sessions d'examen en groupe, 9rayti garde 20 %."
+      },
+      "cancel": {
+        "q": "Et si je dois annuler un cours ?",
+        "a": "Tu peux annuler un cours accepté : l'étudiant est remboursé en crédits. Annuler souvent fait baisser ton classement."
+      },
+      "tax": {
+        "q": "Comment suis-je payé ?",
+        "a": "Le paiement est versé 24 h après chaque cours terminé, sans signalement. Tu suis tous tes versements dans l'onglet Revenus."
+      }
+    },
+    "finalT": "Ta première demande t'attend peut-être déjà.",
+    "finalD": "Inscription en 3 minutes. Vérification une seule fois. Tu enseignes quand tu veux."
+  },
+  "about": {
+    "title": "À propos",
+    "kicker": "Notre histoire",
+    "h1": "Entre étudiants, on s'en sort mieux.",
+    "lead": "9rayti (« mes études », en tunisien) relie les étudiants qui bloquent sur une matière à ceux qui l'ont déjà réussie, dans toutes les écoles du pays.",
+    "missionT": "Notre mission",
+    "mission1": "Les cours particuliers coûtent cher, et les groupes Facebook ne garantissent rien : ni le niveau du tuteur, ni le remboursement si le cours n'a pas lieu.",
+    "mission2": "9rayti apporte ce qui manquait : des tuteurs vérifiés, un paiement protégé, et une salle de cours où tout reste jusqu'à l'examen.",
+    "subjects": "matières",
+    "courses": "cours donnés",
+    "valuesT": "Ce qui nous guide",
+    "value": {
+      "help": {
+        "t": "Entraide",
+        "d": "Un étudiant de SUP'COM peut aider un étudiant d'ESPRIT : le savoir circule entre toutes les écoles."
+      },
+      "trust": {
+        "t": "Confiance",
+        "d": "Tuteurs vérifiés, avis réels, argent protégé jusqu'au cours : personne ne prend de risque."
+      },
+      "clear": {
+        "t": "Transparence",
+        "d": "Prix affichés, frais annoncés, règles écrites : 12 h pour répondre, 24 h pour signaler."
+      }
+    },
+    "compareT": "Ce qui change avec 9rayti",
+    "criterion": "Critère",
+    "col": {
+      "group": "Groupe Facebook",
+      "private": "Cours particulier classique"
+    },
+    "row": {
+      "verified": "Niveau du tuteur vérifié",
+      "protected": "Paiement protégé jusqu'au cours",
+      "refund": "Remboursé si le cours n'a pas lieu",
+      "replay": "PDF et replay gardés",
+      "price": "Prix affiché avant de réserver",
+      "rating": "Avis d'autres étudiants"
+    },
+    "storyT": "Le projet, objectif par objectif",
+    "t1": {
+      "when": "Objectif 1",
+      "t": "L'idée et le modèle",
+      "d": "Tutorat entre étudiants, frais de réservation et sessions d'examen ; la plateforme est la salle de cours."
+    },
+    "t2": {
+      "when": "Objectif 2",
+      "t": "La conception",
+      "d": "Enquête auprès d'étudiants, plan du site, maquettes, charte « Sidi Bou Saïd »."
+    },
+    "t3": {
+      "when": "Objectif 3",
+      "t": "Le développement",
+      "d": "Angular, NestJS et PostgreSQL : recherche, réservation, salle de cours, trois langues."
+    },
+    "t4": {
+      "when": "Objectif 4",
+      "t": "La finition",
+      "d": "Messagerie protégée, notifications en direct, administration complète, animations et performances."
+    },
+    "teamT": "L'équipe",
+    "teamRole": "conception et développement",
+    "teamD": "Groupe 9rayti — projet du module Projet Web, SUP'COM, 2026-2027.",
+    "code": "Voir le code source"
+  },
+  "contact": {
+    "title": "Contact",
+    "kicker": "On te répond",
+    "h1": "Écris-nous",
+    "sub": "Une question, un problème avec un cours, une idée de partenariat : l'équipe lit chaque message.",
+    "name": "Nom complet",
+    "nameErr": "Indique ton nom (2 caractères minimum).",
+    "emailErr": "Entre une adresse e-mail valide.",
+    "topicL": "Sujet",
+    "topic": {
+      "question": "Question",
+      "tuteur": "Devenir tuteur",
+      "probleme": "Problème avec un cours",
+      "partenariat": "Partenariat"
+    },
+    "message": "Message",
+    "messagePh": "Explique-nous en quelques lignes…",
+    "messageHint": "10 caractères minimum.",
+    "messageErr": "Ton message est trop court (10 caractères minimum).",
+    "send": "Envoyer le message",
+    "sentT": "Message envoyé !",
+    "sentD": "Merci, nous te répondons à {{ email }} sous 48 h ouvrées.",
+    "again": "Écrire un autre message",
+    "delayT": "Réponse sous 48 h",
+    "delayD": "Du lundi au vendredi. Pour un cours en cours, signale-le depuis ton espace : c'est traité en priorité.",
+    "faqT": "Avant d'écrire",
+    "faq1": "Comment marchent la réservation et le remboursement",
+    "faq2": "Devenir tuteur : conditions et gains",
+    "faq3": "Conditions d'utilisation",
+    "whereT": "Où nous trouver",
+    "whereD": "Un projet étudiant né à SUP'COM, El Ghazala, Ariana (Tunisie)."
+  },
+  "cgu": {
+    "title": "Conditions d'utilisation",
+    "kicker": "Les règles du jeu",
+    "h1": "Conditions générales d'utilisation",
+    "sub": "Des règles courtes et claires, les mêmes pour tous. En créant un compte, tu les acceptes.",
+    "toc": "Sommaire",
+    "updated": "Dernière mise à jour : novembre 2026",
+    "s": {
+      "objet": {
+        "t": "Objet",
+        "d": "9rayti met en relation des étudiants (« étudiants ») et des étudiants qui enseignent (« tuteurs ») pour des cours en ligne. Ces conditions encadrent l'utilisation du site et de ses services."
+      },
+      "comptes": {
+        "t": "Comptes",
+        "d": "Un compte correspond à une personne et à un seul rôle : étudiant, tuteur ou administrateur. Les informations données à l'inscription doivent être exactes. Tu es responsable de la confidentialité de ton mot de passe."
+      },
+      "role": {
+        "t": "Rôle de 9rayti",
+        "d": "9rayti fournit la recherche, la réservation, le paiement, la salle de cours et la messagerie. Le contenu des cours est de la responsabilité du tuteur. Les tuteurs sont vérifiés une fois (école, année, moyenne) avant d'apparaître dans la recherche."
+      },
+      "reservation": {
+        "t": "Réservation et paiement",
+        "d": "L'étudiant paie à l'envoi de sa demande, en crédits 9rayti ou par carte. Le prix du cours est fixé par le tuteur ; s'y ajoutent 3 DT de frais de réservation, affichés avant le paiement. 9rayti garde l'argent jusqu'au versement."
+      },
+      "reponse": {
+        "t": "Délai de réponse",
+        "d": "Le tuteur a 12 h pour accepter ou refuser une demande. Sans réponse, la demande expire automatiquement. Le taux de réponse du tuteur est affiché sur son profil et influence son classement."
+      },
+      "annulation": {
+        "t": "Annulation",
+        "d": "L'étudiant peut annuler gratuitement tant que la demande est en attente. Une fois acceptée, seul le tuteur peut annuler le cours ; l'étudiant est alors remboursé."
+      },
+      "remboursement": {
+        "t": "Remboursement",
+        "d": "En cas de refus, d'expiration, d'annulation par le tuteur ou de cours non réalisé, l'étudiant est remboursé en crédits 9rayti. Un remboursement en argent reste possible en dernier recours, sur demande au support."
+      },
+      "versement": {
+        "t": "Versement au tuteur",
+        "d": "Le paiement est versé au tuteur 24 h après la fin du cours, si aucun signalement n'a été fait. Le tuteur garde 100 % du prix de ses cours particuliers."
+      },
+      "signalement": {
+        "t": "Signalement",
+        "d": "L'étudiant dispose de 24 h après le cours pour signaler un problème. Le versement est alors suspendu ; l'équipe examine le cas et décide de rembourser l'étudiant ou de payer le tuteur. La décision est motivée et visible par les deux."
+      },
+      "sessions": {
+        "t": "Sessions d'examen",
+        "d": "Un tuteur peut proposer une session en groupe avec un nombre minimum d'inscrits. Si ce minimum n'est pas atteint avant le début, la session est annulée et chaque inscrit est remboursé. 9rayti garde 20 % du prix des places."
+      },
+      "messages": {
+        "t": "Messagerie",
+        "d": "La messagerie sert à préparer et suivre les cours. Pour protéger chacun, les numéros de téléphone, adresses e-mail, liens et noms de réseaux sociaux sont masqués automatiquement. Un tuteur ne peut pas écrire en premier à un étudiant."
+      },
+      "conduite": {
+        "t": "Comportement",
+        "d": "Respect, bienveillance et honnêteté sont attendus de tous. Il est interdit de faire un devoir noté ou un examen à la place d'un étudiant, de harceler, ou de détourner les échanges hors de la plateforme. Un manquement peut entraîner la suspension du compte."
+      },
+      "donnees": {
+        "t": "Données personnelles",
+        "d": "Conformément à la loi organique n° 2004-63 sur la protection des données personnelles, 9rayti ne collecte que les données nécessaires au service. Le relevé de notes des tuteurs n'est jamais conservé. Tu peux demander l'accès, la rectification ou la suppression de tes données depuis la page Contact."
+      },
+      "contenus": {
+        "t": "Contenus et supports",
+        "d": "Les supports partagés dans la salle (PDF, replay) restent la propriété de leur auteur. Ils sont réservés à l'usage personnel de l'étudiant et ne peuvent pas être revendus ni diffusés publiquement."
+      },
+      "modif": {
+        "t": "Modification des conditions",
+        "d": "Ces conditions peuvent évoluer. En cas de changement important, les utilisateurs sont prévenus par une notification avant son entrée en vigueur."
+      }
+    }
   }
- },
- "room": {
-  "title": "Salle de cours",
-  "back": "Retour à mon espace",
-  "closedT": "Salle fermée",
-  "newTab": "Ouvrir la visio dans un onglet",
-  "video": "Visioconférence du cours",
-  "ready": "Caméra et micro prêts ? La visio s'ouvre ici, sans rien installer.",
-  "join": "Rejoindre la visio",
-  "jitsi": "Visio chiffrée Jitsi Meet, salle privée de ce cours",
-  "end": "Terminer le cours",
-  "endHint": "Quand le cours est fini, termine-le pour déclencher le versement.",
-  "docs": "Documents du cours",
-  "noDocs": "Le tuteur partagera ici le PDF et le replay.",
-  "docName": "Nom du document",
-  "docUrl": "Lien (PDF ou vidéo)",
-  "docAdded": "Document ajouté à la salle.",
-  "chatRule": "Le chat de la séance est effacé à la fin du cours.",
-  "stayRule": "Reste sur 9rayti : en cas de problème, tu es protégé et remboursé.",
-  "attached": "Pièce jointe de l'étudiant :"
- },
- "sessions": {
-  "title": "Sessions d'examen en groupe",
-  "lead": "Un tuteur, plusieurs étudiants, la veille d'un examen : moins cher par personne, aussi efficace.",
-  "group": "En groupe",
-  "places": "{{ n }}/{{ max }} places",
-  "min": "minimum {{ n }}",
-  "perPlace": "/ place",
-  "confirmed": "Confirmée",
-  "waiting": "En attente du minimum",
-  "book": "Réserver ma place",
-  "booked": "Réservée",
-  "full": "Complet",
-  "bookedToast": "Place réservée !",
-  "none": "Aucune session prévue pour l'instant.",
-  "rule": "Si le nombre minimum d'étudiants n'est pas atteint, la session est annulée et chacun est remboursé en crédits."
- },
- "admin": {
-  "title": "Administration",
-  "tutors": "Tuteurs validés",
-  "pendingN": "{{ n }} en attente de vérification",
-  "requests": "Demandes de cours",
-  "volume": "Volume total",
-  "byState": "Demandes par état",
-  "toValidate": "Tuteurs à vérifier",
-  "average": "moyenne",
-  "validate": "Valider",
-  "none": "Aucun tuteur en attente.",
-  "validated": "Tuteur validé."
- },
- "e404": {
-  "title": "Cette page n'existe pas",
-  "text": "Le lien est peut-être ancien, ou la page a changé d'adresse.",
-  "home": "Retour à l'accueil"
- }
 }

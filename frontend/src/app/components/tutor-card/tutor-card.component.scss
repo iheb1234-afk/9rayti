@@ -11,7 +11,7 @@
 }
 .tut:hover,
 .tut:focus-within {
-  border-color: var(--bleu);
+  border-color: var(--lien);
   box-shadow: 0 8px 24px rgba(11, 60, 120, 0.08);
 }
 .stretch {
@@ -62,7 +62,7 @@
 }
 .subj span.hl {
   background: var(--bleu-clair);
-  border-color: #c3d4ec;
+  border-color: var(--trait-fort);
   color: var(--bleu-nuit);
 }
 .end {
@@ -84,4 +84,11 @@
     justify-content: space-between;
     align-items: center;
   }
+}
+.end app-favorite-button {
+  position: relative;
+  z-index: 2;
+}
+.tut:hover {
+  border-color: var(--lien);
 }
