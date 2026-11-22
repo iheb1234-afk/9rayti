@@ -142,7 +142,19 @@ test.describe('Navigation', () => {
     test.skip(!isMobile, 'menu du téléphone');
     await page.goto('');
     await page.getByRole('button', { name: 'Menu' }).click();
-    await page.getByRole('link', { name: 'Comment ça marche' }).first().click();
+    // Le menu s'ouvre en cercle et ses liens glissent : on attend la fin de ces animations
+    // (les animations sans fin, comme une pastille qui pulse, sont ignorées).
+    const menu = page.locator('#menu');
+    await expect(menu).toHaveClass(/open/);
+    await menu.evaluate((el) =>
+      Promise.all(
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
+          .map((a) => a.finished.catch(() => undefined)),
+      ),
+    );
+    await menu.getByRole('link', { name: 'Comment ça marche' }).click();
     await expect(page).toHaveURL(/comment-ca-marche/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Comment ça marche');
   });
