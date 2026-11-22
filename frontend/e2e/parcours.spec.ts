@@ -5,6 +5,23 @@ import { expect, Page, test } from '@playwright/test';
  * Chaque test part d'un état neuf : le stockage local est vidé par Playwright entre les tests.
  */
 
+// Diagnostic : erreurs de la page et de la console, affichées si un test échoue.
+const problems = new WeakMap<Page, string[]>();
+test.beforeEach(({ page }) => {
+  const list: string[] = [];
+  problems.set(page, list);
+  page.on('pageerror', (e) => list.push(`pageerror: ${e.message}`));
+  page.on('console', (m) => {
+    if (m.type() === 'error' || m.type() === 'warning') list.push(`${m.type()}: ${m.text()}`);
+  });
+});
+test.afterEach(({ page }, info) => {
+  if (info.status !== info.expectedStatus)
+    console.log(
+      `[diagnostic] ${info.title} @ ${page.url()}\n${(problems.get(page) ?? []).join('\n')}`,
+    );
+});
+
 async function login(page: Page, email: string) {
   await page.goto('connexion');
   await page.getByLabel('Adresse e-mail').fill(email);

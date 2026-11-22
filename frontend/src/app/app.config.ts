@@ -31,7 +31,16 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
       // Transitions animées entre les pages (API View Transitions du navigateur).
-      withViewTransitions({ skipInitialTransition: true }),
+      // Filet de sécurité : si le navigateur ne démarre pas la transition à temps (vu sous
+      // WebKit), on la saute ; la page change quand même, sans animation.
+      withViewTransitions({
+        skipInitialTransition: true,
+        onViewTransitionCreated: ({ transition }) => {
+          const timer = setTimeout(() => transition.skipTransition(), 800);
+          const clear = () => clearTimeout(timer);
+          transition.updateCallbackDone.then(clear, clear);
+        },
+      }),
     ),
     provideHttpClient(
       withFetch(),
