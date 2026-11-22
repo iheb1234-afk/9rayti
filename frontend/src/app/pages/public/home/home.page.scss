@@ -28,6 +28,10 @@
   padding-block: 44px 64px;
   min-height: 600px;
 }
+.copy {
+  // Sans cela, la largeur minimale du menu déroulant des matières élargit la colonne sur mobile.
+  min-width: 0;
+}
 .kick {
   display: inline-flex;
   align-items: center;
@@ -911,7 +915,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 270px;
+  min-height: 318px;
   padding: 18px 16px 64px;
   background:
     radial-gradient(circle at 1px 1px, var(--trait) 1px, transparent 1.5px) 0 0 / 18px 18px,

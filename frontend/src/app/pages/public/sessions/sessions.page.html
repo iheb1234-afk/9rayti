@@ -29,6 +29,7 @@
     </div>
   }
 
+  <h2 class="sr-only">{{ 'sessions.listT' | transloco }}</h2>
   <div class="grid">
     @for (s of list(); track s.id; let i = $index) {
       <div [appReveal]="i * 70 + 'ms'"><app-session-card [session]="s" /></div>

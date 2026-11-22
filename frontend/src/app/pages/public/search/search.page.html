@@ -89,7 +89,7 @@
     <section aria-labelledby="res-h">
       <div class="between top">
         <h2 id="res-h" class="small muted count" aria-live="polite">
-          @if (state().loading) {
+          @if (loading()) {
             {{ 'common.loading' | transloco }}
           } @else {
             {{ 'search.count' | transloco: { n: state().list.length } }}
@@ -110,7 +110,7 @@
         </label>
       </div>
 
-      @if (session(); as s) {
+      @if (!loading() && session(); as s) {
         <a class="sessrow" routerLink="/sessions">
           <span class="badge sun"><app-icon name="users" />{{ 'sessions.group' | transloco }}</span>
           <div class="grow">
@@ -128,7 +128,7 @@
         <div class="alert err" role="alert"><app-icon name="triangle-alert" />{{ e }}</div>
       }
 
-      @if (state().loading) {
+      @if (loading()) {
         @for (i of [1, 2, 3]; track i) {
           <div class="skeleton" style="height: 118px; margin-bottom: 14px"></div>
         }

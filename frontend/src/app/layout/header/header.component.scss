@@ -1,14 +1,22 @@
 .hd {
-  background: color-mix(in srgb, var(--blanc) 88%, transparent);
-  backdrop-filter: saturate(1.4) blur(12px);
   border-bottom: 1px solid transparent;
   position: sticky;
   top: 0;
   z-index: 30;
   transition:
     border-color 0.3s,
-    box-shadow 0.3s,
-    background 0.3s;
+    box-shadow 0.3s;
+}
+// Fond flou porté par un pseudo-élément : un backdrop-filter sur .hd lui-même ferait de l'en-tête
+// le bloc conteneur des éléments « fixed » (le menu mobile plein écran serait écrasé à 68 px).
+.hd::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--blanc) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  transition: background 0.3s;
 }
 .hd.scrolled {
   border-bottom-color: var(--trait);

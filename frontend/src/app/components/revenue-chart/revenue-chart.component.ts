@@ -54,9 +54,11 @@ import { WhenPipe } from '../../pipes/when.pipe';
     </svg>
     <div class="axis">
       @for (b of bars(); track b.i) {
-        <span [class.show]="b.i % 2 === 1 || b.i === bars().length - 1">{{
-          b.week.weekStart | when: 'day'
-        }}</span>
+        <span
+          [class.show]="b.i % 2 === 1 || b.i === bars().length - 1"
+          [class.m]="b.i % 4 === 3 || b.i === bars().length - 1"
+          >{{ b.week.weekStart | when: 'day' }}</span
+        >
       }
     </div>
     @if (hovered(); as h) {
@@ -133,13 +135,20 @@ import { WhenPipe } from '../../pipes/when.pipe';
       margin-top: 6px;
     }
     .axis span {
-      flex: 1;
+      flex: 1 1 0;
+      min-width: 0;
       text-align: center;
       visibility: hidden;
       white-space: nowrap;
     }
     .axis span.show {
       visibility: visible;
+    }
+    /* Sur téléphone, une date sur quatre : les libellés ne se chevauchent pas. */
+    @media (max-width: 560px) {
+      .axis span.show:not(.m) {
+        visibility: hidden;
+      }
     }
     .tip {
       position: absolute;

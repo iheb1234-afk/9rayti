@@ -393,6 +393,7 @@
   "sessions": {
     "title": "Group exam sessions",
     "lead": "One tutor, several students, the day before an exam: cheaper per person, just as effective.",
+    "listT": "Upcoming sessions",
     "group": "Group",
     "places": "{{ n }}/{{ max }} seats",
     "min": "minimum {{ n }}",

@@ -393,6 +393,7 @@
   "sessions": {
     "title": "Sessions d'examen en groupe",
     "lead": "Un tuteur, plusieurs étudiants, la veille d'un examen : moins cher par personne, aussi efficace.",
+    "listT": "Sessions à venir",
     "group": "En groupe",
     "places": "{{ n }}/{{ max }} places",
     "min": "minimum {{ n }}",

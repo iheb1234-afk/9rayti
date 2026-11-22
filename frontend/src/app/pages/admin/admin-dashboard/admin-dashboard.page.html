@@ -240,7 +240,8 @@
           @for (s of subjects.value() ?? []; track s.id) {
             <div class="tline">
               <div>
-                <b>{{ s | subject }}</b><span class="small muted"> · {{ s.code }}</span>
+                <b>{{ s | subject }}</b
+                ><span class="small muted"> · {{ s.code }}</span>
                 <div class="small muted">
                   <span lang="fr">{{ s.nameFr }}</span> ·
                   <span lang="ar" dir="rtl">{{ s.nameAr }}</span> ·

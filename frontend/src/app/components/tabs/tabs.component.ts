@@ -78,6 +78,13 @@ export class TabsComponent {
       if (!btn || !ink) return;
       ink.style.width = `${btn.offsetWidth}px`;
       ink.style.transform = `translateX(${btn.offsetLeft}px)`;
+      // Sur téléphone, la barre défile : l'onglet actif est ramené dans la partie visible
+      // (scrollIntoView gère aussi le sens de lecture de droite à gauche).
+      const bar = btn.parentElement!;
+      const b = btn.getBoundingClientRect();
+      const r = bar.getBoundingClientRect();
+      if (b.left < r.left || b.right > r.right)
+        btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
   }
 

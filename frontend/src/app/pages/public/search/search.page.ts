@@ -66,13 +66,20 @@ export class SearchPage {
     { initialValue: { loading: true, list: [] as TutorCard[], error: null } },
   );
 
-  private readonly sessions = toSignal(this.api.examSessions().pipe(catchError(() => of([]))), {
-    initialValue: [],
-  });
+  /** `undefined` tant que les sessions ne sont pas arrivées. */
+  private readonly sessions = toSignal(this.api.examSessions().pipe(catchError(() => of([]))));
   protected readonly session = computed(() => {
     const code = this.f().subject;
-    return code ? (this.sessions().find((s) => s.subject.code === code) ?? null) : null;
+    const all = this.sessions();
+    return code && all ? (all.find((s) => s.subject.code === code) ?? null) : null;
   });
+  /**
+   * Les résultats et le bandeau « session de groupe » apparaissent ensemble : le bandeau ne
+   * pousse jamais vers le bas une liste déjà affichée (pas de décalage de mise en page).
+   */
+  protected readonly loading = computed(
+    () => this.state().loading || (!!this.f().subject && this.sessions() === undefined),
+  );
 
   constructor() {
     inject(LangService).setTitle('search.title');
