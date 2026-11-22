@@ -71,7 +71,7 @@ const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
             [attr.aria-selected]="i === active()"
             [class.on]="i === active()"
             (mousedown)="$event.preventDefault(); go(e)"
-            (pointerenter)="active.set(i)"
+            (pointermove)="active.set(i)"
           >
             <span class="ic-w"><app-icon [name]="e.icon" /></span>
             <span class="lab"
@@ -334,12 +334,14 @@ export class CommandPaletteComponent {
     }
   }
 
+  // Le survol ne compte que si la souris bouge vraiment (pointermove) : une liste qui se
+  // redessine sous un pointeur immobile ne change pas l'option active.
   protected keys(e: KeyboardEvent): void {
-    const n = this.results().length;
+    const list = this.results();
+    const n = list.length;
     if (e.key === 'ArrowDown') this.active.set((this.active() + 1) % Math.max(n, 1));
     else if (e.key === 'ArrowUp') this.active.set((this.active() - 1 + n) % Math.max(n, 1));
-    else if (e.key === 'Enter' && this.results()[this.active()])
-      this.go(this.results()[this.active()]);
+    else if (e.key === 'Enter' && n) this.go(list[Math.min(this.active(), n - 1)]);
     else return;
     e.preventDefault();
   }
